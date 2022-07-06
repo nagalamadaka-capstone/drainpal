@@ -2,14 +2,19 @@ import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { useState, useEffect } from "react";
 import Home from "../Home/Home";
-import NavBar from "../NavBar/NavBar";
-import Sidebar from "../Sidebar/Sidebar";
+import Troubleshooting from "../Troubleshooting/Troubleshooting";
+import DataHome from "../DataHome/DataHome";
+import Profile from "../Profile/Profile";
+import DataLog from "../DataHome/DataLog/DataLog";
+// import NavBar from "../NavBar/NavBar";
+// import Sidebar from "../Sidebar/Sidebar";
 
 function App() {
   const [isSignInOpen, setIsSignInOpen] = useState(false);
   const [isCreateAccOpen, setIsCreateAccOpen] = useState(false);
   const [createAcc, setCreateAcc] = useState({});
   const [signIn, setSignIn] = useState({});
+  const [isLoggedIn, setIsLoggedIn] = useState(true);
 
   function handleSignInOpen() {
     if(isSignInOpen) {
@@ -54,31 +59,61 @@ function App() {
     setSignIn(newForm);
   }
 
+  function handleOnSignInSubmit(){
+    console.log("sign in submit");
+    setIsSignInOpen(false);
+    setIsLoggedIn(true);
+  }
+
+  console.log("isLoggedIn", isLoggedIn);
   return (
     <div className="app">
-      {/* <h1 className='work' style={{margin: 0 + 'em'}}>work</h1>
-      <h1 className='work' style={{margin: 0 + 'em'}}>work</h1> */}
       <BrowserRouter>
         <div className="container">
-          <Sidebar
-            isSignInOpen={isSignInOpen}
-            isCreateAccOpen={isCreateAccOpen}
-            createAcc = {createAcc}
-            handleOnCreateAccFormChange = {handleOnCreateAccFormChange}
-            handleCreateAccOpen = {handleCreateAccOpen}
-            handleSignInOpen = {handleSignInOpen}
-            handleOnSignInFormChange = {handleOnSignInFormChange}
-            signIn = {signIn}
-          />
-          <NavBar
-            handleSignInOpen={handleSignInOpen}
-            handleCreateAccOpen={handleCreateAccOpen}
-          />
           <Routes>
             <Route path="/" element={<Home 
-            handleSignInOpen = {handleSignInOpen}
-            handleCreateAccOpen = {handleCreateAccOpen}
+              handleSignInOpen = {handleSignInOpen}
+              handleCreateAccOpen = {handleCreateAccOpen}
+              isLoggedIn = {isLoggedIn}
+              createAcc = {createAcc}
+              signIn = {signIn}
+              handleOnCreateAccFormChange = {handleOnCreateAccFormChange}
+              handleOnSignInFormChange = {handleOnSignInFormChange}
+              isSignInOpen = {isSignInOpen}
+              isCreateAccOpen = {isCreateAccOpen}
+              handleOnSignInSubmit = {handleOnSignInSubmit}
             />} />
+            <Route path="/data" element={<DataHome
+              handleSignInOpen = {handleSignInOpen}
+              handleCreateAccOpen = {handleCreateAccOpen}
+              isLoggedIn = {isLoggedIn}
+              createAcc = {createAcc}
+              signIn = {signIn}
+              handleOnCreateAccFormChange = {handleOnCreateAccFormChange}
+              handleOnSignInFormChange = {handleOnSignInFormChange}
+              isSignInOpen = {isSignInOpen}
+              isCreateAccOpen = {isCreateAccOpen}
+              handleOnSignInSubmit = {handleOnSignInSubmit}
+            />} />
+            <Route path="/profile" element={<Profile/>} />
+            <Route path="/troubleshooting" element={<Troubleshooting
+              handleSignInOpen = {handleSignInOpen}
+              handleCreateAccOpen = {handleCreateAccOpen}
+              isLoggedIn = {isLoggedIn}
+              createAcc = {createAcc}
+              signIn = {signIn}
+              handleOnCreateAccFormChange = {handleOnCreateAccFormChange}
+              handleOnSignInFormChange = {handleOnSignInFormChange}
+              isSignInOpen = {isSignInOpen}
+              isCreateAccOpen = {isCreateAccOpen}
+              handleOnSignInSubmit = {handleOnSignInSubmit}
+            />} />
+            <Route path="/datalog" element={<DataLog
+              isLoggedIn={isLoggedIn}
+              handleSignInOpen={handleSignInOpen}
+              handleCreateAccOpen={handleCreateAccOpen}
+            />} />
+            <Route path="/:email:password" element={null} />
           </Routes>
         </div>
       </BrowserRouter>

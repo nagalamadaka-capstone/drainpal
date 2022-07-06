@@ -1,0 +1,42 @@
+.dataHome{
+    margin: 60px;
+    margin-top: 0px;
+}
+
+.timeline{
+    display: grid;
+    grid-template-columns: 0.25fr 4px 0.5fr;
+}
+
+.timeline-component{
+    margin: 0 20px 20px 20px;
+}
+
+.timeline-data-entry{
+    background-color: white;
+    border-radius: 10px;
+    padding: 25px;
+    border: solid black 2px;
+    box-shadow: 0 0 5px rgba(0,0,0,0.2);
+    max-width: 300px;
+}
+
+.timeline-middle{
+    position: relative;
+    background-color: black;
+}
+
+.timeline-date{
+    text-align: right;
+}
+
+.timeline-point{
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: black;
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+}

@@ -1,7 +1,7 @@
 import React from 'react'
 import ".//SignIn.css"
 
-function SignIn({signIn, handleSignInOpen, handleOnSignInFormChange}) {
+function SignIn({signIn, handleSignInOpen, handleOnSignInFormChange, handleOnSignInSubmit}) {
   return (
     <div className='signIn'>
         <form className='signin-form'>

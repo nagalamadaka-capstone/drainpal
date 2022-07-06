@@ -3,7 +3,7 @@ import CreateAcc from './CreateAcc/CreateAcc'
 import SignIn from './SignIn/SignIn'
 import "./Sidebar.css"
 
-function Sidebar({isSignInOpen, isCreateAccOpen, createAcc, handleOnCreateAccFormChange, handleCreateAccOpen, handleSignInOpen, handleOnSignInFormChange, signIn}) {
+function Sidebar({isSignInOpen, isCreateAccOpen, createAcc, handleOnCreateAccFormChange, handleCreateAccOpen, handleSignInOpen, handleOnSignInFormChange, signIn, handleOnSignInSubmit}) {
   return (
     <aside className={isCreateAccOpen ? "sidebar createaccopen" : isSignInOpen? "sidebar signinopen" : "sidebar"}>
         {isCreateAccOpen ? <CreateAcc 
@@ -11,6 +11,7 @@ function Sidebar({isSignInOpen, isCreateAccOpen, createAcc, handleOnCreateAccFor
         handleOnCreateAccFormChange = {handleOnCreateAccFormChange}
         handleCreateAccOpen = {handleCreateAccOpen}
         /> : isSignInOpen ? <SignIn
+        handleOnSignInSubmit={handleOnSignInSubmit}
         signIn = {signIn}
         handleOnSignInFormChange = {handleOnSignInFormChange}
         handleSignInOpen = {handleSignInOpen}
