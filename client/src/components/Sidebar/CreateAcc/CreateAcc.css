@@ -1,0 +1,17 @@
+.createAcc-form {
+    color: white;
+}
+
+.createAcc-form h1 {
+    font-size: 32px;
+    font-weight: 600;
+}
+
+.createAcc-form h2 {
+    font-weight: 600;
+    font-size: 24px;
+}
+
+.createAcc-form button{
+    display: block;
+}
