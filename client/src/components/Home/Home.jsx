@@ -7,7 +7,7 @@ import Sidebar from '../Sidebar/Sidebar'
 import {useParams} from 'react-router-dom'
 
 function Home({handleSignInOpen, handleCreateAccOpen, isLoggedIn, createAcc, signIn, handleOnCreateAccFormChange, handleOnSignInFormChange, isSignInOpen, isCreateAccOpen, handleOnSignInSubmit}) {
-    
+
   return (
     <div className='home'>
         
@@ -27,12 +27,14 @@ function Home({handleSignInOpen, handleCreateAccOpen, isLoggedIn, createAcc, sig
             isLoggedIn = {isLoggedIn}
             handleCreateAccOpen={handleCreateAccOpen}
           />
+        <div className="notNavBar">
         <Banner 
             handleSignInOpen = {handleSignInOpen}
             handleCreateAccOpen = {handleCreateAccOpen}
             isLoggedIn = {isLoggedIn}
         />
         <GeneralInfo/>
+        </div>
 
     </div>
   )

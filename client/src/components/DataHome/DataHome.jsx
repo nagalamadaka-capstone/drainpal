@@ -11,9 +11,11 @@ function DataHome({handleSignInOpen, handleCreateAccOpen, isLoggedIn, createAcc,
         isLoggedIn = {isLoggedIn}
         handleCreateAccOpen={handleCreateAccOpen}
         />
+        <div className="notNavBar">
+            <div className="wrapper">
         <h1>Data</h1>
         <h2>Past Logs</h2>
-        <Link to = "/datalog"><button>Add new data log</button></Link>
+        <Link to = "/datalog"><button className='add-new-datalog'>Add new data log</button></Link>
         <div className="timeline">
             <div className="timeline-component">
                 <div className="timeline-date">sample date</div>
@@ -45,6 +47,8 @@ function DataHome({handleSignInOpen, handleCreateAccOpen, isLoggedIn, createAcc,
                 <h2>Sample data entry</h2>
                 <p>details about data entry</p>
             </div>
+            </div>
+        </div>
         </div>
     </div>
   )

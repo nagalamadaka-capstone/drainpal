@@ -6,6 +6,7 @@ import Troubleshooting from "../Troubleshooting/Troubleshooting";
 import DataHome from "../DataHome/DataHome";
 import Profile from "../Profile/Profile";
 import DataLog from "../DataHome/DataLog/DataLog";
+import "./App.css";
 // import NavBar from "../NavBar/NavBar";
 // import Sidebar from "../Sidebar/Sidebar";
 
@@ -15,6 +16,7 @@ function App() {
   const [createAcc, setCreateAcc] = useState({});
   const [signIn, setSignIn] = useState({});
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [troubleshooting, setTroubleshooting] = useState({});
 
   function handleSignInOpen() {
     if(isSignInOpen) {
@@ -65,6 +67,15 @@ function App() {
     setIsLoggedIn(true);
   }
 
+  function handleOnTroubleshootingChange(key, val) {
+    let newForm = {
+      draintype : troubleshooting.draintype,
+      issue: troubleshooting.issue,
+    };
+    newForm[key] = val;
+    setTroubleshooting(newForm);
+  }
+
   console.log("isLoggedIn", isLoggedIn);
   return (
     <div className="app">
@@ -95,8 +106,14 @@ function App() {
               isCreateAccOpen = {isCreateAccOpen}
               handleOnSignInSubmit = {handleOnSignInSubmit}
             />} />
-            <Route path="/profile" element={<Profile/>} />
+            <Route path="/profile" element={<Profile
+            isLoggedIn={isLoggedIn}
+            handleSignInOpen={handleSignInOpen}
+            handleCreateAccOpen={handleCreateAccOpen}
+            />} />
             <Route path="/troubleshooting" element={<Troubleshooting
+              handleOnTroubleshootingChange = {handleOnTroubleshootingChange}
+              troubleshooting = {troubleshooting}
               handleSignInOpen = {handleSignInOpen}
               handleCreateAccOpen = {handleCreateAccOpen}
               isLoggedIn = {isLoggedIn}

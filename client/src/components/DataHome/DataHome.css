@@ -1,6 +1,25 @@
-.dataHome{
+.notNavBar{
+    background-color: #E5E5E5;
+    margin: 0;
+}
+
+.wrapper{
     margin: 60px;
     margin-top: 0px;
+    padding: 10px;
+}
+
+.add-new-datalog{
+    box-sizing: border-box;
+    height: 60px;
+    width: 250px;
+    background: #FFFFFF;
+    border: 3px solid #243E36;
+    font-size: 20px;
+    border-radius: 20px;
+    font-family: 'work sans', sans-serif;
+    display: block;
+    margin-bottom: 20px;
 }
 
 .timeline{

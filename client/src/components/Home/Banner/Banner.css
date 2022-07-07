@@ -21,6 +21,8 @@
     background-color: white;
     color: black;
     border: none;
+    /* display: block; */
+    border: solid black 2px;
     padding: 10px;
     font-size: 20px;
     cursor: pointer;
@@ -29,11 +31,16 @@
     height: 40px;
     border-radius: 10px;
     margin: 10px;
+    margin-right: 10px;
+    margin-left: 10px;
+    transform: translate(0, 2px);
+   
 }
 
 .banner button:hover{
-    background-color: lightgray;
+    background-color: lightgray; 
     color: black;
+    transition: all .2s ease-out;
 }
 
 /* center buttons in middle of banner */
@@ -42,8 +49,24 @@
     margin-right: auto;
 }
 
-.banner li{
-    list-style: none;
+/* .bannerLoggedIn button{
+    display: block;
+    list-style-type: none;
     color: black;
+    background-color: #C6D6B9;
+    text-decoration: none;
+    padding: 10px;
+    font-size: 20px;
+    cursor: pointer;
+    font-weight: 300;
+} */
+
+.bannerLoggedIn button:hover{
+    background-color: #e5e5e5;
+    color: black;
+    transition: all .2s ease-out;
+}
+
+a{
     text-decoration: none;
 }

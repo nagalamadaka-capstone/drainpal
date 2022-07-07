@@ -1,6 +1,6 @@
 .navbar{
     background-color: white;
-    height: 50px;
+    height: 70px;
 }
 
 .navbar button, .navbar li{
@@ -28,7 +28,7 @@
 }
 
 .navbar button:hover, .menuhover:hover{
-    background-color: lightgray;
+    background-color: #e5e5e5;
     color: black;
 }
 
@@ -41,7 +41,7 @@ nav ul li {
     list-style-type: none;
 }
 
-.navbar li, .navbar Link {
+.navbar li, .navbar Link, .menuhover {
     float: right;
 }
 

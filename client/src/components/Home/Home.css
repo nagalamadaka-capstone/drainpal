@@ -1,4 +1,8 @@
-.home{
+.notNavBar{
     margin: 60px;
     margin-top: 0px;
+}
+
+.home{
+    background-color: #E5E5E5;;
 }

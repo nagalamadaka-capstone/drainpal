@@ -1,4 +1,59 @@
 .dataLog{
-    margin: 60px;
-    margin-top: 0px;
+
+    background-color: #E5E5E5;
+    padding-top: 0px;
+}
+
+h1{
+    font-style: normal;
+font-weight: 600;
+font-size: 36px;
+line-height: 42px;
+}
+
+h2{
+    font-weight: 600;
+}
+
+h3{
+    font-style: normal;
+    font-weight: 500;
+    font-size: 24px;
+    line-height: 28px;
+}
+
+.datalog-input{
+    border-radius: 20px;
+    border: none;
+    height: 40px;
+    width: 320px;
+
+    font-style: italic;
+    padding: 5px;
+}
+
+.log-symptoms, .save-data-log{
+    box-sizing: border-box;
+    height: 60px;
+    width: 320px;
+    background: #FFFFFF;
+    border: 3px solid #243E36;
+    border-radius: 20px;
+    display: block;
+}
+
+.save-data-log{
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 20px;
+}
+
+.datalog-choose-file::file-selector-button {
+    border-radius: 20px;
+    border: solid black 1px;
+    height: 40px;
+    width: 150px;
+    font-style: italic;
+    padding: 5px;
+    background-color: white;
 }
