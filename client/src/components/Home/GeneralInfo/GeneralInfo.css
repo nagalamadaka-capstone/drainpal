@@ -2,7 +2,7 @@
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     border-radius: 20px;
-    background-color: #E5E5E5;
+    background-color: rgb(222, 222, 222);
     font-family: 'Work Sans', sans-serif;
     max-width: 1000px;
     margin: auto;
