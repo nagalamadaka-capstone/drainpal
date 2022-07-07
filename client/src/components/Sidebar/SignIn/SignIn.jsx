@@ -18,7 +18,7 @@ function SignIn({signIn, handleSignInOpen, handleOnSignInFormChange, handleOnSig
         className="sign-in-input" value={signIn.password}
         onChange={(e) => {handleOnSignInFormChange("password", e.target.value)}} />
 
-        <button className="sign-in-button" onClick={() => console.log("create acc")}> Sign In </button>
+        <button className="sign-in-button" onClick={() => handleOnSignInSubmit()}> Sign In </button>
 
         </form>
       

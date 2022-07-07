@@ -1,6 +1,6 @@
 import React from 'react'
 import "./Banner.css"
-import { Link } from 'react-router-dom'
+import { Link, Route, Routes } from 'react-router-dom'
 import { useParams } from 'react-router-dom'
 
 function Banner({handleSignInOpen, handleCreateAccOpen, isLoggedIn}) {
@@ -13,7 +13,7 @@ function Banner({handleSignInOpen, handleCreateAccOpen, isLoggedIn}) {
         <div className="bannerLoggedIn">
             <h1>Welcome!</h1>
             <h2>DrainPal is a tool for users to track their pain levels due to a Percutaneous Nephrostomy Tube.</h2>
-            <Link to = "/data"><li>Track your daily pain levels!</li></Link>
+            <Link to = "/datalog"><li>Track your daily pain levels!</li></Link>
             <Link to = "/troubleshooting"><li>Need help with your drain? Troubleshoot here!</li></Link>
         </div>
         :

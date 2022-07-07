@@ -14,7 +14,7 @@ function App() {
   const [isCreateAccOpen, setIsCreateAccOpen] = useState(false);
   const [createAcc, setCreateAcc] = useState({});
   const [signIn, setSignIn] = useState({});
-  const [isLoggedIn, setIsLoggedIn] = useState(true);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   function handleSignInOpen() {
     if(isSignInOpen) {

@@ -4,8 +4,10 @@ import "./Home.css"
 import GeneralInfo from './GeneralInfo/GeneralInfo'
 import NavBar from '../NavBar/NavBar'
 import Sidebar from '../Sidebar/Sidebar'
+import {useParams} from 'react-router-dom'
 
 function Home({handleSignInOpen, handleCreateAccOpen, isLoggedIn, createAcc, signIn, handleOnCreateAccFormChange, handleOnSignInFormChange, isSignInOpen, isCreateAccOpen, handleOnSignInSubmit}) {
+    
   return (
     <div className='home'>
         
