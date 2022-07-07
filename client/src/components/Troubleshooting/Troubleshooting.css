@@ -1,0 +1,8 @@
+select{
+    border-radius: 20px;
+    color: black;
+    height: 30px;
+    padding: 4px;
+    font-size: 16px;
+    font-family: 'Work Sans', sans-serif;
+}

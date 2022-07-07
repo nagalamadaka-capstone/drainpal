@@ -1,6 +1,7 @@
 import React from 'react'
 import NavBar from '../../NavBar/NavBar'
 import "./DataLog.css"
+import {Link} from 'react-router-dom'
 
 function DataLog({handleSignInOpen, handleCreateAccOpen, isLoggedIn}) {
     const date = new Date().toDateString();
@@ -17,7 +18,9 @@ function DataLog({handleSignInOpen, handleCreateAccOpen, isLoggedIn}) {
                 <h1>Data Log</h1>
                 <h2>{date}</h2>
                 <h3>How are you feeling today?</h3>
+                <Link to="/logsymptoms">
                 <button className='log-symptoms'>Log my symptoms</button>
+                </Link>
                 <h3>Drain output amount in mL</h3>
                 <input type="text" className = "datalog-input" placeholder="e.g. 100"/>
                 <h3>Drain output color</h3>

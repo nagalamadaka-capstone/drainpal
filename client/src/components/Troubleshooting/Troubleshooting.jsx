@@ -22,7 +22,7 @@ function Troubleshooting({handleSignInOpen, handleCreateAccOpen, isLoggedIn, cre
                 {troubleshooting.draintype && 
                 <div className="q2">
                 <h2>What type of issue are you having?</h2>
-                <select name="issue" className="troubleshooting" value={troubleshooting.issue}
+                <select name="issue" className="troubleshooting-dropdown" value={troubleshooting.issue}
                 onChange={(e) => {handleOnTroubleshootingChange("issue", e.target.value)}}>
                     <option value="">Select an Issue</option>
                     <option value="volumeChange">Change in Volume</option>

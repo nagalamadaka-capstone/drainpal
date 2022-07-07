@@ -1,50 +1,56 @@
-.navbar{
-    background-color: white;
-    height: 70px;
+.navbar {
+  background-color: white;
+  height: 70px;
 }
 
-.navbar button, .navbar li{
-    background-color: white;
-    color: black;
-    border: none;
-    padding: 10px;
-    font-size: 20px;
-    cursor: pointer;
-    font-family: 'Work Sans', sans-serif;
-    font-weight: 300;
-    height: 50px;
+.navbar button,
+.navbar li {
+  background-color: white;
+  color: black;
+  border: none;
+  padding: 10px;
+  font-size: 20px;
+  cursor: pointer;
+  font-family: "Work Sans", sans-serif;
+  font-weight: 300;
+  height: 50px;
 }
 
-#DrainPal{
-    margin: 0px;
-    font-family: 'Work Sans', sans-serif;
-    font-weight: 700;
-    font-size: 32px;
-    color: black;
-    font-style: italic;
-    margin-top: 6px;
-    margin-left: 35px;
-    margin-right: 35px;
+#DrainPal {
+  margin: 0px;
+  font-family: "Work Sans", sans-serif;
+  font-weight: 700;
+  font-size: 32px;
+  color: black;
+  font-style: italic;
+  margin-top: 6px;
+  margin-left: 35px;
+  margin-right: 35px;
+  position: fixed;
+  top: 0px;
+  left: 0px;
 }
-
-.navbar button:hover, .menuhover:hover{
-    background-color: #e5e5e5;
-    color: black;
+.navbar button:hover,
+.menuhover:hover {
+  background-color: #e5e5e5;
+  color: black;
 }
 
 nav ul {
-    margin: 0;
-    padding: 0;
+  margin: 0;
+  padding: 0;
 }
 
 nav ul li {
-    list-style-type: none;
+  list-style-type: none;
 }
 
-.navbar li, .navbar Link, .menuhover {
-    float: right;
+.navbar li,
+.navbar Link,
+.menuhover {
+  float: right;
 }
 
-.navbar li:first-child {
+/* .navbar li:first-child {
     float: left;
-}
+} */

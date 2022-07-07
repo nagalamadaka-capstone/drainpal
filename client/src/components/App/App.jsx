@@ -6,6 +6,7 @@ import Troubleshooting from "../Troubleshooting/Troubleshooting";
 import DataHome from "../DataHome/DataHome";
 import Profile from "../Profile/Profile";
 import DataLog from "../DataHome/DataLog/DataLog";
+import LogSymptoms from "../DataHome/DataLog/LogSymptoms/LogSymptoms";
 import "./App.css";
 // import NavBar from "../NavBar/NavBar";
 // import Sidebar from "../Sidebar/Sidebar";
@@ -130,6 +131,11 @@ function App() {
               handleSignInOpen={handleSignInOpen}
               handleCreateAccOpen={handleCreateAccOpen}
             />} />
+            <Route path="/logsymptoms" element={<LogSymptoms
+            isLoggedIn={isLoggedIn}
+            handleSignInOpen={handleSignInOpen}
+            handleCreateAccOpen={handleCreateAccOpen}
+            />}/>
             <Route path="/:email:password" element={null} />
           </Routes>
         </div>
