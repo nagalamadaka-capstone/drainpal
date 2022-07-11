@@ -55,7 +55,7 @@ router.post("/login", async (req, res) => {
   });
 
 //trying to log out
-router.post("/logout", async ( res) => {
+router.post("/logout", async (req, res) => {
     try {
         await Parse.User.logOut();
         res.status(200).json({

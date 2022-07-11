@@ -1,6 +1,7 @@
 import React from "react";
 import NavBar from "../NavBar/NavBar";
 import "./Profile.css";
+import {Link } from "react-router-dom";
 
 function Profile({
   handleSignInOpen,
@@ -34,10 +35,11 @@ function Profile({
           <button className="add-drain">Add Drain!</button>
           <h2>Your health care provider</h2>
           <h3>{healthcareprovider}</h3>
-          
+          <Link to = "/">
           <button className="add-drain" type="button" onClick = {()=> handleOnLogOut()}>
             Log Out
           </button>
+          </Link>
         </div>
       </div>
     </div>

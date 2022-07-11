@@ -105,20 +105,25 @@ function App() {
     setCreateAcc({});
   };
 
-  // const handleOnLogOut = async () => {
+  const handleOnLogOut = async () => {
+    console.log("logging out");
     
-  //   setIsLoggedIn(false);
-  //   setFirstName("");
-  //   setLastName("");
-  //   setEmail("");
-  //   setDraintype("");
-  //   setHealthcareprovider("");
-  //   try {
-  //     const resp = await axios.post(
-  //       `${API_BASE_URL}/users/logout`
-  //     );
-  //   } catch (err) {}
-  // }
+    
+    try {
+      const resp = await axios.post(
+        `${API_BASE_URL}/users/logout`
+      );
+    } catch (err) {
+      console.log('err: ', err);
+    }
+
+    setIsLoggedIn(false);
+    setFirstName("");
+    setLastName("");
+    setEmail("");
+    setDraintype("");
+    setHealthcareprovider("");
+  }
 
   function handleOnTroubleshootingChange(key, val) {
     let newForm = {
@@ -190,6 +195,7 @@ function App() {
                   email = {email}
                   draintype = {draintype}
                   healthcareprovider = {healthcareprovider}
+                  handleOnLogOut={handleOnLogOut}
                 />
               }
             />
