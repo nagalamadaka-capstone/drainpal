@@ -1,21 +1,29 @@
 {
   "name": "drainpal-backend",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "",
   "main": "server.js",
+  "type": "commonjs",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon server.js ",
+    "dev": "node server.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@react-native-async-storage/async-storage": "^1.17.7",
+    "axios": "^0.27.2",
+    "bcrypt": "^5.0.1",
     "body-parser": "^1.20.0",
     "cors": "^2.8.5",
     "express": "^4.18.1",
     "i": "^0.3.7",
     "lowdb": "^3.0.0",
-    "morgan": "^1.10.0"
+    "morgan": "^1.10.0",
+    "node-fetch": "^2.6.1",
+    "parse": "^3.4.3"
   },
   "devDependencies": {
     "nodemon": "^2.0.19"
