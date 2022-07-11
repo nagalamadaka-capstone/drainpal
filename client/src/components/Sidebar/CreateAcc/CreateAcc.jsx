@@ -1,7 +1,7 @@
 import React from 'react'
 import "./CreateAcc.css"
 
-function CreateAcc({createAcc, handleOnCreateAccFormChange, handleCreateAccOpen}) {
+function CreateAcc({createAcc, handleOnCreateAccFormChange, handleCreateAccOpen, handleOnCreateAccSubmit}) {
   return (
     <div className='createAcc'>
         <form className='createAcc-form'>
@@ -49,7 +49,7 @@ function CreateAcc({createAcc, handleOnCreateAccFormChange, handleCreateAccOpen}
         className="create-acc-input" value={createAcc.healthcareprovider}
         onChange={(e) => {handleOnCreateAccFormChange("healthcareprovider", e.target.value)}} />
         
-        <button className="create-acc-button" onClick={() => console.log("create acc")}> Create Account </button>
+        <button className="create-acc-button" type = "button" onClick={() => handleOnCreateAccSubmit(createAcc)}> Create Account </button>
 
         </form>
       

@@ -2,7 +2,7 @@ import React from 'react'
 import NavBar from '../NavBar/NavBar'
 import "./Troubleshooting.css"
 
-function Troubleshooting({handleSignInOpen, handleCreateAccOpen, isLoggedIn, createAcc, troubleshooting, handleOnTroubleshootingChange, signIn, handleOnCreateAccFormChange, handleOnSignInFormChange, isSignInOpen, isCreateAccOpen, handleOnSignInSubmit}) {
+function Troubleshooting({handleSignInOpen, handleCreateAccOpen, isLoggedIn, troubleshooting, handleOnTroubleshootingChange}) {
   return (
     <div className='troubleshooting'>
         <NavBar

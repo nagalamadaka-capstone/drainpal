@@ -20,10 +20,12 @@ app.get('/', (req, res) => {
 
 //404 error handler
 app.use((req, res, next) => {
+    console.log("failed here");
     const error = new NotFoundError('Not Found');
     error.status = 404;
     next(error);
 })
+
 
 //generic error handler
 app.use((err, req, res, next) => {

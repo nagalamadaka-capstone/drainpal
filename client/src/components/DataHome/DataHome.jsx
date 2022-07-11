@@ -3,7 +3,7 @@ import NavBar from '../NavBar/NavBar'
 import "./DataHome.css"
 import {Link} from 'react-router-dom'
 
-function DataHome({handleSignInOpen, handleCreateAccOpen, isLoggedIn, createAcc, signIn, handleOnCreateAccFormChange, handleOnSignInFormChange, isSignInOpen, isCreateAccOpen, handleOnSignInSubmit}) {
+function DataHome({handleSignInOpen, handleCreateAccOpen, isLoggedIn, createAcc, signIn, handleOnCreateAccFormChange, handleOnSignInFormChange, isSignInOpen, isCreateAccOpen, handleOnSignInSubmit, handleOnCreateAccSubmit}) {
   return (
     <div className='dataHome'>
         <NavBar

@@ -17,6 +17,8 @@ function Home({
   isSignInOpen,
   isCreateAccOpen,
   handleOnSignInSubmit,
+  handleOnCreateAccSubmit,
+  firstName,
 }) {
   return (
     <div className="home">
@@ -30,6 +32,7 @@ function Home({
         handleOnSignInFormChange={handleOnSignInFormChange}
         signIn={signIn}
         handleOnSignInSubmit={handleOnSignInSubmit}
+        handleOnCreateAccSubmit = {handleOnCreateAccSubmit}
       />
       <NavBar
         handleSignInOpen={handleSignInOpen}
@@ -41,6 +44,7 @@ function Home({
           handleSignInOpen={handleSignInOpen}
           handleCreateAccOpen={handleCreateAccOpen}
           isLoggedIn={isLoggedIn}
+          firstName={firstName}
         />
         <GeneralInfo />
       </div>

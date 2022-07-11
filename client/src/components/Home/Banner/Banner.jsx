@@ -3,15 +3,17 @@ import "./Banner.css";
 import { Link } from "react-router-dom";
 import { useParams } from "react-router-dom";
 
-function Banner({ handleSignInOpen, handleCreateAccOpen, isLoggedIn }) {
-  const email = useParams();
-  console.log("email: ", email);
-
+function Banner({
+  handleSignInOpen,
+  handleCreateAccOpen,
+  isLoggedIn,
+  firstName,
+}) {
   return (
     <div className="banner">
       {isLoggedIn ? (
         <div className="bannerLoggedIn">
-          <h1>Welcome!</h1>
+          <h1>Welcome, {firstName}!</h1>
           <h2>
             DrainPal is a tool for users to track their pain levels due to a
             Percutaneous Nephrostomy Tube.
