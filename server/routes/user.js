@@ -37,7 +37,6 @@ router.post("/register", async (req, res) => {
 router.post("/login", async (req, res) => {
 
     let infoUser = req.body;
-    console.log('infoUser: ', infoUser);
     
     try {
       let user = await Parse.User.logIn(
