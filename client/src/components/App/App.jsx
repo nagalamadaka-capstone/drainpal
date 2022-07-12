@@ -19,6 +19,7 @@ function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [troubleshooting, setTroubleshooting] = useState({});
   const [createaccerror, setCreateaccerror] = useState("");
+  const [signinerror, setSigninerror] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
@@ -26,6 +27,7 @@ function App() {
   const [healthcareprovider, setHealthcareprovider] = useState("");
 
   function handleSignInOpen() {
+    setSigninerror("");
     if (isSignInOpen) {
       setIsSignInOpen(false);
     } else {
@@ -35,6 +37,7 @@ function App() {
   }
 
   function handleCreateAccOpen() {
+    setCreateaccerror("");
     if (isCreateAccOpen) {
       setIsCreateAccOpen(false);
     } else {
@@ -67,30 +70,40 @@ function App() {
   }
 
   const handleOnSignInSubmit = async (signIn) => {
-    setIsSignInOpen(false);
+    
+    if (!signIn.email|| !signIn.password ) {
+      setSigninerror("Please fill out all fields.");
+      return;
+    }
 
+    if (!signIn.email.includes("@") || !signIn.email.includes(".")) {
+      setSigninerror("Please enter a valid email.");
+      return;
+    }
+
+    
     try {
       const resp = await axios.post(`${API_BASE_URL}/users/login`, signIn);
 
       setIsLoggedIn(true);
+      setSigninerror ("");
       setFirstName(formatString(resp.data.firstname));
       setLastName(formatString(resp.data.lastname));
       setEmail(resp.data.email);
       setDraintype(resp.data.draintype);
       setHealthcareprovider(resp.data.healthcareprovider);
+      setIsSignInOpen(false);
     } catch (err) {
-      console.log(err);
-      console.log(err.response.data.message);
+      setSigninerror ("Incorrect username/password. Please try again.");
     }
   };
 
   const handleOnCreateAccSubmit = async (createAcc) => {
-    
-    // catch common log in errors
-    if (createAcc.email === "" || createAcc.password === "") {
-      setCreateaccerror("Please fill out all fields");
+    if (!createAcc.firstname|| !createAcc.lastname|| !createAcc.email|| !createAcc.password|| !createAcc.draintype|| !createAcc.drainsite|| !createAcc.healthcareprovider) {
+      setCreateaccerror("Please fill out all fields.");
       return;
     }
+    
     if (createAcc.password.length < 8) {
       setCreateaccerror("Password must be at least 8 characters");
       return;
@@ -101,11 +114,11 @@ function App() {
         `${API_BASE_URL}/users/register`,
         createAcc
       );
-      setCreateaccerror("");
-    } catch (err) {}
-
-    setIsCreateAccOpen(false);
-    setCreateAcc({});
+      setCreateaccerror("Success! You can now sign in with your email and password.");
+      setCreateAcc({});
+    } catch (err) {
+      setCreateaccerror("Account already exists for that email. Please try again.");
+    }
   };
 
   const handleOnLogOut = async () => {
@@ -164,6 +177,7 @@ function App() {
                   handleOnCreateAccSubmit={handleOnCreateAccSubmit}
                   firstName={firstName}
                   createaccerror = {createaccerror}
+                  signinerror = {signinerror}
                 />
               }
             />
