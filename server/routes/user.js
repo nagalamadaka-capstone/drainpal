@@ -44,7 +44,6 @@ router.post("/register", async (req, res) => {
 router.post("/login", async (req, res) => {
 
     let infoUser = req.body;
-    console.log('infoUser: ', infoUser);
     
     try {
       let user = await Parse.User.logIn(
@@ -53,12 +52,9 @@ router.post("/login", async (req, res) => {
       );
       res.status(200).json(user);
       
-      
     } catch (error) {
-        
       res.status(400).json({
-        error: error.message,
-        error: error
+        message: error.message,
       });
     }
   });
@@ -72,8 +68,7 @@ router.post("/logout", async (req, res) => {
         });
     } catch (error) {
         res.json({
-            error: error.message,
-            error: error
+            message: error.message,
         });
     }
 }
@@ -87,8 +82,7 @@ router.get("/current", async (req, res) => {
         res.status(200).json(user);
     } catch (error) {
         res.status(400).json({
-            error: error.message,
-            error: error
+            message: error.message
         });
     }
 }
