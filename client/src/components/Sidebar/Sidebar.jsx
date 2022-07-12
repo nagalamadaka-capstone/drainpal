@@ -33,7 +33,7 @@ function Sidebar({
           handleOnCreateAccFormChange={handleOnCreateAccFormChange}
           handleCreateAccOpen={handleCreateAccOpen}
           handleOnCreateAccSubmit={handleOnCreateAccSubmit}
-          createaccerror = {createaccerror}
+          createaccerror={createaccerror}
         />
       ) : isSignInOpen ? (
         <SignIn
@@ -41,7 +41,8 @@ function Sidebar({
           signIn={signIn}
           handleOnSignInFormChange={handleOnSignInFormChange}
           handleSignInOpen={handleSignInOpen}
-          signinerror = {signinerror}
+          signinerror={signinerror}
+
         />
       ) : null}
     </aside>
