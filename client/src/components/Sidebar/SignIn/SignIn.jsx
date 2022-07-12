@@ -1,30 +1,58 @@
-import React from 'react'
-import ".//SignIn.css"
+import React from "react";
+import ".//SignIn.css";
 
-function SignIn({signIn, handleSignInOpen, handleOnSignInFormChange, handleOnSignInSubmit, signinerror}) {
+function SignIn({
+  signIn,
+  handleSignInOpen,
+  handleOnSignInFormChange,
+  handleOnSignInSubmit,
+  signinerror,
+}) {
   return (
-    <div className='signIn'>
-        <form className='signin-form'>
-        <button className='back-button' onClick = {() => handleSignInOpen()}> &rarr;</button>
+    <div className="signIn">
+      <form className="signin-form">
+        <button className="back-button" onClick={() => handleSignInOpen()}>
+          {" "}
+          &rarr;
+        </button>
         <h1>Sign In!</h1>
-        {signinerror ? <p className='error'>{signinerror}</p> : null}
+        {signinerror ? <p className="error">{signinerror}</p> : null}
 
         <h2>E-mail</h2>
-        <input type="email" name="email" placeholder = "e.g. drainpal@drainpal.com" 
-        className="sign-in-input" value={signIn.email}
-        onChange={(e) => {handleOnSignInFormChange("email", e.target.value)}} />
+        <input
+          type="email"
+          name="email"
+          placeholder="e.g. drainpal@drainpal.com"
+          className="sign-in-input"
+          value={signIn.email}
+          onChange={(e) => {
+            handleOnSignInFormChange("email", e.target.value);
+          }}
+        />
 
         <h2>Password</h2>
-        <input type="password" name="password" placeholder = "********" 
-        className="sign-in-input" value={signIn.password}
-        onChange={(e) => {handleOnSignInFormChange("password", e.target.value)}} />
+        <input
+          type="password"
+          name="password"
+          placeholder="********"
+          className="sign-in-input"
+          value={signIn.password}
+          onChange={(e) => {
+            handleOnSignInFormChange("password", e.target.value);
+          }}
+        />
 
-        <button className="sign-in-button" type = "button" onClick={() => handleOnSignInSubmit(signIn)}> Sign In </button>
-
-        </form>
-      
+        <button
+          className="sign-in-button"
+          type="button"
+          onClick={() => handleOnSignInSubmit(signIn)}
+        >
+          {" "}
+          Sign In{" "}
+        </button>
+      </form>
     </div>
-  )
+  );
 }
 
-export default SignIn
+export default SignIn;
