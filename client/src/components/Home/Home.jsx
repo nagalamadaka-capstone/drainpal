@@ -19,6 +19,7 @@ function Home({
   handleOnSignInSubmit,
   handleOnCreateAccSubmit,
   firstName,
+  createaccerror
 }) {
   return (
     <div className="home">
@@ -33,6 +34,7 @@ function Home({
         signIn={signIn}
         handleOnSignInSubmit={handleOnSignInSubmit}
         handleOnCreateAccSubmit = {handleOnCreateAccSubmit}
+        createaccerror = {createaccerror}
       />
       <NavBar
         handleSignInOpen={handleSignInOpen}
