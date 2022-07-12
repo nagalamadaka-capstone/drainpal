@@ -11,15 +11,15 @@ router.post("/register", async (req, res) => {
   let infoUser = req.body;
   var user = new Parse.User();
 
-  try{
-    const hashedPassword = await bcrypt.hash(infoUser.password, 10);
-    user.set("password", hashedPassword);
-  }
-  catch{
-    res.status(400).send({error: "Password is not valid"});
-  }
+//   try{
+//     const hashedPassword = await bcrypt.hash(infoUser.password, 10);
+//   }
+//   catch{
+//     res.status(400).send({error: "Password is not valid"});
+//   }
 
   user.set("username", infoUser.email); 
+  user.set("password", infoUser.password);
   user.set("email", infoUser.email);
   user.set("firstname", infoUser.firstname);
   user.set("lastname", infoUser.lastname);
