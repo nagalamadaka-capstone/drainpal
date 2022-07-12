@@ -16,15 +16,26 @@ function App() {
   const [isCreateAccOpen, setIsCreateAccOpen] = useState(false);
   const [createAcc, setCreateAcc] = useState({});
   const [signIn, setSignIn] = useState({});
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [troubleshooting, setTroubleshooting] = useState({});
   const [createaccerror, setCreateaccerror] = useState("");
   const [signinerror, setSigninerror] = useState("");
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [email, setEmail] = useState("");
-  const [draintype, setDraintype] = useState("");
-  const [healthcareprovider, setHealthcareprovider] = useState("");
+  // const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(localStorage.getItem("current_user_id") !== null);
+  const [firstName, setFirstName] = useState(localStorage.getItem("current_firstname"));
+  const [lastName, setLastName] = useState(localStorage.getItem("current_lastname"));
+  const [email, setEmail] = useState(localStorage.getItem("current_email"));
+  const [draintype, setDraintype] = useState(localStorage.getItem("current_draintype"));
+  const [healthcareprovider, setHealthcareprovider] = useState(localStorage.getItem("current_healthcareprovider"));
+
+  const addAuthenticationHeader = () => {
+    const currentUserId = localStorage.getItem("current_user_id")
+    if (currentUserId !== null) {
+      axios.defaults.headers.common = {
+        "current_user_id": currentUserId
+      };
+    }
+  }
+  addAuthenticationHeader()
 
   function handleSignInOpen() {
     setSigninerror("");
@@ -70,8 +81,7 @@ function App() {
   }
 
   const handleOnSignInSubmit = async (signIn) => {
-    
-    if (!signIn.email|| !signIn.password ) {
+    if (!signIn.email || !signIn.password) {
       setSigninerror("Please fill out all fields.");
       return;
     }
@@ -81,12 +91,19 @@ function App() {
       return;
     }
 
-    
     try {
       const resp = await axios.post(`${API_BASE_URL}/users/login`, signIn);
+      let user = resp.data
+      localStorage.setItem("current_user_id", user["objectId"])
+      localStorage.setItem("current_firstname", formatString(user.firstname))
+      localStorage.setItem("current_lastname", formatString(user.lastname))
+      localStorage.setItem("current_email", user.email)
+      localStorage.setItem("current_draintype", user.draintype)
+      localStorage.setItem("current_healthcareprovider", user.healthcareprovider)
+      addAuthenticationHeader()
 
       setIsLoggedIn(true);
-      setSigninerror ("");
+      setSigninerror("");
       setFirstName(formatString(resp.data.firstname));
       setLastName(formatString(resp.data.lastname));
       setEmail(resp.data.email);
@@ -94,16 +111,24 @@ function App() {
       setHealthcareprovider(resp.data.healthcareprovider);
       setIsSignInOpen(false);
     } catch (err) {
-      setSigninerror ("Incorrect username/password. Please try again.");
+      setSigninerror("Incorrect username/password. Please try again.");
     }
   };
 
   const handleOnCreateAccSubmit = async (createAcc) => {
-    if (!createAcc.firstname|| !createAcc.lastname|| !createAcc.email|| !createAcc.password|| !createAcc.draintype|| !createAcc.drainsite|| !createAcc.healthcareprovider) {
+    if (
+      !createAcc.firstname ||
+      !createAcc.lastname ||
+      !createAcc.email ||
+      !createAcc.password ||
+      !createAcc.draintype ||
+      !createAcc.drainsite ||
+      !createAcc.healthcareprovider
+    ) {
       setCreateaccerror("Please fill out all fields.");
       return;
     }
-    
+
     if (createAcc.password.length < 8) {
       setCreateaccerror("Password must be at least 8 characters");
       return;
@@ -114,30 +139,37 @@ function App() {
         `${API_BASE_URL}/users/register`,
         createAcc
       );
-      setCreateaccerror("Success! You can now sign in with your email and password.");
+      setCreateaccerror(
+        "Success! You can now sign in with your email and password."
+      );
       setCreateAcc({});
     } catch (err) {
-      setCreateaccerror("Account already exists for that email. Please try again.");
+      setCreateaccerror(
+        "Account already exists for that email. Please try again."
+      );
     }
   };
 
   const handleOnLogOut = async () => {
-    
     try {
-      const resp = await axios.post(
-        `${API_BASE_URL}/users/logout`
-      );
+      const resp = await axios.post(`${API_BASE_URL}/users/logout`);
+      localStorage.removeItem("current_user_id")
+      localStorage.removeItem("current_firstname")
+      localStorage.removeItem("current_lastname")
+      localStorage.removeItem("current_email")
+      localStorage.removeItem("current_draintype")
+      localStorage.removeItem("current_healthcareprovider")
+      axios.defaults.headers.common = {};
+      setIsLoggedIn(false);
+      // setFirstName("");
+      // setLastName("");
+      // setEmail("");
+      // setDraintype("");
+      // setHealthcareprovider("");
     } catch (err) {
-      console.log('err: ', err);
+      console.log("err: ", err);
     }
-
-    setIsLoggedIn(false);
-    setFirstName("");
-    setLastName("");
-    setEmail("");
-    setDraintype("");
-    setHealthcareprovider("");
-  }
+  };
 
   function handleOnTroubleshootingChange(key, val) {
     let newForm = {
@@ -149,9 +181,7 @@ function App() {
   }
 
   function formatString(str) {
-    let finalString =
-      str.charAt(0).toUpperCase() +
-      str.slice(1);
+    let finalString = str.charAt(0).toUpperCase() + str.slice(1);
     return finalString;
   }
 
@@ -176,8 +206,8 @@ function App() {
                   handleOnSignInSubmit={handleOnSignInSubmit}
                   handleOnCreateAccSubmit={handleOnCreateAccSubmit}
                   firstName={firstName}
-                  createaccerror = {createaccerror}
-                  signinerror = {signinerror}
+                  createaccerror={createaccerror}
+                  signinerror={signinerror}
                 />
               }
             />
@@ -206,11 +236,11 @@ function App() {
                   isLoggedIn={isLoggedIn}
                   handleSignInOpen={handleSignInOpen}
                   handleCreateAccOpen={handleCreateAccOpen}
-                  firstname = {firstName}
-                  lastname = {lastName}
-                  email = {email}
-                  draintype = {draintype}
-                  healthcareprovider = {healthcareprovider}
+                  firstname={firstName}
+                  lastname={lastName}
+                  email={email}
+                  draintype={draintype}
+                  healthcareprovider={healthcareprovider}
                   handleOnLogOut={handleOnLogOut}
                 />
               }
