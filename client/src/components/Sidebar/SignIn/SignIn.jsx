@@ -1,13 +1,13 @@
 import React from 'react'
 import ".//SignIn.css"
 
-function SignIn({signIn, handleSignInOpen, handleOnSignInFormChange, handleOnSignInSubmit, error}) {
+function SignIn({signIn, handleSignInOpen, handleOnSignInFormChange, handleOnSignInSubmit, signinerror}) {
   return (
     <div className='signIn'>
         <form className='signin-form'>
         <button className='back-button' onClick = {() => handleSignInOpen()}> &rarr;</button>
         <h1>Sign In!</h1>
-        {error ? <p className='error'>{error}</p> : null}
+        {signinerror ? <p className='error'>{signinerror}</p> : null}
 
         <h2>E-mail</h2>
         <input type="email" name="email" placeholder = "e.g. drainpal@drainpal.com" 

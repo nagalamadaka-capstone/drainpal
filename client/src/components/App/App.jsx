@@ -19,6 +19,7 @@ function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [troubleshooting, setTroubleshooting] = useState({});
   const [createaccerror, setCreateaccerror] = useState("");
+  const [signinerror, setSigninerror] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
@@ -67,20 +68,24 @@ function App() {
   }
 
   const handleOnSignInSubmit = async (signIn) => {
-    setIsSignInOpen(false);
-
+    if (signIn.email === "" || signIn.password === "") {
+      setSigninerror("Please fill out all fields");
+      return;
+    }
+    
     try {
       const resp = await axios.post(`${API_BASE_URL}/users/login`, signIn);
 
       setIsLoggedIn(true);
+      setSigninerror ("");
       setFirstName(formatString(resp.data.firstname));
       setLastName(formatString(resp.data.lastname));
       setEmail(resp.data.email);
       setDraintype(resp.data.draintype);
       setHealthcareprovider(resp.data.healthcareprovider);
+      setIsSignInOpen(false);
     } catch (err) {
-      console.log(err);
-      console.log(err.response.data.message);
+      setSigninerror ("Incorrect password. Please try again.");
     }
   };
 
@@ -102,7 +107,9 @@ function App() {
         createAcc
       );
       setCreateaccerror("");
-    } catch (err) {}
+    } catch (err) {
+      setCreateaccerror("Email already exists. Please try again.");
+    }
 
     setIsCreateAccOpen(false);
     setCreateAcc({});
@@ -164,6 +171,7 @@ function App() {
                   handleOnCreateAccSubmit={handleOnCreateAccSubmit}
                   firstName={firstName}
                   createaccerror = {createaccerror}
+                  signinerror = {signinerror}
                 />
               }
             />

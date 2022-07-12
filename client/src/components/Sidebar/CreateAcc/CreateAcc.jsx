@@ -6,7 +6,7 @@ function CreateAcc({
   handleOnCreateAccFormChange,
   handleCreateAccOpen,
   handleOnCreateAccSubmit,
-  error,
+  createaccerror,
 }) {
   return (
     <div className="createAcc">
@@ -16,7 +16,7 @@ function CreateAcc({
           &rarr;
         </button>
         <h1>Create A New Account!</h1>
-        {error ? <p className="error">{error}</p> : null}
+        {createaccerror ? <p className="error">{createaccerror}</p> : null}
 
         <h2>First Name</h2>
         <input
