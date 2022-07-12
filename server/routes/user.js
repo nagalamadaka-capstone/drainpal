@@ -1,5 +1,6 @@
 const express = require("express");
 const router = express.Router();
+const bcrypt = require("bcrypt");
 var Parse = require('parse/node');
 
 Parse.initialize("FYm3VuO0u2fZehFsYlcKZSuloKs5Bf75EBJUhGf7","CWltjX0VqknaSsdHrgoTjVWhCDGrUGINIO6dEqUB"); //PASTE HERE YOUR Back4App APPLICATION ID AND YOUR JavaScript KEY
@@ -8,11 +9,17 @@ Parse.serverURL = 'https://parseapi.back4app.com/'
 // Register the user passing the username, password and email
 router.post("/register", async (req, res) => {
   let infoUser = req.body;
-  
   var user = new Parse.User();
 
+  try{
+    const hashedPassword = await bcrypt.hash(infoUser.password, 10);
+    user.set("password", hashedPassword);
+  }
+  catch{
+    res.status(400).send({error: "Password is not valid"});
+  }
+
   user.set("username", infoUser.email); 
-  user.set("password", infoUser.password);
   user.set("email", infoUser.email);
   user.set("firstname", infoUser.firstname);
   user.set("lastname", infoUser.lastname);
