@@ -42,7 +42,6 @@ function Sidebar({
           handleOnSignInFormChange={handleOnSignInFormChange}
           handleSignInOpen={handleSignInOpen}
           signinerror={signinerror}
-
         />
       ) : null}
     </aside>
