@@ -27,6 +27,7 @@ function App() {
   const [healthcareprovider, setHealthcareprovider] = useState("");
 
   function handleSignInOpen() {
+    setSigninerror("");
     if (isSignInOpen) {
       setIsSignInOpen(false);
     } else {
@@ -36,6 +37,7 @@ function App() {
   }
 
   function handleCreateAccOpen() {
+    setCreateaccerror("");
     if (isCreateAccOpen) {
       setIsCreateAccOpen(false);
     } else {
@@ -68,10 +70,17 @@ function App() {
   }
 
   const handleOnSignInSubmit = async (signIn) => {
-    if (signIn.email === "" || signIn.password === "") {
-      setSigninerror("Please fill out all fields");
+    
+    if (!signIn.email|| !signIn.password ) {
+      setSigninerror("Please fill out all fields.");
       return;
     }
+
+    if (!signIn.email.includes("@") || !signIn.email.includes(".")) {
+      setSigninerror("Please enter a valid email.");
+      return;
+    }
+
     
     try {
       const resp = await axios.post(`${API_BASE_URL}/users/login`, signIn);
@@ -85,17 +94,16 @@ function App() {
       setHealthcareprovider(resp.data.healthcareprovider);
       setIsSignInOpen(false);
     } catch (err) {
-      setSigninerror ("Incorrect password. Please try again.");
+      setSigninerror ("Incorrect username/password. Please try again.");
     }
   };
 
   const handleOnCreateAccSubmit = async (createAcc) => {
-    
-    // catch common log in errors
-    if (createAcc.email === "" || createAcc.password === "") {
-      setCreateaccerror("Please fill out all fields");
+    if (!createAcc.firstname|| !createAcc.lastname|| !createAcc.email|| !createAcc.password|| !createAcc.draintype|| !createAcc.drainsite|| !createAcc.healthcareprovider) {
+      setCreateaccerror("Please fill out all fields.");
       return;
     }
+    
     if (createAcc.password.length < 8) {
       setCreateaccerror("Password must be at least 8 characters");
       return;
@@ -106,13 +114,11 @@ function App() {
         `${API_BASE_URL}/users/register`,
         createAcc
       );
-      setCreateaccerror("");
+      setCreateaccerror("Success! You can now sign in with your email and password.");
+      setCreateAcc({});
     } catch (err) {
-      setCreateaccerror("Email already exists. Please try again.");
+      setCreateaccerror("Account already exists for that email. Please try again.");
     }
-
-    setIsCreateAccOpen(false);
-    setCreateAcc({});
   };
 
   const handleOnLogOut = async () => {
