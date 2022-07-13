@@ -18,6 +18,7 @@ function SignIn({
         </button>
         <h1>Sign In!</h1>
         {signinerror ? <p className="error">{signinerror}</p> : null}
+        <h2>Fb placeholder</h2>
 
         <h2>E-mail</h2>
         <input

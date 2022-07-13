@@ -1,6 +1,6 @@
 import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Home from "../Home/Home";
 import Troubleshooting from "../Troubleshooting/Troubleshooting";
 import DataHome from "../DataHome/DataHome";
@@ -135,7 +135,7 @@ function App() {
     }
 
     try {
-      const resp = await axios.post(
+      await axios.post(
         `${API_BASE_URL}/users/register`,
         createAcc
       );
@@ -152,7 +152,7 @@ function App() {
 
   const handleOnLogOut = async () => {
     try {
-      const resp = await axios.post(`${API_BASE_URL}/users/logout`);
+      await axios.post(`${API_BASE_URL}/users/logout`);
       localStorage.removeItem("current_user_id")
       localStorage.removeItem("current_firstname")
       localStorage.removeItem("current_lastname")
@@ -161,11 +161,6 @@ function App() {
       localStorage.removeItem("current_healthcareprovider")
       axios.defaults.headers.common = {};
       setIsLoggedIn(false);
-      // setFirstName("");
-      // setLastName("");
-      // setEmail("");
-      // setDraintype("");
-      // setHealthcareprovider("");
     } catch (err) {
       console.log("err: ", err);
     }
