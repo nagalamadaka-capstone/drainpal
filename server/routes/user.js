@@ -86,15 +86,20 @@ router.post("/fblogin", async (req, res) => {
       );
       // Update state variable holding current user
       res.json(loggedInUser);
-      //   getCurrentUser();
       return true;
     } catch (error) {
       // Error can be caused by wrong parameters or lack of Internet connection
       console.log(`Error! ${error.message}`);
+      res.status(400).json({
+        message: error.message,
+      });
       return false;
     }
   } catch (error) {
     console.log("Error gathering Facebook user info, please try again!");
+    res.status(400).json({
+        message: "Error gathering Facebook user info, please try again!",
+    });
     return false;
   }
 });

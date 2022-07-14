@@ -19,31 +19,12 @@ function App() {
   const [troubleshooting, setTroubleshooting] = useState({});
   const [createaccerror, setCreateaccerror] = useState("");
   const [signinerror, setSigninerror] = useState("");
-  // const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(localStorage.getItem("current_user_id") !== null);
   const [firstName, setFirstName] = useState(localStorage.getItem("current_firstname"));
   const [lastName, setLastName] = useState(localStorage.getItem("current_lastname"));
   const [email, setEmail] = useState(localStorage.getItem("current_email"));
   const [draintype, setDraintype] = useState(localStorage.getItem("current_draintype"));
   const [healthcareprovider, setHealthcareprovider] = useState(localStorage.getItem("current_healthcareprovider"));
-
-//   useEffect(() => {
-//     window.fbAsyncInit = () => {
-//         window.FB.init({
-//             appId            : 'your-app-id',
-//             autoLogAppEvents : true,
-//             xfbml            : true,
-//             version          : 'v11.0'
-//         });
-//     };
-//     (function (d, s, id) {
-//         var js, fjs = d.getElementsByTagName(s)[0];
-//         if (d.getElementById(id)) { return; }
-//         js = d.createElement(s); js.id = id;
-//         js.src = "https://connect.facebook.net/en_US/sdk.js";
-//         fjs.parentNode.insertBefore(js, fjs);
-//     }(document, 'script', 'facebook-jssdk'));
-// }, []);
 
   const addAuthenticationHeader = () => {
     const currentUserId = localStorage.getItem("current_user_id")
@@ -74,6 +55,17 @@ function App() {
       setIsSignInOpen(false);
     }
   }
+
+  function handleOnDrainTypeChange(val){
+    localStorage.setItem("current_draintype", val)
+    setDraintype(val);
+  }
+
+  function handleOnHealthcareProviderChange(val){
+    localStorage.setItem("current_healthcareprovider", val)
+    setHealthcareprovider(val);
+  }
+
 
   function handleOnCreateAccFormChange(key, val) {
     let newForm = {
@@ -184,7 +176,7 @@ function App() {
       axios.defaults.headers.common = {};
       setIsLoggedIn(false);
     } catch (err) {
-      console.log("err: ", err);
+      
     }
   };
 
@@ -202,7 +194,7 @@ function App() {
     const [first, last] = fullName.split(' ');
     // Check if response has an error
     if (response.error !== undefined) {
-      console.log(`Error: ${response.error}`);
+      
       return false;
     } else {
       const infoUser = {
@@ -218,13 +210,22 @@ function App() {
           `${API_BASE_URL}/users/fblogin`,
           infoUser
         );
+        let user = loginInfo.data
+        localStorage.setItem("current_user_id", user["objectId"])
+        localStorage.setItem("current_firstname", formatString(first))
+        localStorage.setItem("current_lastname", formatString(last))
+        localStorage.setItem("current_email", infoUser.email)
+        localStorage.setItem("current_draintype", infoUser.draintype)
+        localStorage.setItem("current_healthcareprovider", infoUser.healthcareprovider)
+        addAuthenticationHeader()
+
         setIsLoggedIn(true);
         setFirstName(formatString(first));
         setLastName(formatString(last));
         setEmail(response.email);
         setIsSignInOpen(false);
       } catch (err) {
-        console.log("err: ", err);
+        
       }
     }
   };
@@ -292,6 +293,8 @@ function App() {
                   draintype={draintype}
                   healthcareprovider={healthcareprovider}
                   handleOnLogOut={handleOnLogOut}
+                  handleOnDrainTypeChange={handleOnDrainTypeChange}
+                  handleOnHealthcareProviderChange={handleOnHealthcareProviderChange}
                 />
               }
             />
