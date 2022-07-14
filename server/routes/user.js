@@ -13,13 +13,7 @@ Parse.serverURL = "https://parseapi.back4app.com/";
 router.post("/register", async (req, res) => {
   let infoUser = req.body;
   var user = new Parse.User();
-
-  //   try{
-  //     const hashedPassword = await bcrypt.hash(infoUser.password, 10);
-  //   }
-  //   catch{
-  //     res.status(400).send({error: "Password is not valid"});
-  //   }
+  //eventually will hash the password with bcrypt
 
   user.set("username", infoUser.email);
   user.set("password", infoUser.password);
@@ -117,6 +111,37 @@ router.post("/logout", async (req, res) => {
     });
   }
 });
+
+//changing profile info for users
+router.post("/changeprofile", async (req, res) => {
+    let [key, value, id] = req.body;
+    console.log('id: ', id);
+    console.log('value: ', value);
+    console.log('key: ', key);
+    var q = new Parse.Query(Parse.User);
+    q.get(id, {
+        success: function(user) {
+            user.set(key, value);
+            user.save(null, 
+                {
+                    success: function(user) {
+                        console.log("successfully updated user");
+                        res.status(200).json(user);
+                    }
+                }
+            );
+            res.status(200).json({
+                message: "Profile updated successfully",
+            });
+        },
+        error: function(error) {
+            console.log('error: ', error);
+            res.status(400).json({
+                message: error.message,
+            });
+        }
+    });
+    });
 
 //trying to get the current user
 router.get("/current", async (req, res) => {
