@@ -1,5 +1,7 @@
 import React from "react";
 import ".//SignIn.css";
+import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props';
+import { useEffect } from "react";
 
 function SignIn({
   signIn,
@@ -7,6 +9,7 @@ function SignIn({
   handleOnSignInFormChange,
   handleOnSignInSubmit,
   signinerror,
+  handleFacebookLoginResponse
 }) {
 
   return (
@@ -18,7 +21,18 @@ function SignIn({
         </button>
         <h1>Sign In!</h1>
         {signinerror ? <p className="error">{signinerror}</p> : null}
-        <h2>Fb placeholder</h2>
+        <div className="fblogin">
+          <FacebookLogin
+                appId="559495259206073"
+                fields="email, name"
+                callback={handleFacebookLoginResponse}
+                render={(renderProps) => (
+                  <div className="login-social-item login-social-item--facebook">
+                    <img onClick={renderProps.onClick}  className="login-social-item__image" src={'https://findicons.com/files/icons/2830/clean_social_icons/250/facebook.png'} alt=""/>
+                  </div>
+                )}
+              />
+        </div>
 
         <h2>E-mail</h2>
         <input

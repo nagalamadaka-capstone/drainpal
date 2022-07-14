@@ -19,7 +19,8 @@ function Home({
   handleOnCreateAccSubmit,
   firstName,
   createaccerror,
-  signinerror
+  signinerror,
+  handleFacebookLoginResponse
 }) {
   return (
     <div className="home">
@@ -36,6 +37,7 @@ function Home({
         handleOnCreateAccSubmit = {handleOnCreateAccSubmit}
         createaccerror = {createaccerror}
         signinerror = {signinerror}
+        handleFacebookLoginResponse = {handleFacebookLoginResponse}
       />
       <NavBar
         handleSignInOpen={handleSignInOpen}

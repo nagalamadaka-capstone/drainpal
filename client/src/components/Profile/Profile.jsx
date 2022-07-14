@@ -35,6 +35,7 @@ function Profile({
           <button className="add-drain">Add Drain!</button>
           <h2>Your health care provider</h2>
           <h3>{healthcareprovider}</h3>
+          <button className="add-drain">Add Healthcare Provider!</button>
           <Link to = "/">
           <button className="add-drain" type="button" onClick = {()=> handleOnLogOut()}>
             Log Out

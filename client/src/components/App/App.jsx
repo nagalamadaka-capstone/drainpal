@@ -1,6 +1,6 @@
 import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Home from "../Home/Home";
 import Troubleshooting from "../Troubleshooting/Troubleshooting";
 import DataHome from "../DataHome/DataHome";
@@ -26,6 +26,24 @@ function App() {
   const [email, setEmail] = useState(localStorage.getItem("current_email"));
   const [draintype, setDraintype] = useState(localStorage.getItem("current_draintype"));
   const [healthcareprovider, setHealthcareprovider] = useState(localStorage.getItem("current_healthcareprovider"));
+
+//   useEffect(() => {
+//     window.fbAsyncInit = () => {
+//         window.FB.init({
+//             appId            : 'your-app-id',
+//             autoLogAppEvents : true,
+//             xfbml            : true,
+//             version          : 'v11.0'
+//         });
+//     };
+//     (function (d, s, id) {
+//         var js, fjs = d.getElementsByTagName(s)[0];
+//         if (d.getElementById(id)) { return; }
+//         js = d.createElement(s); js.id = id;
+//         js.src = "https://connect.facebook.net/en_US/sdk.js";
+//         fjs.parentNode.insertBefore(js, fjs);
+//     }(document, 'script', 'facebook-jssdk'));
+// }, []);
 
   const addAuthenticationHeader = () => {
     const currentUserId = localStorage.getItem("current_user_id")
@@ -110,6 +128,10 @@ function App() {
       setDraintype(resp.data.draintype);
       setHealthcareprovider(resp.data.healthcareprovider);
       setIsSignInOpen(false);
+      setSignIn({
+        email: "",
+        password: "",
+      });
     } catch (err) {
       setSigninerror("Incorrect username/password. Please try again.");
     }
@@ -175,6 +197,38 @@ function App() {
     setTroubleshooting(newForm);
   }
 
+  const handleFacebookLoginResponse = async function (response) {
+    var fullName = response.name;
+    const [first, last] = fullName.split(' ');
+    // Check if response has an error
+    if (response.error !== undefined) {
+      console.log(`Error: ${response.error}`);
+      return false;
+    } else {
+      const infoUser = {
+        id: response.id,
+        email: response.email,
+        password: response.id,
+        accessToken : response.accessToken,
+        firstname: first,
+        lastname: last,
+      }
+      try {
+        const loginInfo = await axios.post(
+          `${API_BASE_URL}/users/fblogin`,
+          infoUser
+        );
+        setIsLoggedIn(true);
+        setFirstName(formatString(first));
+        setLastName(formatString(last));
+        setEmail(response.email);
+        setIsSignInOpen(false);
+      } catch (err) {
+        console.log("err: ", err);
+      }
+    }
+  };
+
   function formatString(str) {
     let finalString = str.charAt(0).toUpperCase() + str.slice(1);
     return finalString;
@@ -203,6 +257,7 @@ function App() {
                   firstName={firstName}
                   createaccerror={createaccerror}
                   signinerror={signinerror}
+                  handleFacebookLoginResponse={handleFacebookLoginResponse}
                 />
               }
             />

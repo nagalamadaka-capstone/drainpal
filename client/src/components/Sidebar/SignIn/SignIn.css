@@ -52,3 +52,33 @@
     top: 10px;
     right: 9px;
 }
+
+.fblogin{
+    margin-top: 10px;
+}
+
+.login-social {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 30px;
+  }
+  
+  .login-social-item {
+    width: 54px;
+    height: 54px;
+    border-radius: 54px;
+    padding: 12px;
+    margin: 5 12px;
+    border: 1px solid #e6e6e6;
+    /* box-shadow: 0 2px 4px #d6d6d6; */
+  }
+  
+  .login-social-item--facebook {
+    padding: 5px;
+    background-color: #3C5B9B;
+  }
+  
+  .login-social-item__image {
+    width: 100%;
+  }
+  
