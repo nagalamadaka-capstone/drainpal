@@ -16,16 +16,23 @@ function Profile({
   handleOnLogOut,
   handleOnHealthcareProviderChange,
   handleOnDrainTypeChange,
+  handleProfileInfoChange,
 }) {
 
     const [isDrainTypeOpen, setIsDrainTypeOpen] = useState(false);
     const [isHealthcareProviderOpen, setIsHealthcareProviderOpen] = useState(false);
 
     const handleOnDrainTypeClick = () => {
-        setIsDrainTypeOpen(!isDrainTypeOpen);
+        if (isDrainTypeOpen) {
+            handleProfileInfoChange("current_draintype", draintype);
+        }
+        setIsDrainTypeOpen(!isDrainTypeOpen); 
     }
 
     const handleOnHealthcareProviderClick = () => {
+        if (isHealthcareProviderOpen) {
+            handleProfileInfoChange("current_healthcareprovider", healthcareprovider);
+        }
         setIsHealthcareProviderOpen(!isHealthcareProviderOpen);
     }
 
@@ -56,7 +63,9 @@ function Profile({
                 </select>
             </div>
             : null}
-          <button className="add-drain" onClick = {() => handleOnDrainTypeClick()}>Add Drain!</button>
+          <button className="add-drain" onClick = {() => handleOnDrainTypeClick()}>
+            {isDrainTypeOpen ? "Save" : "Add/Edit Drain Type"}
+            </button>
           <h2>Your health care provider</h2>
           <h3>{healthcareprovider}</h3>
           {isHealthcareProviderOpen ?  
@@ -65,7 +74,9 @@ function Profile({
           }}/>
             : 
             null}
-          <button className="add-drain" onClick = {() => handleOnHealthcareProviderClick()}>Add Healthcare Provider!</button>
+          <button className="add-drain" onClick = {() => handleOnHealthcareProviderClick()}>
+            {isHealthcareProviderOpen ? "Save" : "Add/Edit Healthcare Provider"}
+            </button>
           <Link to = "/">
           <button className="add-drain" type="button" onClick = {()=> handleOnLogOut()}>
             Log Out

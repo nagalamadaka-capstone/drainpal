@@ -6,7 +6,7 @@ var Parse = require("parse/node");
 Parse.initialize(
   "FYm3VuO0u2fZehFsYlcKZSuloKs5Bf75EBJUhGf7",
   "CWltjX0VqknaSsdHrgoTjVWhCDGrUGINIO6dEqUB"
-); //PASTE HERE YOUR Back4App APPLICATION ID AND YOUR JavaScript KEY
+);
 Parse.serverURL = "https://parseapi.back4app.com/";
 
 // Register the user passing the username, password and email
@@ -69,30 +69,24 @@ router.post("/fblogin", async (req, res) => {
     userToLogin.set("email", userEmail);
 
     try {
-
       let loggedInUser = await userToLogin.linkWith("facebook", {
         authData: { id: userId, access_token: userAccessToken },
       });
-      console.log(
-        `Success! User ${loggedInUser.get(
-          "username"
-        )} has successfully signed in!`
-      );
+
       // Update state variable holding current user
       res.json(loggedInUser);
       return true;
     } catch (error) {
       // Error can be caused by wrong parameters or lack of Internet connection
-      console.log(`Error! ${error.message}`);
+
       res.status(400).json({
         message: error.message,
       });
       return false;
     }
   } catch (error) {
-    console.log("Error gathering Facebook user info, please try again!");
     res.status(400).json({
-        message: "Error gathering Facebook user info, please try again!",
+      message: "Error gathering Facebook user info, please try again!",
     });
     return false;
   }
@@ -114,48 +108,22 @@ router.post("/logout", async (req, res) => {
 
 //changing profile info for users
 router.post("/changeprofile", async (req, res) => {
-    let [key, value, id] = req.body;
-    console.log('id: ', id);
-    console.log('value: ', value);
-    console.log('key: ', key);
-    var q = new Parse.Query(Parse.User);
-    q.get(id, {
-        success: function(user) {
-            user.set(key, value);
-            user.save(null, 
-                {
-                    success: function(user) {
-                        console.log("successfully updated user");
-                        res.status(200).json(user);
-                    }
-                }
-            );
-            res.status(200).json({
-                message: "Profile updated successfully",
-            });
-        },
-        error: function(error) {
-            console.log('error: ', error);
-            res.status(400).json({
-                message: error.message,
-            });
-        }
-    });
-    });
-
-//trying to get the current user
-router.get("/current", async (req, res) => {
-  console.log("entered post");
-  try {
-    let user = await Parse.User.current();
-    console.log("user: ", user);
-
-    res.status(200).json(user);
-  } catch (error) {
-    res.status(400).json({
-      message: error.message,
-    });
-  }
+  let info = req.body;
+  let id = info.id;
+  let value = info.value;
+  let key = info.key;
+  const params1 = { objectId: id, key: key, value: value };
+  const editedUser = await Parse.Cloud.run("editUserProperty", params1);
 });
+
+//getting profile info for users
+router.post("/getprofileinfo", async (req, res) => {
+    let info = req.body;
+    let key = info.key;
+    let id = info.id;
+    const q = new Parse.Query(Parse.User);
+}
+);
+
 
 module.exports = router;
