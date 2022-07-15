@@ -77,12 +77,21 @@ function App() {
   }
 
   const getProfileInfo = async (key, id) => {
-    const response = await axios.get(`${API_BASE_URL}/users/getprofileinfo}`, {
-      key: key,
-      id: id,
-      });
-    console.log('response: ', response);
-    console.log('response data: ', response.data);
+    let info = {"key": key,
+      "id": id,
+      }
+
+      try{
+        const response = await axios.get(`${API_BASE_URL}/users/getprofileinfo`, info);
+        
+        console.log('response: ', response);
+        console.log('response data: ', response.data);
+      }
+      catch(err){
+        console.log(err);
+      }
+
+    
   }
     
 
@@ -260,6 +269,9 @@ function App() {
         localStorage.setItem("current_firstname", formatString(first));
         localStorage.setItem("current_lastname", formatString(last));
         localStorage.setItem("current_email", infoUser.email);
+        await getProfileInfo("draintype", localStorage.getItem("current_user_id"));
+        // getProfileInfo("healthcareprovider", localStorage.getItem("current_user_id"));
+
         // localStorage.setItem("current_draintype", "none");
         // localStorage.setItem(
         //   "current_healthcareprovider",

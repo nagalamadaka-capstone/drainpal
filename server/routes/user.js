@@ -117,11 +117,20 @@ router.post("/changeprofile", async (req, res) => {
 });
 
 //getting profile info for users
-router.post("/getprofileinfo", async (req, res) => {
+router.get("/getprofileinfo", async (req, res) => {
+    console.log(req)
     let info = req.body;
+    console.log('info: ', info);
     let key = info.key;
+    console.log('key: ', key);
     let id = info.id;
-    const q = new Parse.Query(Parse.User);
+    console.log('id: ', id);
+    // const q = new Parse.Query(Parse.User);
+    var query = new Parse.Query(Parse.User);
+    let user = query.get(id);
+    // let draintype = user.get("draintype");
+    console.log('user: ', user);
+    // res.send({ draintype: draintype });
 }
 );
 
