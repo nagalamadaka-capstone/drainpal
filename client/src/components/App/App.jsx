@@ -77,21 +77,15 @@ function App() {
   }
 
   const getProfileInfo = async (key, id) => {
-    let info = {"key": key,
-      "id": id,
-      }
 
       try{
-        const response = await axios.get(`${API_BASE_URL}/users/getprofileinfo`, info);
+        const response = await axios.get(`${API_BASE_URL}/users/getprofileinfo`, {params: {key, id}});
         
-        console.log('response: ', response);
-        console.log('response data: ', response.data);
+        return response.data.key;
       }
       catch(err){
-        console.log(err);
+        
       }
-
-    
   }
     
 
@@ -119,7 +113,6 @@ function App() {
 
     }
     catch(err){
-      console.log(err);
     }
   }
 
@@ -244,7 +237,7 @@ function App() {
   }
 
   const handleFacebookLoginResponse = async function (response) {
-    console.log("fblogin")
+    
     var fullName = response.name;
     const [first, last] = fullName.split(" ");
     if (response.error !== undefined) {
@@ -263,20 +256,20 @@ function App() {
           `${API_BASE_URL}/users/fblogin`,
           infoUser
         );
-        console.log('loginInfo: ', loginInfo);
+        
         let user = loginInfo.data;
         localStorage.setItem("current_user_id", user["objectId"]);
         localStorage.setItem("current_firstname", formatString(first));
         localStorage.setItem("current_lastname", formatString(last));
         localStorage.setItem("current_email", infoUser.email);
-        await getProfileInfo("draintype", localStorage.getItem("current_user_id"));
-        // getProfileInfo("healthcareprovider", localStorage.getItem("current_user_id"));
+        const currDrain = await getProfileInfo("draintype", localStorage.getItem("current_user_id"));
+        const currHealthcareprovider = await getProfileInfo("healthcareprovider", localStorage.getItem("current_user_id"));
 
-        // localStorage.setItem("current_draintype", "none");
-        // localStorage.setItem(
-        //   "current_healthcareprovider",
-        //   "none"
-        // );
+        localStorage.setItem("current_draintype", currDrain);
+        localStorage.setItem(
+          "current_healthcareprovider",
+          currHealthcareprovider
+        );
         handleProfileInfoChange("firstname", first);
         handleProfileInfoChange("lastname", last);
         handleProfileInfoChange("email", infoUser.email);
@@ -286,9 +279,9 @@ function App() {
         setFirstName(formatString(first));
         setLastName(formatString(last));
         setEmail(response.email);
-        // setDraintype(localStorage.getItem("current_draintype"));
-        // setHealthcareprovider(
-        //   localStorage.getItem("current_healthcareprovider"));
+        setDraintype(localStorage.getItem("current_draintype"));
+        setHealthcareprovider(
+          localStorage.getItem("current_healthcareprovider"));
         setIsSignInOpen(false);
       } catch (err) {}
     }

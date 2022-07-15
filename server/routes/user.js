@@ -11,7 +11,7 @@ Parse.serverURL = "https://parseapi.back4app.com/";
 
 // Register the user passing the username, password and email
 router.post("/register", async (req, res) => {
-  let infoUser = req.body;
+  const infoUser = req.body;
   var user = new Parse.User();
   //eventually will hash the password with bcrypt
 
@@ -39,10 +39,10 @@ router.post("/register", async (req, res) => {
 
 //trying to login
 router.post("/login", async (req, res) => {
-  let infoUser = req.body;
+  const infoUser = req.body;
 
   try {
-    let user = await Parse.User.logIn(infoUser.email, infoUser.password);
+    const user = await Parse.User.logIn(infoUser.email, infoUser.password);
     res.status(200).json(user);
   } catch (error) {
     res.status(400).json({
@@ -53,7 +53,7 @@ router.post("/login", async (req, res) => {
 
 //login with fb
 router.post("/fblogin", async (req, res) => {
-  let infoUser = req.body;
+  const infoUser = req.body;
   try {
     // Gather Facebook user info
     const userId = infoUser.id;
@@ -69,7 +69,7 @@ router.post("/fblogin", async (req, res) => {
     userToLogin.set("email", userEmail);
 
     try {
-      let loggedInUser = await userToLogin.linkWith("facebook", {
+      const loggedInUser = await userToLogin.linkWith("facebook", {
         authData: { id: userId, access_token: userAccessToken },
       });
 
@@ -108,31 +108,25 @@ router.post("/logout", async (req, res) => {
 
 //changing profile info for users
 router.post("/changeprofile", async (req, res) => {
-  let info = req.body;
-  let id = info.id;
-  let value = info.value;
-  let key = info.key;
+  const info = req.body;
+  const id = info.id;
+  const value = info.value;
+  const key = info.key;
   const params1 = { objectId: id, key: key, value: value };
   const editedUser = await Parse.Cloud.run("editUserProperty", params1);
 });
 
 //getting profile info for users
 router.get("/getprofileinfo", async (req, res) => {
-    console.log(req)
-    let info = req.body;
-    console.log('info: ', info);
-    let key = info.key;
-    console.log('key: ', key);
-    let id = info.id;
-    console.log('id: ', id);
-    // const q = new Parse.Query(Parse.User);
-    var query = new Parse.Query(Parse.User);
-    let user = query.get(id);
-    // let draintype = user.get("draintype");
-    console.log('user: ', user);
-    // res.send({ draintype: draintype });
-}
-);
+  const info = req.query;
+  const key = info.key;
+  const id = info.id;
 
+  var query = new Parse.Query(Parse.User);
+  const user = query.get(id);
+  let attribute = (await user).attributes[key];
+
+  res.send({ key: attribute });
+});
 
 module.exports = router;
