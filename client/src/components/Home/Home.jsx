@@ -20,7 +20,8 @@ function Home({
   firstName,
   createaccerror,
   signinerror,
-  handleFacebookLoginResponse
+  handleFacebookLoginResponse,
+  articles
 }) {
   return (
     <div className="home">
@@ -51,7 +52,17 @@ function Home({
           isLoggedIn={isLoggedIn}
           firstName={firstName}
         />
-        <GeneralInfo />
+        <div className="generalInfoWrapper">
+            {articles.map(article => {
+            return (
+                <GeneralInfo
+                article={article}
+            />
+            )
+            }
+            )}
+        </div>
+        
       </div>
     </div>
   );

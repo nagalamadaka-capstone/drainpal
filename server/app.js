@@ -3,15 +3,15 @@ const morgan = require('morgan');
 const bodyParser = require('body-parser');
 const app = express();
 const cors = require("cors")
-const drainpal = require('./routes/drainpal');
 const userRoute = require('./routes/user');
+const articlesRoute = require('./routes/articles');
 const {NotFoundError} = require('./utils/error');
 
 app.use(bodyParser.json());
 app.use(morgan('tiny'));
 app.use(cors())
-app.use('/drainpal', drainpal);
 app.use('/users', userRoute);
+app.use('/articles', articlesRoute);
 
 app.get('/', (req, res) => {
     console.log("this works")
