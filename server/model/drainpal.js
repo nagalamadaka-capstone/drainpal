@@ -55,7 +55,6 @@ class DrainModel {
                 return error;
             });
         
-        // const articles = storage.get("articles").value();
          return {articles};
 
         }
@@ -66,11 +65,25 @@ class DrainModel {
     }
 
     static async fetchArticleById(id){
-        const article = storage.get("articles").find({id}).value();
-        if(!article){
-            throw new BadRequestError("Article not found");
+        let articles = Parse.Object.extend("Articles");
+        var query = new Parse.Query(articles);
+        const article = query.get(id);
+        let newArticle = {
+            id: id,
+            title: (await article).attributes["Title"],
+            body: (await article).attributes["Body"],
+            description: (await article).attributes["Description"],
+            header1: (await article).attributes["Header1"],
+            header2: (await article).attributes["Header2"],
+            header3: (await article).attributes["Header3"],
+            header4: (await article).attributes["Header4"],
+            body2 : (await article).attributes["Body2"],
+            body3 : (await article).attributes["Body3"],
+            body4: (await article).attributes["Body4"],
+            body5: (await article).attributes["Body5"],
         }
-        return {article};
+        console.log('newArticle: ', newArticle);
+        return newArticle;
     }
 
 }

@@ -23,6 +23,7 @@ router.get('/', async (req, res, next) => {
                 let article = results[i];
                 let newArticle = {
                     id: article.id,
+                    key: article.id,
                     title: article.get("Title"),
                     body: article.get("Body"),
                     description: article.get("Description"),
@@ -49,11 +50,27 @@ router.get('/', async (req, res, next) => {
 router.get('/:articleId', async (req, res, next) => {
     try{
         const articleId = req.params.articleId;
-        const article = await DrainModel.fetchArticleById(articleId);
+        let articles = Parse.Object.extend("Articles");
+        var query = new Parse.Query(articles);
+        const article = query.get(articleId);
+        let newArticle = {
+            id: articleId,
+            title: (await article).attributes["Title"],
+            body: (await article).attributes["Body"],
+            description: (await article).attributes["Description"],
+            header1: (await article).attributes["Header1"],
+            header2: (await article).attributes["Header2"],
+            header3: (await article).attributes["Header3"],
+            header4: (await article).attributes["Header4"],
+            body2 : (await article).attributes["Body2"],
+            body3 : (await article).attributes["Body3"],
+            body4: (await article).attributes["Body4"],
+            body5: (await article).attributes["Body5"],
+        }
         if (!article) {
             throw new NotFoundError('Article not found');
         }
-        res.status(200).json({"article": article})
+        res.status(200).send({"article": newArticle})
     }
     catch (err){
         next(err);
