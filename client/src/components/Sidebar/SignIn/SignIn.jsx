@@ -1,6 +1,7 @@
 import React from "react";
 import ".//SignIn.css";
 import FacebookLogin from "react-facebook-login/dist/facebook-login-render-props";
+import {FBAPPID} from "../../../securitykeys";
 
 function SignIn({
   signIn,
@@ -22,7 +23,7 @@ function SignIn({
         <div className="fblogin">
           <h3>Sign in with Facebook by clicking on the icon.</h3>
           <FacebookLogin
-            appId="559495259206073"
+            appId={FBAPPID}
             fields="email, name"
             callback={handleFacebookLoginResponse}
             render={(renderProps) => (

@@ -2,10 +2,12 @@ const express = require("express");
 const router = express.Router();
 const bcrypt = require("bcrypt");
 var Parse = require("parse/node");
+const BACK4APPKEY = require("../../client/src/securitykeys").BACK4APPKEY;
+const BACK4APPSECRET = require("../../client/src/securitykeys").BACK4APPSECRET;
 
 Parse.initialize(
-  "FYm3VuO0u2fZehFsYlcKZSuloKs5Bf75EBJUhGf7",
-  "CWltjX0VqknaSsdHrgoTjVWhCDGrUGINIO6dEqUB"
+  BACK4APPKEY,
+  BACK4APPSECRET
 );
 Parse.serverURL = "https://parseapi.back4app.com/";
 

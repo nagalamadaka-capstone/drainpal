@@ -77,14 +77,11 @@ function App() {
   }
 
   const getProfileInfo = async (key, id) => {
-
       try{
         const response = await axios.get(`${API_BASE_URL}/users/getprofileinfo`, {params: {key, id}});
-        
         return response.data.key;
       }
       catch(err){
-        
       }
   }
     
@@ -110,7 +107,6 @@ function App() {
         value: value,
         id: localStorage.getItem("current_user_id"),
         });
-
     }
     catch(err){
     }
