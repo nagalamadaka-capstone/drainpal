@@ -16,6 +16,7 @@ function CreateAcc({
           &rarr;
         </button>
         <h1>Create A New Account!</h1>
+        <h2>or Sign in with Facebook.</h2>
         {createaccerror ? <p className="error">{createaccerror}</p> : null}
 
         <h2>First Name</h2>

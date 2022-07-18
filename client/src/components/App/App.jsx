@@ -19,23 +19,32 @@ function App() {
   const [troubleshooting, setTroubleshooting] = useState({});
   const [createaccerror, setCreateaccerror] = useState("");
   const [signinerror, setSigninerror] = useState("");
-  // const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(localStorage.getItem("current_user_id") !== null);
-  const [firstName, setFirstName] = useState(localStorage.getItem("current_firstname"));
-  const [lastName, setLastName] = useState(localStorage.getItem("current_lastname"));
+  const [isLoggedIn, setIsLoggedIn] = useState(
+    localStorage.getItem("current_user_id") !== null
+  );
+  const [firstName, setFirstName] = useState(
+    localStorage.getItem("current_firstname")
+  );
+  const [lastName, setLastName] = useState(
+    localStorage.getItem("current_lastname")
+  );
   const [email, setEmail] = useState(localStorage.getItem("current_email"));
-  const [draintype, setDraintype] = useState(localStorage.getItem("current_draintype"));
-  const [healthcareprovider, setHealthcareprovider] = useState(localStorage.getItem("current_healthcareprovider"));
+  const [draintype, setDraintype] = useState(
+    localStorage.getItem("current_draintype")
+  );
+  const [healthcareprovider, setHealthcareprovider] = useState(
+    localStorage.getItem("current_healthcareprovider")
+  );
 
   const addAuthenticationHeader = () => {
-    const currentUserId = localStorage.getItem("current_user_id")
+    const currentUserId = localStorage.getItem("current_user_id");
     if (currentUserId !== null) {
       axios.defaults.headers.common = {
-        "current_user_id": currentUserId
+        current_user_id: currentUserId,
       };
     }
-  }
-  addAuthenticationHeader()
+  };
+  addAuthenticationHeader();
 
   function handleSignInOpen() {
     setSigninerror("");
@@ -54,6 +63,52 @@ function App() {
     } else {
       setIsCreateAccOpen(true);
       setIsSignInOpen(false);
+    }
+  }
+
+  function handleOnDrainTypeChange(val) {
+    localStorage.setItem("current_draintype", val);
+    setDraintype(val);
+  }
+
+  function handleOnHealthcareProviderChange(val) {
+    localStorage.setItem("current_healthcareprovider", val);
+    setHealthcareprovider(val);
+  }
+
+  const getProfileInfo = async (key, id) => {
+      try{
+        const response = await axios.get(`${API_BASE_URL}/users/getprofileinfo`, {params: {key, id}});
+        return response.data.key;
+      }
+      catch(err){
+      }
+  }
+    
+
+  const handleProfileInfoChange = async (key, value) => {
+    var realKey = key.replace("current_", "");
+    localStorage.setItem(key, value);
+    if (key === "current_firstname") {
+      setFirstName(value);
+    } else if (key === "current_lastname") {
+      setLastName(value);
+    } else if (key === "current_email") {
+      setEmail(value);
+    } else if (key === "current_draintype") {
+      setDraintype(value);
+    } else {
+      setHealthcareprovider(value);
+    }
+
+    try{
+      await axios.post(`${API_BASE_URL}/users/changeprofile`, {
+        key: realKey,
+        value: value,
+        id: localStorage.getItem("current_user_id"),
+        });
+    }
+    catch(err){
     }
   }
 
@@ -93,14 +148,17 @@ function App() {
 
     try {
       const resp = await axios.post(`${API_BASE_URL}/users/login`, signIn);
-      let user = resp.data
-      localStorage.setItem("current_user_id", user["objectId"])
-      localStorage.setItem("current_firstname", formatString(user.firstname))
-      localStorage.setItem("current_lastname", formatString(user.lastname))
-      localStorage.setItem("current_email", user.email)
-      localStorage.setItem("current_draintype", user.draintype)
-      localStorage.setItem("current_healthcareprovider", user.healthcareprovider)
-      addAuthenticationHeader()
+      let user = resp.data;
+      localStorage.setItem("current_user_id", user["objectId"]);
+      localStorage.setItem("current_firstname", formatString(user.firstname));
+      localStorage.setItem("current_lastname", formatString(user.lastname));
+      localStorage.setItem("current_email", user.email);
+      localStorage.setItem("current_draintype", user.draintype);
+      localStorage.setItem(
+        "current_healthcareprovider",
+        user.healthcareprovider
+      );
+      addAuthenticationHeader();
 
       setIsLoggedIn(true);
       setSigninerror("");
@@ -110,6 +168,10 @@ function App() {
       setDraintype(resp.data.draintype);
       setHealthcareprovider(resp.data.healthcareprovider);
       setIsSignInOpen(false);
+      setSignIn({
+        email: "",
+        password: "",
+      });
     } catch (err) {
       setSigninerror("Incorrect username/password. Please try again.");
     }
@@ -135,10 +197,7 @@ function App() {
     }
 
     try {
-      const resp = await axios.post(
-        `${API_BASE_URL}/users/register`,
-        createAcc
-      );
+      await axios.post(`${API_BASE_URL}/users/register`, createAcc);
       setCreateaccerror(
         "Success! You can now sign in with your email and password."
       );
@@ -152,23 +211,16 @@ function App() {
 
   const handleOnLogOut = async () => {
     try {
-      const resp = await axios.post(`${API_BASE_URL}/users/logout`);
-      localStorage.removeItem("current_user_id")
-      localStorage.removeItem("current_firstname")
-      localStorage.removeItem("current_lastname")
-      localStorage.removeItem("current_email")
-      localStorage.removeItem("current_draintype")
-      localStorage.removeItem("current_healthcareprovider")
+      await axios.post(`${API_BASE_URL}/users/logout`);
+      localStorage.removeItem("current_user_id");
+      localStorage.removeItem("current_firstname");
+      localStorage.removeItem("current_lastname");
+      localStorage.removeItem("current_email");
+      localStorage.removeItem("current_draintype");
+      localStorage.removeItem("current_healthcareprovider");
       axios.defaults.headers.common = {};
       setIsLoggedIn(false);
-      // setFirstName("");
-      // setLastName("");
-      // setEmail("");
-      // setDraintype("");
-      // setHealthcareprovider("");
-    } catch (err) {
-      console.log("err: ", err);
-    }
+    } catch (err) {}
   };
 
   function handleOnTroubleshootingChange(key, val) {
@@ -179,6 +231,57 @@ function App() {
     newForm[key] = val;
     setTroubleshooting(newForm);
   }
+
+  const handleFacebookLoginResponse = async function (response) {
+    
+    var fullName = response.name;
+    const [first, last] = fullName.split(" ");
+    if (response.error !== undefined) {
+      return false;
+    } else {
+      const infoUser = {
+        id: response.id,
+        email: response.email,
+        password: response.id,
+        accessToken: response.accessToken,
+        firstname: first,
+        lastname: last,
+      };
+      try {
+        const loginInfo = await axios.post(
+          `${API_BASE_URL}/users/fblogin`,
+          infoUser
+        );
+        
+        let user = loginInfo.data;
+        localStorage.setItem("current_user_id", user["objectId"]);
+        localStorage.setItem("current_firstname", formatString(first));
+        localStorage.setItem("current_lastname", formatString(last));
+        localStorage.setItem("current_email", infoUser.email);
+        const currDrain = await getProfileInfo("draintype", localStorage.getItem("current_user_id"));
+        const currHealthcareprovider = await getProfileInfo("healthcareprovider", localStorage.getItem("current_user_id"));
+
+        localStorage.setItem("current_draintype", currDrain);
+        localStorage.setItem(
+          "current_healthcareprovider",
+          currHealthcareprovider
+        );
+        handleProfileInfoChange("firstname", first);
+        handleProfileInfoChange("lastname", last);
+        handleProfileInfoChange("email", infoUser.email);
+        addAuthenticationHeader();
+
+        setIsLoggedIn(true);
+        setFirstName(formatString(first));
+        setLastName(formatString(last));
+        setEmail(response.email);
+        setDraintype(localStorage.getItem("current_draintype"));
+        setHealthcareprovider(
+          localStorage.getItem("current_healthcareprovider"));
+        setIsSignInOpen(false);
+      } catch (err) {}
+    }
+  };
 
   function formatString(str) {
     let finalString = str.charAt(0).toUpperCase() + str.slice(1);
@@ -208,6 +311,7 @@ function App() {
                   firstName={firstName}
                   createaccerror={createaccerror}
                   signinerror={signinerror}
+                  handleFacebookLoginResponse={handleFacebookLoginResponse}
                 />
               }
             />
@@ -242,6 +346,11 @@ function App() {
                   draintype={draintype}
                   healthcareprovider={healthcareprovider}
                   handleOnLogOut={handleOnLogOut}
+                  handleOnDrainTypeChange={handleOnDrainTypeChange}
+                  handleOnHealthcareProviderChange={
+                    handleOnHealthcareProviderChange
+                  }
+                  handleProfileInfoChange = {handleProfileInfoChange}
                 />
               }
             />

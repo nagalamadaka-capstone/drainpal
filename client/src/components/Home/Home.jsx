@@ -4,7 +4,6 @@ import "./Home.css";
 import GeneralInfo from "./GeneralInfo/GeneralInfo";
 import NavBar from "../NavBar/NavBar";
 import Sidebar from "../Sidebar/Sidebar";
-import { useParams } from "react-router-dom";
 
 function Home({
   handleSignInOpen,
@@ -20,7 +19,8 @@ function Home({
   handleOnCreateAccSubmit,
   firstName,
   createaccerror,
-  signinerror
+  signinerror,
+  handleFacebookLoginResponse
 }) {
   return (
     <div className="home">
@@ -37,6 +37,7 @@ function Home({
         handleOnCreateAccSubmit = {handleOnCreateAccSubmit}
         createaccerror = {createaccerror}
         signinerror = {signinerror}
+        handleFacebookLoginResponse = {handleFacebookLoginResponse}
       />
       <NavBar
         handleSignInOpen={handleSignInOpen}

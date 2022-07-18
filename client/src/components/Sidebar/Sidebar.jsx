@@ -15,7 +15,8 @@ function Sidebar({
   handleOnSignInSubmit,
   handleOnCreateAccSubmit,
   createaccerror,
-  signinerror
+  signinerror,
+  handleFacebookLoginResponse
 }) {
   return (
     <aside
@@ -42,6 +43,7 @@ function Sidebar({
           handleOnSignInFormChange={handleOnSignInFormChange}
           handleSignInOpen={handleSignInOpen}
           signinerror={signinerror}
+          handleFacebookLoginResponse={handleFacebookLoginResponse}
         />
       ) : null}
     </aside>

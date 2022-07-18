@@ -1,7 +1,6 @@
 import React from "react";
 import "./Banner.css";
 import { Link } from "react-router-dom";
-import { useParams } from "react-router-dom";
 
 function Banner({
   handleSignInOpen,
