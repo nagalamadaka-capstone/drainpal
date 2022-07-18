@@ -7,6 +7,7 @@ import DataHome from "../DataHome/DataHome";
 import Profile from "../Profile/Profile";
 import DataLog from "../DataHome/DataLog/DataLog";
 import LogSymptoms from "../DataHome/DataLog/LogSymptoms/LogSymptoms";
+import ArticleView from "../ArticleView/ArticleView";
 import "./App.css";
 import axios from "axios";
 const API_BASE_URL = "http://localhost:3001";
@@ -35,6 +36,14 @@ function App() {
   const [healthcareprovider, setHealthcareprovider] = useState(
     localStorage.getItem("current_healthcareprovider")
   );
+  const [articles, setArticles] = useState([]);
+
+  useEffect (() => {
+    axios.get(`${API_BASE_URL}/articles/`).then(res => {     
+      setArticles(res.data.newArticles);
+    }
+    );
+  }, []);
 
   const addAuthenticationHeader = () => {
     const currentUserId = localStorage.getItem("current_user_id");
@@ -312,6 +321,7 @@ function App() {
                   createaccerror={createaccerror}
                   signinerror={signinerror}
                   handleFacebookLoginResponse={handleFacebookLoginResponse}
+                  articles = {articles}
                 />
               }
             />
@@ -386,7 +396,13 @@ function App() {
                 />
               }
             />
-            <Route path="/:email:password" element={null} />
+            <Route path="/articles/:articleid" element={
+              <ArticleView
+                isLoggedIn={isLoggedIn}
+                handleSignInOpen={handleSignInOpen}
+                handleCreateAccOpen={handleCreateAccOpen}
+              />
+            } />
           </Routes>
         </div>
       </BrowserRouter>

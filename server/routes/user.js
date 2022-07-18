@@ -115,7 +115,7 @@ router.post("/changeprofile", async (req, res) => {
   const value = info.value;
   const key = info.key;
   const params1 = { objectId: id, key: key, value: value };
-  const editedUser = await Parse.Cloud.run("editUserProperty", params1);
+  await Parse.Cloud.run("editUserProperty", params1);
 });
 
 //getting profile info for users

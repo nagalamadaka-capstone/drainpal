@@ -1,21 +1,16 @@
 import React from 'react'
 import "./GeneralInfo.css"
+import { Link } from "react-router-dom";
 
-function GeneralInfo() {
+function GeneralInfo({article}) {
+  
+
+
   return (
-    <div className='generalInfo'>
-      <div className="palliativeCare">
-        <h3>What is Palliative Care and how can it help me?</h3>
-        <button className='readMore'> Read More &rarr; </button>
-      </div>
-      <div className="pcnCare">
-        <h3>How to care for your percutaneous nephrostomy tube!</h3>
-        <button className='readMore'> Read More &rarr; </button>
-      </div>
-      <div className="biliaryCare">
-        <h3>How to care for your biliary drain!</h3>
-        <button className='readMore'> Read More &rarr; </button>
-      </div>
+    <div class="article">
+        <h3>{article.title}</h3>
+        <p>{article.description}</p>
+        <Link to="/articles/"><button className='readMore'> Read More &rarr; </button></Link>
     </div>
   )
 }

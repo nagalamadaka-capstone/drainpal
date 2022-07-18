@@ -1,27 +1,18 @@
-.generalInfo{
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    border-radius: 20px;
-    background-color: rgb(222, 222, 222);
-    font-family: 'Work Sans', sans-serif;
-    max-width: 1000px;
-    margin: auto;
-}
-
-.palliativeCare, .pcnCare, .biliaryCare{
+.article{
     margin: 10%;
     background-color: #C6D6B9;
     border-radius: 20px;
     padding: 20px;
+    min-height: 280px;
 }
 
-.palliativeCare:hover, .pcnCare:hover, .biliaryCare:hover{
+.article:hover{
     background-color: #E5E5E5;
     transition: all .4s ease-out;
 
 }
 
-.palliativeCare h3, .pcnCare h3, .biliaryCare h3{
+.article h3{
     font-weight: 500;
     font-size: 20px;
 
@@ -39,9 +30,9 @@
 }
 
 .readMore:hover{
-    background-color: lightgray;
+    background-color: rgba(42, 63, 38, 0.65);
     transform: translate(0, 2px);
-    color: black;
+    color: white;
 }
 
 
