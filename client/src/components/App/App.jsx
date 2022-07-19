@@ -340,6 +340,7 @@ function App() {
                   isCreateAccOpen={isCreateAccOpen}
                   handleOnSignInSubmit={handleOnSignInSubmit}
                   handleOnCreateAccSubmit={handleOnCreateAccSubmit}
+                  userId = {localStorage.getItem("current_user_id")}
                 />
               }
             />
