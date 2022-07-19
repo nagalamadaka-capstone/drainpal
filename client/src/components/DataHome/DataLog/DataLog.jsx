@@ -141,6 +141,7 @@ function DataLog({ handleSignInOpen, handleCreateAccOpen, isLoggedIn, id }) {
                 type="text"
                 className="logsymptoms-input"
                 onChange={(e) => onSymptomsChange(e)}
+                value={symptoms}
               />
 
               <h2>Do you have any concerns about your drain?</h2>
@@ -148,6 +149,7 @@ function DataLog({ handleSignInOpen, handleCreateAccOpen, isLoggedIn, id }) {
                 type="text"
                 className="logsymptoms-input"
                 onChange={(e) => onConcernsChange(e)}
+                value = {concerns}
               />
             </div>
           ) : null}
@@ -160,6 +162,7 @@ function DataLog({ handleSignInOpen, handleCreateAccOpen, isLoggedIn, id }) {
             className="datalog-input"
             placeholder="e.g. 100"
             onChange={(e) => onDrainOutputChange(e)}
+            value = {drainOutput}
           />
           <h3>Drain output color *</h3>
           <input
@@ -167,6 +170,7 @@ function DataLog({ handleSignInOpen, handleCreateAccOpen, isLoggedIn, id }) {
             className="datalog-input"
             placeholder="e.g. yellowish green"
             onChange={(e) => onDrainColorChange(e)}
+            value = {drainColor}
           />
           <h3>Drain output photo</h3>
           <input
