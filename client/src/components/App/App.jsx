@@ -383,6 +383,7 @@ function App() {
                   isLoggedIn={isLoggedIn}
                   handleSignInOpen={handleSignInOpen}
                   handleCreateAccOpen={handleCreateAccOpen}
+                  id = {localStorage.getItem("current_user_id")}
                 />
               }
             />

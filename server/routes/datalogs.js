@@ -16,27 +16,26 @@ router.post('/save', async (req, res, next) => {
     try{
         const infoUser = req.body;
         console.log('infoUser: ', infoUser);
-        let dataLogs = Parse.Object.extend("DataLogs");
+        let dataLogs = Parse.Object.extend('DataLog');
         var dataLog = new dataLogs();
         dataLog.set("userId", infoUser.id);
         dataLog.set("date", infoUser.date);
-        dataLog.set("time", infoUser.time);
-        dataLog.set("drainType", infoUser.drainType);
-        dataLog.set("drainSite", infoUser.drainSite);
-        dataLog.set("healthcareProvider", infoUser.healthcareProvider);
-        dataLog.set("drainoutput", infoUser.drainoutput);
-        dataLog.set("draincolor", infoUser.draincolor);
-        dataLog.set("drainoutputphoto", infoUser.drainoutputphoto);
-        dataLog.set("drainskinsitephoto", infoUser.drainskinsitephoto);
-        dataLog.set("painrating", infoUser.painrating);
-        dataLog.set("sleepingrating", infoUser.sleepingrating);
-        dataLog.set("nausearating", infoUser.nausearating);
-        dataLog.set("bowelsrating", infoUser.bowelsrating);
-        dataLog.set("appetiterating", infoUser.appetiterating);
-        dataLog.set("breathingrating", infoUser.breathingrating);
-        dataLog.set("fatiguerating", infoUser.fatiguerating);
+        dataLog.set("drainoutput", infoUser.drainOutput);
+        dataLog.set("draincolor", infoUser.drainColor);
+        dataLog.set("drainoutputphoto", infoUser.drainOutputPhoto);
+        dataLog.set("drainskinsitephoto", infoUser.drainSkinSitePhoto);
+        dataLog.set(infoUser.sliderArray[0], infoUser.sliderArrayValues[0]);
+        dataLog.set(infoUser.sliderArray[1], infoUser.sliderArrayValues[1]);
+        dataLog.set(infoUser.sliderArray[2], infoUser.sliderArrayValues[2]);
+        dataLog.set(infoUser.sliderArray[3], infoUser.sliderArrayValues[3]);
+        dataLog.set(infoUser.sliderArray[4], infoUser.sliderArrayValues[4]);
+        dataLog.set(infoUser.sliderArray[5], infoUser.sliderArrayValues[5]);
+        dataLog.set(infoUser.sliderArray[6], infoUser.sliderArrayValues[6]);
+        dataLog.set(infoUser.sliderArray[7], infoUser.sliderArrayValues[7]);
         dataLog.set("symptoms", infoUser.symptoms);
         dataLog.set("concerns", infoUser.concerns);
+        dataLog.save()
+        res.send("Data saved!");
     }catch(err){
         next(err);
     }
