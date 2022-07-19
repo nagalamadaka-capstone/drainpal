@@ -49,6 +49,10 @@ h3{
     margin-top: 20px;
 }
 
+.log-symptoms{
+    margin-top: 20px;
+}
+
 .datalog-choose-file::file-selector-button {
     border-radius: 20px;
     border: solid black 1px;

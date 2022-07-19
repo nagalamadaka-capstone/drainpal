@@ -1,6 +1,5 @@
 const express = require('express');
 const router = express.Router();
-const DrainModel = require('../model/drainpal');
 const {NotFoundError} = require('../utils/error');
 var Parse = require("parse/node");
 const BACK4APPKEY = require("../../client/src/securitykeys").BACK4APPKEY;

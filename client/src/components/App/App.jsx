@@ -386,16 +386,6 @@ function App() {
                 />
               }
             />
-            <Route
-              path="/logsymptoms"
-              element={
-                <LogSymptoms
-                  isLoggedIn={isLoggedIn}
-                  handleSignInOpen={handleSignInOpen}
-                  handleCreateAccOpen={handleCreateAccOpen}
-                />
-              }
-            />
             <Route path="/articles/:articleid" element={
               <ArticleView
                 isLoggedIn={isLoggedIn}
