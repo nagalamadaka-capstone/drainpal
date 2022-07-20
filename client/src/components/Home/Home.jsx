@@ -21,7 +21,8 @@ function Home({
   createaccerror,
   signinerror,
   handleFacebookLoginResponse,
-  articles
+  articles,
+  userId,
 }) {
   return (
     <div className="home">
@@ -51,6 +52,7 @@ function Home({
           handleCreateAccOpen={handleCreateAccOpen}
           isLoggedIn={isLoggedIn}
           firstName={firstName}
+          userId={userId}
         />
         <div className="generalInfoWrapper">
             {articles.map(article => {

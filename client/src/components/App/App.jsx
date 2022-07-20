@@ -332,6 +332,7 @@ function App() {
                   signinerror={signinerror}
                   handleFacebookLoginResponse={handleFacebookLoginResponse}
                   articles = {articles}
+                  userId = {localStorage.getItem("current_user_id")}
                 />
               }
             />
