@@ -20,6 +20,7 @@ function App() {
   const [signIn, setSignIn] = useState({});
   const [troubleshooting, setTroubleshooting] = useState({});
   const [createaccerror, setCreateaccerror] = useState("");
+  const [createaccsuccess, setCreateaccsuccess] = useState("");
   const [signinerror, setSigninerror] = useState("");
   const [isLoggedIn, setIsLoggedIn] = useState(
     localStorage.getItem("current_user_id") !== null
@@ -69,6 +70,7 @@ function App() {
 
   function handleCreateAccOpen() {
     setCreateaccerror("");
+    setCreateaccsuccess("");
     if (isCreateAccOpen) {
       setIsCreateAccOpen(false);
     } else {
@@ -212,7 +214,7 @@ function App() {
     try {
       setIsSignInLoading(true);
       await axios.post(`${API_BASE_URL}/users/register`, createAcc);
-      setCreateaccerror(
+      setCreateaccsuccess(
         "Success! You can now sign in with your email and password."
       );
       setCreateAcc({});
@@ -329,6 +331,7 @@ function App() {
                   handleOnCreateAccSubmit={handleOnCreateAccSubmit}
                   firstName={firstName}
                   createaccerror={createaccerror}
+                  createaccsuccess = {createaccsuccess}
                   signinerror={signinerror}
                   handleFacebookLoginResponse={handleFacebookLoginResponse}
                   articles = {articles}

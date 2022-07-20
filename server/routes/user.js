@@ -29,10 +29,9 @@ router.post("/register", async (req, res) => {
   try {
     await user.signUp();
     res.send({ user: user });
-    res.json(user);
   } catch (err) {
     res.status(err.status || 500);
-    res.json({
+    res.send({
       message: err.message,
       error: err,
     });

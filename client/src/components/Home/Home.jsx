@@ -23,6 +23,7 @@ function Home({
   handleFacebookLoginResponse,
   articles,
   userId,
+  createaccsuccess,
 }) {
   return (
     <div className="home">
@@ -38,6 +39,7 @@ function Home({
         handleOnSignInSubmit={handleOnSignInSubmit}
         handleOnCreateAccSubmit = {handleOnCreateAccSubmit}
         createaccerror = {createaccerror}
+        createaccsuccess = {createaccsuccess}
         signinerror = {signinerror}
         handleFacebookLoginResponse = {handleFacebookLoginResponse}
       />
