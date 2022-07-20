@@ -10,6 +10,16 @@
 
 .error{
     color: red;
+    font-weight: 500;
+    font-size: 24px;
+}
+
+.createaccsuccess{
+    color: #C6D6B9;
+    font-weight: 500;
+    font-size: 20px;
+    font-style: italic;
+
 }
 
 .createAcc-form h2 {

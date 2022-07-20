@@ -16,7 +16,8 @@ function Sidebar({
   handleOnCreateAccSubmit,
   createaccerror,
   signinerror,
-  handleFacebookLoginResponse
+  handleFacebookLoginResponse,
+  createaccsuccess,
 }) {
   return (
     <aside
@@ -35,6 +36,7 @@ function Sidebar({
           handleCreateAccOpen={handleCreateAccOpen}
           handleOnCreateAccSubmit={handleOnCreateAccSubmit}
           createaccerror={createaccerror}
+          createaccsuccess={createaccsuccess}
         />
       ) : isSignInOpen ? (
         <SignIn
