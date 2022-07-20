@@ -76,4 +76,26 @@ router.get("/", async (req, res, next) => {
   }
 });
 
+//check if a user has already entered data for a specific date
+router.get("/check", async (req, res, next) => {
+  try {
+    const userId = req.query.userId;
+    const date = req.query.date;
+
+    let dataLogs = Parse.Object.extend("DataLog");
+    var query = new Parse.Query(dataLogs);
+    query.equalTo("userId", userId);
+    query.equalTo("date", date);
+    query.find().then((results) => {
+      if (results.length > 0) {
+        res.send("true");
+      } else {
+        res.send("false");
+      }
+    });
+  } catch (err) {
+    next(err);
+  }
+});
+
 module.exports = router;

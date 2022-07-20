@@ -4,7 +4,7 @@ import "./DataLog.css";
 import { useState } from "react";
 import Slider from "./slider";
 import axios from "axios";
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 
 function DataLog({ handleSignInOpen, handleCreateAccOpen, isLoggedIn, id }) {
   const date = new Date().toDateString();
@@ -35,38 +35,54 @@ function DataLog({ handleSignInOpen, handleCreateAccOpen, isLoggedIn, id }) {
     setIsLogSymptomsOpen(!isLogSymptomsOpen);
   }
 
-  const onSaveDataClick = async() => {
+  const onSaveDataClick = async () => {
     if (!drainOutput || !drainColor) {
       setDataLogError("Please fill out all required fields before saving.");
       setSuccessMessage("");
     } else {
-      const infoUser = {
-        id: id,
-        symptoms: symptoms ,
-        concerns: concerns ,
-        drainOutput: drainOutput,
-        drainColor: drainColor,
-        drainOutputPhoto: drainOutputPhoto,
-        drainSkinSitePhoto: drainSkinSitePhoto,
-        date: date,
-        sliderArrayValues: sliderArrayValues,
-        sliderArray: sliderArray,
-      };
-      try {
-        const response = await axios.post(`${API_BASE_URL}/datalogs/save`, infoUser);
-        setSuccessMessage(response.data);
-        console.log(response.data);
-      } catch (err) {}
-      setSymptoms("");
-      setConcerns("");
-      setDrainOutput("");
-      setDrainColor("");
-      setDrainOutputPhoto("");
-      setDrainSkinSitePhoto("");
-      setDataLogError("");
-      setSliderArrayValues([5, 5, 5, 5, 5, 5, 5]);
+      const response = await axios.get(`${API_BASE_URL}/datalogs/check`, {
+        params: {
+          userId: id,
+          date: date,
+        },
+      });
+
+      if (response.data === "true" || response.data === true) {
+        setDataLogError(
+          "You have already logged data for this day. Try again tomorrow."
+        );
+        setSuccessMessage("");
+      } else {
+        const infoUser = {
+          id: id,
+          symptoms: symptoms,
+          concerns: concerns,
+          drainOutput: drainOutput,
+          drainColor: drainColor,
+          drainOutputPhoto: drainOutputPhoto,
+          drainSkinSitePhoto: drainSkinSitePhoto,
+          date: date,
+          sliderArrayValues: sliderArrayValues,
+          sliderArray: sliderArray,
+        };
+        try {
+          const response = await axios.post(
+            `${API_BASE_URL}/datalogs/save`,
+            infoUser
+          );
+          setSuccessMessage(response.data);
+        } catch (err) {}
+        setSymptoms("");
+        setConcerns("");
+        setDrainOutput("");
+        setDrainColor("");
+        setDrainOutputPhoto("");
+        setDrainSkinSitePhoto("");
+        setDataLogError("");
+        setSliderArrayValues([5, 5, 5, 5, 5, 5, 5]);
+      }
     }
-  }
+  };
 
   const onSliderChange = (e, sliderNumber) => {
     setSliderArrayValues(
@@ -112,9 +128,11 @@ function DataLog({ handleSignInOpen, handleCreateAccOpen, isLoggedIn, id }) {
       />
       <div className="notNavBar">
         <div className="wrapper">
-          <h1>Data Log</h1>
-          <h2>{date}</h2>
-          <h3>How are you feeling today?</h3>
+          <div className="dataLog-header">
+            <h1>Data Log</h1>
+            <h2>{date}</h2>
+            <h3>How are you feeling today?</h3>
+          </div>
           {isLogSymptomsOpen ? (
             <div className="logsymptoms">
               <div className="rating-scale">
@@ -149,55 +167,68 @@ function DataLog({ handleSignInOpen, handleCreateAccOpen, isLoggedIn, id }) {
                 type="text"
                 className="logsymptoms-input"
                 onChange={(e) => onConcernsChange(e)}
-                value = {concerns}
+                value={concerns}
               />
             </div>
           ) : null}
-          <button className="log-symptoms" onClick={() => onLogSymptomsClick()}>
-            {isLogSymptomsOpen ? "Save" : "Log Symptoms"}
-          </button>
-          <h3>Drain output amount in mL *</h3>
-          <input
-            type="text"
-            className="datalog-input"
-            placeholder="e.g. 100"
-            onChange={(e) => onDrainOutputChange(e)}
-            value = {drainOutput}
-          />
-          <h3>Drain output color *</h3>
-          <input
-            type="text"
-            className="datalog-input"
-            placeholder="e.g. yellowish green"
-            onChange={(e) => onDrainColorChange(e)}
-            value = {drainColor}
-          />
-          <h3>Drain output photo</h3>
-          <input
-            type="file"
-            className="datalog-choose-file"
-            placeholder="Drain output photo"
-            onChange={(e) => onDrainOutputPhotoChange(e)}
-          />
-          <h3>Drain skin site photo</h3>
-          <input
-            type="file"
-            className="datalog-choose-file"
-            placeholder="Drain skin site photo"
-            onChange={(e) => onDrainSkinSitePhotoChange(e)}
-          />
-          {dataLogError ? (
-            <h2 className="error-message">{dataLogError}</h2>
-          ) : null}
-          {successMessage ? (
-            <div className="success-message-wrapper">
-                <h2 className="success-message">{successMessage}</h2>
-                <Link to = "/data"><button className="save-data-log">Go back to data home!</button></Link>
-            </div>
+          <div className="dataLog-main">
+            <button
+              className="log-symptoms"
+              onClick={() => onLogSymptomsClick()}
+            >
+              {isLogSymptomsOpen ? "Save" : "Log Symptoms"}
+            </button>
+            <h3>
+              Drain output amount in mL <span className="red">*</span>
+            </h3>
+            <input
+              type="text"
+              className="datalog-input"
+              placeholder="e.g. 100"
+              onChange={(e) => onDrainOutputChange(e)}
+              value={drainOutput}
+            />
+            <h3>
+              Drain output color <span className="red">*</span>
+            </h3>
+            <input
+              type="text"
+              className="datalog-input"
+              placeholder="e.g. yellowish green"
+              onChange={(e) => onDrainColorChange(e)}
+              value={drainColor}
+            />
+            <h3>Drain output photo</h3>
+            <input
+              type="file"
+              className="datalog-choose-file"
+              placeholder="Drain output photo"
+              onChange={(e) => onDrainOutputPhotoChange(e)}
+            />
+            <h3>Drain skin site photo</h3>
+            <input
+              type="file"
+              className="datalog-choose-file"
+              placeholder="Drain skin site photo"
+              onChange={(e) => onDrainSkinSitePhotoChange(e)}
+            />
+            {dataLogError ? (
+              <h2 className="error-message">{dataLogError}</h2>
             ) : null}
-          <button className="save-data-log" onClick={() => onSaveDataClick()}>
-            Save Data Log
-          </button>
+            {successMessage ? (
+              <div className="success-message-wrapper">
+                <h2 className="success-message">{successMessage}</h2>
+                <Link to="/data">
+                  <button className="save-data-log">
+                    Go back to data home!
+                  </button>
+                </Link>
+              </div>
+            ) : null}
+            <button className="save-data-log" onClick={() => onSaveDataClick()}>
+              Save Data Log
+            </button>
+          </div>
         </div>
       </div>
     </div>

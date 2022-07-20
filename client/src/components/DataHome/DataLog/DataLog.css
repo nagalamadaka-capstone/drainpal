@@ -71,10 +71,16 @@ h3{
     margin-right: auto;
 }
 
-.error-message{
+.error-message, .red{
     color: red;
 }
 
 .success-message{
     color: green;
+}
+
+.logsymptoms, .dataLog-header, .dataLog-main{
+    margin-top: 20px;
+    margin-left: 15%;
+    margin-right: 15%;
 }
