@@ -1,6 +1,6 @@
 import ReactSlider from "react-slider";
 import "./slider.css"
-const Slider = () => {
+const Slider = ({onSliderChange, sliderNumber}) => {
   return (
     <ReactSlider
       className="horizontal-slider"
@@ -12,6 +12,7 @@ const Slider = () => {
       max = {10}
       step = {1}
       defaultValue={5}
+      onChange={(e) => onSliderChange(e, sliderNumber)}
     />
   );
 };

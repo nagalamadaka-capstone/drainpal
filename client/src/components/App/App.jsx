@@ -6,6 +6,7 @@ import Troubleshooting from "../Troubleshooting/Troubleshooting";
 import DataHome from "../DataHome/DataHome";
 import Profile from "../Profile/Profile";
 import DataLog from "../DataHome/DataLog/DataLog";
+import Loading from "../Loading/Loading";
 import LogSymptoms from "../DataHome/DataLog/LogSymptoms/LogSymptoms";
 import ArticleView from "../ArticleView/ArticleView";
 import "./App.css";
@@ -37,6 +38,7 @@ function App() {
     localStorage.getItem("current_healthcareprovider")
   );
   const [articles, setArticles] = useState([]);
+  const [isSignInLoading, setIsSignInLoading] = useState(false);
 
   useEffect (() => {
     axios.get(`${API_BASE_URL}/articles/`).then(res => {     
@@ -156,6 +158,7 @@ function App() {
     }
 
     try {
+      setIsSignInLoading(true);
       const resp = await axios.post(`${API_BASE_URL}/users/login`, signIn);
       let user = resp.data;
       localStorage.setItem("current_user_id", user["objectId"]);
@@ -184,6 +187,7 @@ function App() {
     } catch (err) {
       setSigninerror("Incorrect username/password. Please try again.");
     }
+    setIsSignInLoading(false);
   };
 
   const handleOnCreateAccSubmit = async (createAcc) => {
@@ -206,6 +210,7 @@ function App() {
     }
 
     try {
+      setIsSignInLoading(true);
       await axios.post(`${API_BASE_URL}/users/register`, createAcc);
       setCreateaccerror(
         "Success! You can now sign in with your email and password."
@@ -216,6 +221,7 @@ function App() {
         "Account already exists for that email. Please try again."
       );
     }
+    setIsSignInLoading(false);
   };
 
   const handleOnLogOut = async () => {
@@ -257,6 +263,7 @@ function App() {
         lastname: last,
       };
       try {
+        setIsSignInLoading(true);
         const loginInfo = await axios.post(
           `${API_BASE_URL}/users/fblogin`,
           infoUser
@@ -289,6 +296,7 @@ function App() {
           localStorage.getItem("current_healthcareprovider"));
         setIsSignInOpen(false);
       } catch (err) {}
+      setIsSignInLoading(false);
     }
   };
 
@@ -305,6 +313,8 @@ function App() {
             <Route
               path="/"
               element={
+                isSignInLoading?
+                <Loading />:
                 <Home
                   handleSignInOpen={handleSignInOpen}
                   handleCreateAccOpen={handleCreateAccOpen}
@@ -322,6 +332,7 @@ function App() {
                   signinerror={signinerror}
                   handleFacebookLoginResponse={handleFacebookLoginResponse}
                   articles = {articles}
+                  userId = {localStorage.getItem("current_user_id")}
                 />
               }
             />
@@ -340,6 +351,7 @@ function App() {
                   isCreateAccOpen={isCreateAccOpen}
                   handleOnSignInSubmit={handleOnSignInSubmit}
                   handleOnCreateAccSubmit={handleOnCreateAccSubmit}
+                  userId = {localStorage.getItem("current_user_id")}
                 />
               }
             />
@@ -383,16 +395,7 @@ function App() {
                   isLoggedIn={isLoggedIn}
                   handleSignInOpen={handleSignInOpen}
                   handleCreateAccOpen={handleCreateAccOpen}
-                />
-              }
-            />
-            <Route
-              path="/logsymptoms"
-              element={
-                <LogSymptoms
-                  isLoggedIn={isLoggedIn}
-                  handleSignInOpen={handleSignInOpen}
-                  handleCreateAccOpen={handleCreateAccOpen}
+                  id = {localStorage.getItem("current_user_id")}
                 />
               }
             />

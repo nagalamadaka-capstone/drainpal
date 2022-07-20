@@ -5,6 +5,7 @@ const app = express();
 const cors = require("cors")
 const userRoute = require('./routes/user');
 const articlesRoute = require('./routes/articles');
+const dataLogsRoute = require('./routes/datalogs');
 const {NotFoundError} = require('./utils/error');
 
 app.use(bodyParser.json());
@@ -12,6 +13,7 @@ app.use(morgan('tiny'));
 app.use(cors())
 app.use('/users', userRoute);
 app.use('/articles', articlesRoute);
+app.use('/datalogs', dataLogsRoute);
 
 app.get('/', (req, res) => {
     console.log("this works")

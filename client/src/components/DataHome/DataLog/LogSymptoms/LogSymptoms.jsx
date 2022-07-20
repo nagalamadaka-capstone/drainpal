@@ -1,7 +1,7 @@
 import React from 'react'
 import NavBar from '../../../NavBar/NavBar'
 import "./LogSymptoms.css"
-import Slider from './slider'
+import Slider from '../slider'
 
 function LogSymptoms({handleSignInOpen, isLoggedIn, handleCreateAccOpen}) {
 
@@ -34,7 +34,7 @@ function LogSymptoms({handleSignInOpen, isLoggedIn, handleCreateAccOpen}) {
                 <h2>Do you have any other symptoms?</h2>
                 <input type="text" className='logsymptoms-input'/>
                 
-                <h2>Do you have any concerns about your drain</h2>
+                <h2>Do you have any concerns about your drain?</h2>
                 <input type="text" className='logsymptoms-input'/>
                 <button className='save-data-log'>Save</button>
 

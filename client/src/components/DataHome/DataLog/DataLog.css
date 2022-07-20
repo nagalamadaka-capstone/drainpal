@@ -49,6 +49,10 @@ h3{
     margin-top: 20px;
 }
 
+.log-symptoms{
+    margin-top: 20px;
+}
+
 .datalog-choose-file::file-selector-button {
     border-radius: 20px;
     border: solid black 1px;
@@ -57,4 +61,26 @@ h3{
     font-style: italic;
     padding: 5px;
     background-color: white;
+}
+
+.error-message, .success-message{
+    font-size: 24px;
+    font-style: italic;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.error-message, .red{
+    color: red;
+}
+
+.success-message{
+    color: green;
+}
+
+.logsymptoms, .dataLog-header, .dataLog-main{
+    margin-top: 20px;
+    margin-left: 15%;
+    margin-right: 15%;
 }
