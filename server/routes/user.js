@@ -76,6 +76,7 @@ router.post("/fblogin", async (req, res) => {
     // Set username and email to match facebook profile email
     userToLogin.set("username", userEmail);
     userToLogin.set("email", userEmail);
+    userToLogin.set("isDoctor", false);
 
     try {
       const loggedInUser = await userToLogin.linkWith("facebook", {

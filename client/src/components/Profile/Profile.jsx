@@ -18,6 +18,7 @@ function Profile({
   handleOnDrainTypeChange,
   handleProfileInfoChange,
   doctorsList,
+  isDoctorLoggedIn,
 }) {
   const [isDrainTypeOpen, setIsDrainTypeOpen] = useState(false);
   const [isHealthcareProviderOpen, setIsHealthcareProviderOpen] =
@@ -53,54 +54,66 @@ function Profile({
           </h3>
           <h2>Email</h2>
           <h3>{email}</h3>
-          <h2>Drain Type</h2>
-          <h3>{draintype}</h3>
-          {isDrainTypeOpen ? (
-            <div className="drain-type-dropdown">
-              <select
-                name="draintype"
-                className="profile-draintype-dropdown"
-                value={draintype}
-                onChange={(e) => {
-                  handleOnDrainTypeChange(e.target.value);
-                }}
-              >
-                <option value="">Select a Drain Type</option>
-                <option value="PCN">Percutaneous Nephrostomy Tube</option>
-              </select>
+
+          {isDoctorLoggedIn ? (
+            <div className="doctor-profile">
+              <h2>Hospital</h2>
+              <h3>sample hospital</h3>
             </div>
-          ) : null}
-          <button
-            className="add-drain"
-            onClick={() => handleOnDrainTypeClick()}
-          >
-            {isDrainTypeOpen ? "Save" : "Add/Edit Drain Type"}
-          </button>
-          <h2>Your health care provider</h2>
-          <h3>{healthcareprovider}</h3>
-          {isHealthcareProviderOpen ? (
-            <select
-              name="healthcareprovider"
-              className="healthcareprovider-input-profile"
-              value={healthcareprovider}
-              onChange={(e) => {
-                handleOnHealthcareProviderChange(e.target.value);
-              }}
-            >
-              <option value="">Select a Healthcare Provider</option>
-              {doctorsList.map((doctor) => (
-                <option key={doctor.id} value={doctor.lastname}>
-                  Dr. {doctor.firstname} {doctor.lastname}
-                </option>
-              ))}
-            </select>
-          ) : null}
-          <button
-            className="add-drain"
-            onClick={() => handleOnHealthcareProviderClick()}
-          >
-            {isHealthcareProviderOpen ? "Save" : "Add/Edit Healthcare Provider"}
-          </button>
+          ) : (
+            <div className="patient-profile">
+              <h2>Drain Type</h2>
+              <h3>{draintype}</h3>
+              {isDrainTypeOpen ? (
+                <div className="drain-type-dropdown">
+                  <select
+                    name="draintype"
+                    className="profile-draintype-dropdown"
+                    value={draintype}
+                    onChange={(e) => {
+                      handleOnDrainTypeChange(e.target.value);
+                    }}
+                  >
+                    <option value="">Select a Drain Type</option>
+                    <option value="PCN">Percutaneous Nephrostomy Tube</option>
+                  </select>
+                </div>
+              ) : null}
+              <button
+                className="add-drain"
+                onClick={() => handleOnDrainTypeClick()}
+              >
+                {isDrainTypeOpen ? "Save" : "Add/Edit Drain Type"}
+              </button>
+              <h2>Your health care provider</h2>
+              <h3>{healthcareprovider}</h3>
+              {isHealthcareProviderOpen ? (
+                <select
+                  name="healthcareprovider"
+                  className="healthcareprovider-input-profile"
+                  value={healthcareprovider}
+                  onChange={(e) => {
+                    handleOnHealthcareProviderChange(e.target.value);
+                  }}
+                >
+                  <option value="">Select a Healthcare Provider</option>
+                  {doctorsList.map((doctor) => (
+                    <option key={doctor.id} value={doctor.lastname}>
+                      Dr. {doctor.firstname} {doctor.lastname}
+                    </option>
+                  ))}
+                </select>
+              ) : null}
+              <button
+                className="add-drain"
+                onClick={() => handleOnHealthcareProviderClick()}
+              >
+                {isHealthcareProviderOpen
+                  ? "Save"
+                  : "Add/Edit Healthcare Provider"}
+              </button>
+            </div>
+          )}
           <Link to="/">
             <button
               className="add-drain"
