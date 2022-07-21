@@ -133,6 +133,7 @@ function App() {
       draintype: createAcc.draintype,
       drainsite: createAcc.drainsite,
       healthcareprovider: createAcc.healthcareprovider,
+      isDoctor: false,
     };
     newForm[key] = val;
     setCreateAcc(newForm);
