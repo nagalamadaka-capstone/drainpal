@@ -11,7 +11,7 @@ function Troubleshooting({
   draintype,
 }) {
   const [troubleshooting, setTroubleshooting] = useState({});
-  console.log("troubleshooting: ", troubleshooting);
+  
 
   function handleOnTroubleshootingChange(key, val) {
     let newForm = {
