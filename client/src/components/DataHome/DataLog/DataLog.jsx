@@ -198,20 +198,6 @@ function DataLog({ handleSignInOpen, handleCreateAccOpen, isLoggedIn, id }) {
               onChange={(e) => onDrainColorChange(e)}
               value={drainColor}
             />
-            <h3>Drain output photo</h3>
-            <input
-              type="file"
-              className="datalog-choose-file"
-              placeholder="Drain output photo"
-              onChange={(e) => onDrainOutputPhotoChange(e)}
-            />
-            <h3>Drain skin site photo</h3>
-            <input
-              type="file"
-              className="datalog-choose-file"
-              placeholder="Drain skin site photo"
-              onChange={(e) => onDrainSkinSitePhotoChange(e)}
-            />
             {dataLogError ? (
               <h2 className="error-message">{dataLogError}</h2>
             ) : null}

@@ -18,7 +18,6 @@ function App() {
   const [isCreateAccOpen, setIsCreateAccOpen] = useState(false);
   const [createAcc, setCreateAcc] = useState({});
   const [signIn, setSignIn] = useState({});
-  const [troubleshooting, setTroubleshooting] = useState({});
   const [createaccerror, setCreateaccerror] = useState("");
   const [createaccsuccess, setCreateaccsuccess] = useState("");
   const [signinerror, setSigninerror] = useState("");
@@ -240,15 +239,6 @@ function App() {
     } catch (err) {}
   };
 
-  function handleOnTroubleshootingChange(key, val) {
-    let newForm = {
-      draintype: troubleshooting.draintype,
-      issue: troubleshooting.issue,
-    };
-    newForm[key] = val;
-    setTroubleshooting(newForm);
-  }
-
   const handleFacebookLoginResponse = async function (response) {
     
     var fullName = response.name;
@@ -383,11 +373,10 @@ function App() {
               path="/troubleshooting"
               element={
                 <Troubleshooting
-                  handleOnTroubleshootingChange={handleOnTroubleshootingChange}
-                  troubleshooting={troubleshooting}
                   handleSignInOpen={handleSignInOpen}
                   handleCreateAccOpen={handleCreateAccOpen}
                   isLoggedIn={isLoggedIn}
+                  draintype = {draintype}
                 />
               }
             />
