@@ -147,24 +147,6 @@ router.get("/getprofileinfo", async (req, res) => {
   res.send({ key: attribute });
 });
 
-
-/** Below are functions that should be called when providers are manually entered into the Parse User database */
-
-//create roles for providers and patients
-router.post("/createRoles", async (req, res, next) => {
-  var patientACL = new Parse.ACL();
-  patientACL.setPublicReadAccess(true);
-  patientACL.setPublicWriteAccess(true);
-  var doctorACL = new Parse.ACL();
-  doctorACL.setPublicReadAccess(true);
-  doctorACL.setPublicWriteAccess(true);
-  var providerRole = new Parse.Role("Provider", doctorACL);
-  var patientRole = new Parse.Role("Patient", patientACL);
-  await providerRole.save();
-  await patientRole.save();
-  res.send("Roles created successfully!");
-});
-
 //add doctors in parse user to provider role
 router.post("/addDoctor", async (req, res, next) => {
   var query = new Parse.Query(Parse.User);
@@ -182,29 +164,44 @@ router.post("/addDoctor", async (req, res, next) => {
   res.send("Doctors added to provider role successfully!");
 });
 
-//get doctors from Providers class in Parse, do not have permission to do this
+//get doctors from User class in Parse
 router.get("/getDoctors", async (req, res, next) => {
-  var Providers = Parse.Object.extend("Providers");
-  var query = new Parse.Query(Providers);
-  query.find().then((results) => {
-    let newDoctors = [];
-    for (let i = 0; i < results.length; i++) {
-      let doctor = results[i];
-      let newDoctor = {
+  var query = new Parse.Query(Parse.User);
+  query.equalTo("isDoctor", true);
+
+  let newDoctors = [];
+  query.find().then(async (doctors) => {
+    doctors.map(async (doctor) => {
+      let doctorInfo = {
         id: doctor.id,
-        key: doctor.id,
-        firstName: doctor.get("firstName"),
-        lastName: doctor.get("lastName"),
-        email: doctor.get("email"),
-        password: doctor.get("password"),
+        firstname: doctor.get("firstname"),
+        lastname: doctor.get("lastname"),
+        email: doctor.get("username"),
         phone: doctor.get("phone"),
         hospital: doctor.get("hospital"),
       };
-      newDoctors.push(newDoctor);
-    }
+      newDoctors.push(doctorInfo);
+    });
 
-    res.send({ newDoctors });
+    res.send(newDoctors);
   });
+});
+
+/** Below are functions that should be called when providers are manually entered into the Parse User database */
+
+//create roles for providers and patients
+router.post("/createRoles", async (req, res, next) => {
+  var patientACL = new Parse.ACL();
+  patientACL.setPublicReadAccess(true);
+  patientACL.setPublicWriteAccess(true);
+  var doctorACL = new Parse.ACL();
+  doctorACL.setPublicReadAccess(true);
+  doctorACL.setPublicWriteAccess(true);
+  var providerRole = new Parse.Role("Provider", doctorACL);
+  var patientRole = new Parse.Role("Patient", patientACL);
+  await providerRole.save();
+  await patientRole.save();
+  res.send("Roles created successfully!");
 });
 
 //register doctors as users

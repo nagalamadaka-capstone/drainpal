@@ -8,7 +8,10 @@ function CreateAcc({
   handleOnCreateAccSubmit,
   createaccerror,
   createaccsuccess,
+  doctorsList,
+  
 }) {
+  console.log('doctorsList: ', doctorsList);
   return (
     <div className="createAcc">
       <form className="createAcc-form">
@@ -98,16 +101,22 @@ function CreateAcc({
         </select>
 
         <h2>Health Care Provider</h2>
-        <input
-          type="text"
+        <select
           name="healthcareprovider"
-          placeholder="e.g. John Doe"
           className="create-acc-input"
           value={createAcc.healthcareprovider}
           onChange={(e) => {
             handleOnCreateAccFormChange("healthcareprovider", e.target.value);
           }}
-        />
+        >
+          <option value="">Select a Healthcare Provider</option>
+          {doctorsList.map((doctor) => (
+            <option key={doctor.id} value={doctor.lastname}>
+              Dr. {doctor.firstname} {doctor.lastname}
+            </option>
+          ))}
+        </select>
+
 
         <button
           className="create-acc-button"

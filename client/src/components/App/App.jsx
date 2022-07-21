@@ -39,13 +39,26 @@ function App() {
   );
   const [articles, setArticles] = useState([]);
   const [isSignInLoading, setIsSignInLoading] = useState(false);
+  const [doctorsList, setDoctorsList] = useState(localStorage.getItem("curr_doctors"));
 
   useEffect (() => {
     axios.get(`${API_BASE_URL}/articles/`).then(res => {     
       setArticles(res.data.newArticles);
     }
     );
+    axios.get(`${API_BASE_URL}/users/getDoctors`).then(res => {    
+      localStorage.setItem("curr_doctors", res.data); 
+      setDoctorsList(res.data);
+    }
+    );
   }, []);
+
+  useEffect (() => {
+    axios.post(`${API_BASE_URL}/users/addDoctor`).then(res => {
+      console.log(res.data);
+    }
+    );
+  }, [doctorsList]);
 
   const addAuthenticationHeader = () => {
     const currentUserId = localStorage.getItem("current_user_id");
@@ -327,6 +340,7 @@ function App() {
                   handleFacebookLoginResponse={handleFacebookLoginResponse}
                   articles = {articles}
                   userId = {localStorage.getItem("current_user_id")}
+                  doctorsList = {doctorsList}
                 />
               }
             />
@@ -367,6 +381,7 @@ function App() {
                     handleOnHealthcareProviderChange
                   }
                   handleProfileInfoChange = {handleProfileInfoChange}
+                  doctorsList = {doctorsList}
                 />
               }
             />

@@ -24,6 +24,7 @@ function Home({
   articles,
   userId,
   createaccsuccess,
+  doctorsList,
 }) {
   return (
     <div className="home">
@@ -42,6 +43,7 @@ function Home({
         createaccsuccess = {createaccsuccess}
         signinerror = {signinerror}
         handleFacebookLoginResponse = {handleFacebookLoginResponse}
+        doctorsList = {doctorsList}
       />
       <NavBar
         handleSignInOpen={handleSignInOpen}
