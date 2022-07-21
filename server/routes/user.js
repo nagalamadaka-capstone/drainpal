@@ -188,6 +188,30 @@ router.get("/getDoctors", async (req, res, next) => {
   });
 });
 
+//get patients for a specific doctor
+router.get("/getPatients", async (req, res, next) => {
+  var query = new Parse.Query(Parse.User);
+  req.query.lastName = req.query.lastName.toLowerCase();
+  query.equalTo("isDoctor", false);
+  query.equalTo("healthcareprovider", req.query.lastName);
+
+  let newPatients = [];
+  query.find().then((patients) => {
+    patients.map((patient) => {
+      let patientInfo = {
+        id: patient.id,
+        firstname: patient.get("firstname"),
+        lastname: patient.get("lastname"),
+        email: patient.get("username"),
+        draintype: patient.get("draintype"),
+      };
+      newPatients.push(patientInfo);
+    });
+
+    res.send(newPatients);
+  });
+});
+
 /** Below are functions that were called once to set up database */
 //create roles for providers and patients
 router.post("/createRoles", async (req, res, next) => {

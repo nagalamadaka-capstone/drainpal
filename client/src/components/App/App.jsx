@@ -462,6 +462,7 @@ function App() {
                   isLoggedIn={isLoggedIn}
                   handleSignInOpen={handleSignInOpen}
                   handleCreateAccOpen={handleCreateAccOpen}
+                  lastName = {lastName}
                 />
               }
             />
