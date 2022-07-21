@@ -11,6 +11,7 @@ function DataHome({
   handleCreateAccOpen,
   isLoggedIn,
   userId,
+  isDoctorLoggedIn
 }) {
   const [dataLogs, setDataLogs] = useState([]);
   const [dataLogsError, setDataLogsError] = useState(null);
@@ -47,6 +48,7 @@ function DataHome({
         handleSignInOpen={handleSignInOpen}
         isLoggedIn={isLoggedIn}
         handleCreateAccOpen={handleCreateAccOpen}
+        isDoctorLoggedIn={isDoctorLoggedIn}
       />
       <div className="notNavBar">
         <div className="wrapper">

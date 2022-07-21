@@ -9,6 +9,7 @@ function Troubleshooting({
   handleCreateAccOpen,
   isLoggedIn,
   draintype,
+  isDoctorLoggedIn,
 }) {
   const [troubleshooting, setTroubleshooting] = useState({});
   
@@ -39,6 +40,7 @@ function Troubleshooting({
         handleSignInOpen={handleSignInOpen}
         isLoggedIn={isLoggedIn}
         handleCreateAccOpen={handleCreateAccOpen}
+        isDoctorLoggedIn = {isDoctorLoggedIn}
       />
       <div className="notNavBar">
         <div className="wrapper">

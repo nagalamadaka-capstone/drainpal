@@ -19,6 +19,8 @@ function Profile({
   handleProfileInfoChange,
   doctorsList,
   isDoctorLoggedIn,
+  phone,
+  hospital,
 }) {
   const [isDrainTypeOpen, setIsDrainTypeOpen] = useState(false);
   const [isHealthcareProviderOpen, setIsHealthcareProviderOpen] =
@@ -44,6 +46,7 @@ function Profile({
         handleSignInOpen={handleSignInOpen}
         isLoggedIn={isLoggedIn}
         handleCreateAccOpen={handleCreateAccOpen}
+        isDoctorLoggedIn={isDoctorLoggedIn}
       />
       <div className="notNavBar">
         <div className="wrapper">
@@ -58,7 +61,9 @@ function Profile({
           {isDoctorLoggedIn ? (
             <div className="doctor-profile">
               <h2>Hospital</h2>
-              <h3>sample hospital</h3>
+              <h3>{hospital}</h3>
+              <h2>Phone</h2>
+              <h3>{phone}</h3>
             </div>
           ) : (
             <div className="patient-profile">

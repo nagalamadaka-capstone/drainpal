@@ -188,8 +188,7 @@ router.get("/getDoctors", async (req, res, next) => {
   });
 });
 
-/** Below are functions that should be called when providers are manually entered into the Parse User database */
-
+/** Below are functions that were called once to set up database */
 //create roles for providers and patients
 router.post("/createRoles", async (req, res, next) => {
   var patientACL = new Parse.ACL();
@@ -205,7 +204,7 @@ router.post("/createRoles", async (req, res, next) => {
   res.send("Roles created successfully!");
 });
 
-//register doctors as users
+//register doctors as users, will use this function when doctors are entered manually into spreadsheet
 router.post("/registerDoc", async (req, res) => {
   let providers = Parse.Object.extend("Providers");
   var query = new Parse.Query(providers);

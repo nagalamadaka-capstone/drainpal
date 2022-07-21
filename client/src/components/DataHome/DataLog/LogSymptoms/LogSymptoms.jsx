@@ -11,6 +11,7 @@ function LogSymptoms({handleSignInOpen, isLoggedIn, handleCreateAccOpen}) {
         handleSignInOpen={handleSignInOpen}
         isLoggedIn = {isLoggedIn}
         handleCreateAccOpen={handleCreateAccOpen}
+        
         /> 
         <div className="notNavBar">
             <div className="wrapper">

@@ -6,7 +6,13 @@ import Slider from "./slider";
 import axios from "axios";
 import { Link } from "react-router-dom";
 
-function DataLog({ handleSignInOpen, handleCreateAccOpen, isLoggedIn, id }) {
+function DataLog({
+  handleSignInOpen,
+  handleCreateAccOpen,
+  isLoggedIn,
+  id,
+  isDoctorLoggedIn,
+}) {
   const date = new Date().toDateString();
   const [isLogSymptomsOpen, setIsLogSymptomsOpen] = useState(false);
   const sliderArray = [
@@ -125,6 +131,7 @@ function DataLog({ handleSignInOpen, handleCreateAccOpen, isLoggedIn, id }) {
         handleSignInOpen={handleSignInOpen}
         isLoggedIn={isLoggedIn}
         handleCreateAccOpen={handleCreateAccOpen}
+        isDoctorLoggedIn={isDoctorLoggedIn}
       />
       <div className="notNavBar">
         <div className="wrapper">
