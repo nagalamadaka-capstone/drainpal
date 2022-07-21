@@ -11,6 +11,23 @@ Parse.initialize(
 );
 Parse.serverURL = "https://parseapi.back4app.com/";
 
+//create roles for providers and patients
+router.post("/createRoles", async (req, res, next) => {
+    var patientACL = new Parse.ACL();
+    patientACL.setPublicReadAccess(true);
+    patientACL.setPublicWriteAccess(true);
+    var doctorACL = new Parse.ACL();
+    doctorACL.setPublicReadAccess(true);
+    doctorACL.setPublicWriteAccess(true);
+    var providerRole = new Parse.Role("Provider", doctorACL);
+    var patientRole = new Parse.Role("Patient", patientACL);
+    await providerRole.save();
+    await patientRole.save();
+    res.send("Roles created successfully!");
+}
+);
+
+
 // Register the user passing the username, password and email
 router.post("/register", async (req, res) => {
   const infoUser = req.body;
@@ -28,8 +45,19 @@ router.post("/register", async (req, res) => {
 
   try {
     await user.signUp();
+    let rolesQuery = new Parse.Query(Parse.Role);
+
+    //finds patient role by patient id
+    let patientRole = await rolesQuery.get("NKdVAXnbFc");
+    
+    if (patientRole) {
+      patientRole.getUsers().add(user);
+      await patientRole.save();
+    }
     res.send({ user: user });
   } catch (err) {
+    console.log('err: ', err);
+    
     res.status(err.status || 500);
     res.send({
       message: err.message,
@@ -44,9 +72,9 @@ router.post("/login", async (req, res) => {
 
   try {
     const user = await Parse.User.logIn(infoUser.email, infoUser.password);
-    res.status(200).json(user);
+    res.status(200).send(user);
   } catch (error) {
-    res.status(400).json({
+    res.status(400).send({
       message: error.message,
     });
   }
@@ -75,18 +103,18 @@ router.post("/fblogin", async (req, res) => {
       });
 
       // Update state variable holding current user
-      res.json(loggedInUser);
+      res.send(loggedInUser);
       return true;
     } catch (error) {
       // Error can be caused by wrong parameters or lack of Internet connection
 
-      res.status(400).json({
+      res.status(400).send({
         message: error.message,
       });
       return false;
     }
   } catch (error) {
-    res.status(400).json({
+    res.status(400).send({
       message: "Error gathering Facebook user info, please try again!",
     });
     return false;
@@ -97,11 +125,11 @@ router.post("/fblogin", async (req, res) => {
 router.post("/logout", async (req, res) => {
   try {
     await Parse.User.logOut();
-    res.status(200).json({
+    res.status(200).send({
       message: "Logged out successfully",
     });
   } catch (error) {
-    res.json({
+    res.send({
       message: error.message,
     });
   }
