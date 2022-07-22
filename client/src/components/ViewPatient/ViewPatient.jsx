@@ -5,6 +5,8 @@ import { useEffect } from "react";
 import { useState } from "react";
 import axios from "axios";
 import "./ViewPatient.css";
+import VolumeGraph from "../VolumeGraph/VolumeGraph";
+import DistressGraphs from "../DistressGraphs/DistressGraphs";
 
 function ViewPatient({
   isDoctorLoggedIn,
@@ -111,6 +113,8 @@ function ViewPatient({
                   ))}
                 </tbody>
               </table>
+              <VolumeGraph dataLogs={dataLogs} />
+              <DistressGraphs dataLogs={dataLogs} />
             </div>
           )}
         </div>

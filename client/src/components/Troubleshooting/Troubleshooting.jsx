@@ -2,7 +2,6 @@ import React from "react";
 import NavBar from "../NavBar/NavBar";
 import "./Troubleshooting.css";
 import { useState } from "react";
-import { Link } from "react-router-dom";
 
 function Troubleshooting({
   handleSignInOpen,
