@@ -14,7 +14,6 @@ function Banner({
   isDoctorLoggedIn,
 }) {
   const [hasLoggedData, setHasLoggedData] = useState(false);
-  
 
   const API_BASE_URL = "http://localhost:3001";
   const date = new Date().toDateString();
@@ -52,7 +51,7 @@ function Banner({
             DrainPal is a tool for users to track their pain levels due to a
             Percutaneous Nephrostomy Tube.
           </h2>
-          {isDoctorLoggedIn === true && hasLoggedData === false ? null : (
+          {isDoctorLoggedIn? null: hasLoggedData ? null : (
             <Link to="/datalog">
               <button>
                 {firstName}, you have not tracked your daily pain levels yet!
