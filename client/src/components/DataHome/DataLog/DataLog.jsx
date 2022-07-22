@@ -14,6 +14,8 @@ function DataLog({
   isDoctorLoggedIn,
 }) {
   const date = new Date().toDateString();
+  const time = new Date().toLocaleTimeString();
+  
   const [isLogSymptomsOpen, setIsLogSymptomsOpen] = useState(false);
   const sliderArray = [
     "pain",
@@ -63,6 +65,7 @@ function DataLog({
           id: id,
           symptoms: symptoms,
           concerns: concerns,
+          time: time,
           drainOutput: drainOutput,
           drainColor: drainColor,
           drainOutputPhoto: drainOutputPhoto,

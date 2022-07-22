@@ -467,7 +467,7 @@ function App() {
               }
             />
             <Route
-              path="/viewpatient"
+              path="/viewpatient/:userId/:firstname/:lastname"
               element={
                 <ViewPatient
                   isDoctorLoggedIn={isDoctorLoggedIn}

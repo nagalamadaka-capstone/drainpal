@@ -17,10 +17,12 @@ router.post("/save", async (req, res, next) => {
     var dataLog = new dataLogs();
     dataLog.set("userId", infoUser.id);
     dataLog.set("date", infoUser.date);
-    dataLog.set("drainoutput", infoUser.drainOutput);
-    dataLog.set("draincolor", infoUser.drainColor);
-    dataLog.set("drainoutputphoto", infoUser.drainOutputPhoto);
-    dataLog.set("drainskinsitephoto", infoUser.drainSkinSitePhoto);
+    dataLog.set("time", infoUser.time);
+    dataLog.set("draintype", infoUser.draintype);
+    dataLog.set("drainOutput", infoUser.drainOutput);
+    dataLog.set("drainColor", infoUser.drainColor);
+    dataLog.set("drainOutputPhoto", infoUser.drainOutputPhoto);
+    dataLog.set("drainSkinSitePhoto", infoUser.drainSkinSitePhoto);
     dataLog.set(infoUser.sliderArray[0], infoUser.sliderArrayValues[0]);
     dataLog.set(infoUser.sliderArray[1], infoUser.sliderArrayValues[1]);
     dataLog.set(infoUser.sliderArray[2], infoUser.sliderArrayValues[2]);
@@ -41,6 +43,7 @@ router.post("/save", async (req, res, next) => {
 router.get("/", async (req, res, next) => {
   try {
     const userId = req.query.userId;
+
     let dataLogs = Parse.Object.extend("DataLog");
     var query = new Parse.Query(dataLogs);
     query.equalTo("userId", userId);
@@ -51,12 +54,13 @@ router.get("/", async (req, res, next) => {
         let newDataLog = {
           id: dataLog.id,
           key: dataLog.id,
+          time: dataLog.get("time"),
           userId: dataLog.get("userId"),
           date: dataLog.get("date"),
-          drainoutput: dataLog.get("drainoutput"),
-          draincolor: dataLog.get("draincolor"),
-          drainoutputphoto: dataLog.get("drainoutputphoto"),
-          drainskinsitephoto: dataLog.get("drainskinsitephoto"),
+          drainOutput: dataLog.get("drainOutput"),
+          drainColor: dataLog.get("drainColor"),
+          drainOutputPhoto: dataLog.get("drainOutputPhoto"),
+          drainSkinSitePhoto: dataLog.get("drainSkinSitePhoto"),
           pain: dataLog.get("pain"),
           bowels: dataLog.get("bowels"),
           breathing: dataLog.get("breathing"),
@@ -69,6 +73,7 @@ router.get("/", async (req, res, next) => {
         };
         newDataLogs.push(newDataLog);
       }
+
       res.send({ newDataLogs });
     });
   } catch (err) {

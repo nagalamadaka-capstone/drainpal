@@ -20,7 +20,7 @@ function Troubleshooting({
       issue: troubleshooting.issue,
       changeInVolume: troubleshooting.changeInVolume,
       persistentIncrease: troubleshooting.persistentIncrease,
-      persistentincreasechange: troubleshooting.persistentincreasechange,
+      persistentIncreaseChange: troubleshooting.persistentIncreaseChange,
       damaged: troubleshooting.damaged,
       flushing: troubleshooting.flushing,
       persistentDecrease: troubleshooting.persistentDecrease,
@@ -122,12 +122,12 @@ function Troubleshooting({
             <div className="q6">
               <h2>Any changes in your health? Fever/pain?</h2>
               <select
-                name="persistentincreasechange"
+                name="persistentIncreaseChange"
                 className="troubleshooting-dropdown"
-                value={troubleshooting.persistentincreasechange}
+                value={troubleshooting.persistentIncreaseChange}
                 onChange={(e) => {
                   handleOnTroubleshootingChange(
-                    "persistentincreasechange",
+                    "persistentIncreaseChange",
                     e.target.value
                   );
                 }}
@@ -307,7 +307,7 @@ function Troubleshooting({
             </div>
           )}
           {(troubleshooting.persistentIncrease === "yes" ||
-            troubleshooting.persistentincreasechange == "yes" ||
+            troubleshooting.persistentIncreaseChange == "yes" ||
             troubleshooting.persistentDecrease === "yes" ||
             troubleshooting.damaged === "yes" ||
             troubleshooting.drainconnections === "yes" ||
@@ -323,7 +323,7 @@ function Troubleshooting({
               </button>
             </div>
           )}
-          {(troubleshooting.persistentincreasechange === "no" ||
+          {(troubleshooting.persistentIncreaseChange === "no" ||
             troubleshooting.bloodThickness === "other" ||
             troubleshooting.thickBloodFainting === "no" ||
             troubleshooting.thinnerQuantityChange === "no") && (

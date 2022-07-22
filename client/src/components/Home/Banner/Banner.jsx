@@ -14,6 +14,7 @@ function Banner({
   isDoctorLoggedIn,
 }) {
   const [hasLoggedData, setHasLoggedData] = useState(false);
+  
 
   const API_BASE_URL = "http://localhost:3001";
   const date = new Date().toDateString();

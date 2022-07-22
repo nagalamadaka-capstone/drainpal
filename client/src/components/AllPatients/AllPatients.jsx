@@ -14,6 +14,7 @@ function AllPatients({
   isDoctorLoggedIn,
 }) {
   const [patients, setPatients] = useState([]);
+
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
@@ -27,6 +28,10 @@ function AllPatients({
       });
     setIsLoading(false);
   }, []);
+
+  function capitalizeName(name) {
+    return name.charAt(0).toUpperCase() + name.slice(1);
+  }
 
   return (
     <div className="allPatients">
@@ -56,8 +61,10 @@ function AllPatients({
                 {patients.map((patient) => (
                   <tr>
                     <td>
-                      <Link to={`/viewpatient`}>
-                        {patient.firstname} {patient.lastname}
+                      <Link
+                        to={`/viewpatient/${patient.id}/${capitalizeName(patient.firstname)}/${capitalizeName(patient.lastname)}`}
+                      >
+                        {capitalizeName(patient.firstname)} {capitalizeName(patient.lastname)}
                       </Link>
                     </td>
                     <td>{patient.email}</td>
