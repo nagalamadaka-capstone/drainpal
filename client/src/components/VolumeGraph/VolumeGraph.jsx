@@ -41,7 +41,14 @@ function VolumeGraph({dataLogs}) {
           },
           xaxis: {
             categories: categories,
-          }
+          },
+          yaxis: {
+            title: {
+              text: 'Volume in mL',
+            },
+            min: 0,
+          },
+          
         },
       
       

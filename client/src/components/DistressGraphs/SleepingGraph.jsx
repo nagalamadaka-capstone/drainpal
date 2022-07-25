@@ -46,7 +46,13 @@ function SleepingGraph({ dataLogs }) {
       xaxis: {
         categories: categories,
       },
-      yaxis: {},
+      yaxis: {
+        title: {
+          text: 'Distress Level',
+        },
+        min: 0,
+        max: 10
+      },
     },
   };
 
