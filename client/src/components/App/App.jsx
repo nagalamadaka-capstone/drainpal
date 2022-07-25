@@ -12,6 +12,7 @@ import AllPatients from "../AllPatients/AllPatients";
 import ViewPatient from "../ViewPatient/ViewPatient";
 import "./App.css";
 import axios from "axios";
+import DoctorProfile from "../Profile/DoctorProfile";
 const API_BASE_URL = "http://localhost:3001";
 
 function App() {
@@ -405,7 +406,19 @@ function App() {
             />
             <Route
               path="/profile"
-              element={
+              element={ isDoctorLoggedIn ? (<DoctorProfile
+                handleSignInOpen = {handleSignInOpen}
+                isLoggedIn = {isLoggedIn}
+                handleCreateAccOpen  = {handleCreateAccOpen}
+                firstname = {firstName}
+                lastname = {lastName}
+                email = {email}
+                handleOnLogOut = {handleOnLogOut}
+                handleProfileInfoChange = {handleProfileInfoChange}
+                isDoctorLoggedIn = {isDoctorLoggedIn}
+                phone = {phone}
+                hospital = {hospital}
+              />) : (
                 <Profile
                   isLoggedIn={isLoggedIn}
                   handleSignInOpen={handleSignInOpen}
@@ -426,7 +439,7 @@ function App() {
                   doctorsList={doctorsList}
                   isDoctorLoggedIn={isDoctorLoggedIn}
                 />
-              }
+              )}
             />
             <Route
               path="/troubleshooting"
