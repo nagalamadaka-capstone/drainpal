@@ -5,6 +5,7 @@ import { useState } from "react";
 import Slider from "./slider";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import { SketchPicker } from 'react-color';
 
 function DataLog({
   handleSignInOpen,
@@ -167,7 +168,7 @@ function DataLog({
               <h2>Do you have any other symptoms?</h2>
               <input
                 type="text"
-                className="logsymptoms-input"
+                className="datalog-input"
                 onChange={(e) => onSymptomsChange(e)}
                 value={symptoms}
               />
@@ -175,7 +176,7 @@ function DataLog({
               <h2>Do you have any concerns about your drain?</h2>
               <input
                 type="text"
-                className="logsymptoms-input"
+                className="datalog-input"
                 onChange={(e) => onConcernsChange(e)}
                 value={concerns}
               />
@@ -201,6 +202,7 @@ function DataLog({
             <h3>
               Drain output color <span className="red">*</span>
             </h3>
+            <SketchPicker/>
             <input
               type="text"
               className="datalog-input"
@@ -208,6 +210,7 @@ function DataLog({
               onChange={(e) => onDrainColorChange(e)}
               value={drainColor}
             />
+
             {dataLogError ? (
               <h2 className="error-message">{dataLogError}</h2>
             ) : null}

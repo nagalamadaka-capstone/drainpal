@@ -84,3 +84,17 @@ h3{
     margin-left: 15%;
     margin-right: 15%;
 }
+
+.rating-scale{
+    background-color: 
+    #243E36;
+    color: white;
+    box-sizing: border-box;
+    border-radius: 5px;
+    padding: 5px;
+    margin-top: 30px;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+    width: 650px;
+}
