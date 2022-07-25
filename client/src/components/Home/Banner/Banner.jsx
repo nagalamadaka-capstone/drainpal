@@ -69,7 +69,7 @@ function Banner({
               </Link>
               <Link to="/troubleshooting">
                 <button>
-                  Want to help patient with their drain? Troubleshoot here!
+                  Want to help a patient with their drain? Troubleshoot here!
                 </button>
               </Link>
             </div>
