@@ -3,7 +3,6 @@ import "./DistressGraphs.css"
 import ReactApexChart from 'react-apexcharts';
 
 function DistressGraphs({dataLogs}) {
-    console.log('dataLogs: ', dataLogs);
     const reversedDataLogs = [...dataLogs].reverse();
     let categories = [];
     let dataPain = [];

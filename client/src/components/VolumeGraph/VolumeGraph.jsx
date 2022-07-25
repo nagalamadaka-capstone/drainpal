@@ -32,6 +32,7 @@ function VolumeGraph({dataLogs}) {
           stroke: {
             curve: 'straight'
           },
+          colors: ['rgba(42, 63, 38, 0.65)'],
           grid: {
             row: {
               colors: ['transparent'], // takes an array which will be repeated on columns

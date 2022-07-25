@@ -115,9 +115,7 @@ function ViewPatient({
                   ))}
                 </tbody>
               </table>
-              <AllTabs/>
-              <VolumeGraph dataLogs={dataLogs} />
-              <DistressGraphs dataLogs={dataLogs} />
+              <AllTabs dataLogs = {dataLogs}/>
             </div>
           )}
         </div>
