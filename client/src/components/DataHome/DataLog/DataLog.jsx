@@ -5,7 +5,7 @@ import { useState } from "react";
 import Slider from "./slider";
 import axios from "axios";
 import { Link } from "react-router-dom";
-import { SketchPicker } from 'react-color';
+import { ChromePicker } from "react-color";
 
 function DataLog({
   handleSignInOpen,
@@ -16,7 +16,9 @@ function DataLog({
 }) {
   const date = new Date().toDateString();
   const time = new Date().toLocaleTimeString();
-  
+  const [displayColorPicker, setDisplayColorPicker] = useState(false);
+  const [currColor, setCurrColor] = useState("#e5e5e5");
+  console.log('currColor: ', currColor);
   const [isLogSymptomsOpen, setIsLogSymptomsOpen] = useState(false);
   const sliderArray = [
     "pain",
@@ -42,6 +44,15 @@ function DataLog({
 
   function onLogSymptomsClick() {
     setIsLogSymptomsOpen(!isLogSymptomsOpen);
+  }
+
+  function handleClickColor() {
+    setDisplayColorPicker(!displayColorPicker);
+  }
+
+  function handleColorChange(e) {
+    setCurrColor(e.hsl);
+    setDrainColor(e.hsl);
   }
 
   const onSaveDataClick = async () => {
@@ -117,18 +128,6 @@ function DataLog({
     setDrainOutput(e.target.value);
   };
 
-  const onDrainColorChange = (e) => {
-    setDrainColor(e.target.value);
-  };
-
-  const onDrainOutputPhotoChange = (e) => {
-    setDrainOutputPhoto(e.target.value);
-  };
-
-  const onDrainSkinSitePhotoChange = (e) => {
-    setDrainSkinSitePhoto(e.target.value);
-  };
-
   return (
     <div className="dataLog">
       <NavBar
@@ -202,14 +201,32 @@ function DataLog({
             <h3>
               Drain output color <span className="red">*</span>
             </h3>
-            <SketchPicker/>
-            <input
-              type="text"
-              className="datalog-input"
-              placeholder="e.g. yellowish green"
-              onChange={(e) => onDrainColorChange(e)}
-              value={drainColor}
-            />
+            <div>
+              {displayColorPicker ? (
+                <div>
+                  <ChromePicker
+                    color={currColor}
+                    onChange={(e) => handleColorChange(e)}
+                  />
+                  <button
+                    className="log-symptoms"
+                    onClick={() => handleClickColor()}
+                  >
+                    Save Color
+                  </button>
+                </div>
+              ) : (
+                <div>
+                <div className="exampleColor" style = {{backgroundColor: `${currColor}`}}>hello</div>
+                <button
+                  className="log-symptoms"
+                  onClick={() => handleClickColor()}
+                >
+                  Pick Color
+                </button>
+                </div>
+              )}
+            </div>
 
             {dataLogError ? (
               <h2 className="error-message">{dataLogError}</h2>

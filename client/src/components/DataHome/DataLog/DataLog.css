@@ -85,6 +85,12 @@ h3{
     margin-right: 15%;
 }
 
+.exampleColor{
+    width: 100px;
+    height: 50px;
+    margin-top: 20px;
+}
+
 .rating-scale{
     background-color: 
     #243E36;
