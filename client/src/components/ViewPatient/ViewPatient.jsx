@@ -86,7 +86,7 @@ function ViewPatient({
               symptoms.
             </p>
           )}
-          
+
           {dataLogs.length > 0 && (
             <div className="dataLogs">
               <table className="symptom-table">
@@ -108,14 +108,19 @@ function ViewPatient({
                       <td>{dataLog.time}</td>
                       <td>{draintype}</td>
                       <td>{dataLog.drainOutput}</td>
-                      <td>{dataLog.drainColor}</td>
+                      <td>
+                        <div
+                          className="exampleColorVP"
+                          style={{ backgroundColor: `${dataLog.drainColor}` }}
+                        ></div>
+                      </td>
                       <td>{dataLog.symptoms}</td>
                       <td>{dataLog.concerns}</td>
                     </tr>
                   ))}
                 </tbody>
               </table>
-              <AllTabs dataLogs = {dataLogs}/>
+              <AllTabs dataLogs={dataLogs} />
             </div>
           )}
         </div>
