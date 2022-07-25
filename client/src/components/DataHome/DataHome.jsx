@@ -64,7 +64,7 @@ function DataHome({
           ) : (
             <div>
               {dataLogs.map((dataLog) => (
-                <div className="timeline">
+                <div className="timeline" key = {dataLog.date}>
                   <div className="timeline-component">
                     <div className="timeline-date">{dataLog.date}</div>
                   </div>
