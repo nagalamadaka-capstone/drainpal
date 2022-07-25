@@ -12,6 +12,7 @@ import AllPatients from "../AllPatients/AllPatients";
 import ViewPatient from "../ViewPatient/ViewPatient";
 import "./App.css";
 import axios from "axios";
+import DoctorProfile from "../Profile/DoctorProfile";
 const API_BASE_URL = "http://localhost:3001";
 
 function App() {
@@ -32,10 +33,6 @@ function App() {
     localStorage.getItem("current_lastname")
   );
   const [email, setEmail] = useState(localStorage.getItem("current_email"));
-  const [phone, setPhone] = useState(localStorage.getItem("current_phone"));
-  const [hospital, setHospital] = useState(
-    localStorage.getItem("current_hospital")
-  );
   const [draintype, setDraintype] = useState(
     localStorage.getItem("current_draintype")
   );
@@ -47,8 +44,14 @@ function App() {
   const [doctorsList, setDoctorsList] = useState(
     localStorage.getItem("curr_doctors")
   );
+
+  /* Doctor specific states **/
   const [isDoctorLoggedIn, setIsDoctorLoggedIn] = useState(
     localStorage.getItem("current_doctor_id") !== null
+  );
+  const [phone, setPhone] = useState(localStorage.getItem("current_phone"));
+  const [hospital, setHospital] = useState(
+    localStorage.getItem("current_hospital")
   );
 
   useEffect(() => {
@@ -163,17 +166,7 @@ function App() {
     setSignIn(newForm);
   }
 
-  const handleOnSignInSubmit = async (signIn) => {
-    if (!signIn.email || !signIn.password) {
-      setSigninerror("Please fill out all fields.");
-      return;
-    }
-
-    if (!signIn.email.includes("@") || !signIn.email.includes(".")) {
-      setSigninerror("Please enter a valid email.");
-      return;
-    }
-
+  const handleSignIn = async (signIn) => {
     try {
       setIsSignInLoading(true);
       const resp = await axios.post(`${API_BASE_URL}/users/login`, signIn);
@@ -216,6 +209,36 @@ function App() {
     setIsSignInLoading(false);
   };
 
+  const handleOnSignInSubmit = async (signIn) => {
+    if (!signIn.email || !signIn.password) {
+      setSigninerror("Please fill out all fields.");
+      return;
+    }
+
+    if (!signIn.email.includes("@") || !signIn.email.includes(".")) {
+      setSigninerror("Please enter a valid email.");
+      return;
+    }
+
+    await handleSignIn(signIn);
+  };
+
+  const handleCreateAcc = async (createAcc) => {
+    try {
+      setIsSignInLoading(true);
+      await axios.post(`${API_BASE_URL}/users/register`, createAcc);
+      setCreateaccsuccess(
+        "Success! You can now sign in with your email and password."
+      );
+      setCreateAcc({});
+    } catch (err) {
+      setCreateaccerror(
+        "Account already exists for that email. Please try again."
+      );
+    }
+    setIsSignInLoading(false);
+  };
+
   const handleOnCreateAccSubmit = async (createAcc) => {
     if (
       !createAcc.firstname ||
@@ -235,19 +258,7 @@ function App() {
       return;
     }
 
-    try {
-      setIsSignInLoading(true);
-      await axios.post(`${API_BASE_URL}/users/register`, createAcc);
-      setCreateaccsuccess(
-        "Success! You can now sign in with your email and password."
-      );
-      setCreateAcc({});
-    } catch (err) {
-      setCreateaccerror(
-        "Account already exists for that email. Please try again."
-      );
-    }
-    setIsSignInLoading(false);
+    await handleCreateAcc(createAcc);
   };
 
   const handleOnLogOut = async () => {
@@ -268,6 +279,49 @@ function App() {
     } catch (err) {}
   };
 
+  const handleFacebookLogin = async (infoUser, response, first, last) => {
+    try {
+      setIsSignInLoading(true);
+      const loginInfo = await axios.post(
+        `${API_BASE_URL}/users/fblogin`,
+        infoUser
+      );
+
+      let user = loginInfo.data;
+      localStorage.setItem("current_user_id", user["objectId"]);
+      localStorage.setItem("current_firstname", formatString(first));
+      localStorage.setItem("current_lastname", formatString(last));
+      localStorage.setItem("current_email", infoUser.email);
+      const currDrain = await getProfileInfo(
+        "draintype",
+        localStorage.getItem("current_user_id")
+      );
+      const currHealthcareprovider = await getProfileInfo(
+        "healthcareprovider",
+        localStorage.getItem("current_user_id")
+      );
+
+      localStorage.setItem("current_draintype", currDrain);
+      localStorage.setItem(
+        "current_healthcareprovider",
+        currHealthcareprovider
+      );
+      handleProfileInfoChange("firstname", first);
+      handleProfileInfoChange("lastname", last);
+      handleProfileInfoChange("email", infoUser.email);
+      addAuthenticationHeader();
+
+      setIsLoggedIn(true);
+      setFirstName(formatString(first));
+      setLastName(formatString(last));
+      setEmail(response.email);
+      setDraintype(localStorage.getItem("current_draintype"));
+      setHealthcareprovider(localStorage.getItem("current_healthcareprovider"));
+      setIsSignInOpen(false);
+    } catch (err) {}
+    setIsSignInLoading(false);
+  };
+
   const handleFacebookLoginResponse = async function (response) {
     var fullName = response.name;
     const [first, last] = fullName.split(" ");
@@ -282,48 +336,7 @@ function App() {
         firstname: first,
         lastname: last,
       };
-      try {
-        setIsSignInLoading(true);
-        const loginInfo = await axios.post(
-          `${API_BASE_URL}/users/fblogin`,
-          infoUser
-        );
-
-        let user = loginInfo.data;
-        localStorage.setItem("current_user_id", user["objectId"]);
-        localStorage.setItem("current_firstname", formatString(first));
-        localStorage.setItem("current_lastname", formatString(last));
-        localStorage.setItem("current_email", infoUser.email);
-        const currDrain = await getProfileInfo(
-          "draintype",
-          localStorage.getItem("current_user_id")
-        );
-        const currHealthcareprovider = await getProfileInfo(
-          "healthcareprovider",
-          localStorage.getItem("current_user_id")
-        );
-
-        localStorage.setItem("current_draintype", currDrain);
-        localStorage.setItem(
-          "current_healthcareprovider",
-          currHealthcareprovider
-        );
-        handleProfileInfoChange("firstname", first);
-        handleProfileInfoChange("lastname", last);
-        handleProfileInfoChange("email", infoUser.email);
-        addAuthenticationHeader();
-
-        setIsLoggedIn(true);
-        setFirstName(formatString(first));
-        setLastName(formatString(last));
-        setEmail(response.email);
-        setDraintype(localStorage.getItem("current_draintype"));
-        setHealthcareprovider(
-          localStorage.getItem("current_healthcareprovider")
-        );
-        setIsSignInOpen(false);
-      } catch (err) {}
-      setIsSignInLoading(false);
+      await handleFacebookLogin(infoUser, response, first, last);
     }
   };
 
@@ -393,7 +406,19 @@ function App() {
             />
             <Route
               path="/profile"
-              element={
+              element={ isDoctorLoggedIn ? (<DoctorProfile
+                handleSignInOpen = {handleSignInOpen}
+                isLoggedIn = {isLoggedIn}
+                handleCreateAccOpen  = {handleCreateAccOpen}
+                firstname = {firstName}
+                lastname = {lastName}
+                email = {email}
+                handleOnLogOut = {handleOnLogOut}
+                handleProfileInfoChange = {handleProfileInfoChange}
+                isDoctorLoggedIn = {isDoctorLoggedIn}
+                phone = {phone}
+                hospital = {hospital}
+              />) : (
                 <Profile
                   isLoggedIn={isLoggedIn}
                   handleSignInOpen={handleSignInOpen}
@@ -414,7 +439,7 @@ function App() {
                   doctorsList={doctorsList}
                   isDoctorLoggedIn={isDoctorLoggedIn}
                 />
-              }
+              )}
             />
             <Route
               path="/troubleshooting"
@@ -456,7 +481,7 @@ function App() {
             />
             <Route
               path="/allpatients"
-              element={
+              element={ isDoctorLoggedIn ?
                 <AllPatients
                   isDoctorLoggedIn={isDoctorLoggedIn}
                   isLoggedIn={isLoggedIn}
@@ -464,17 +489,19 @@ function App() {
                   handleCreateAccOpen={handleCreateAccOpen}
                   lastName={lastName}
                 />
+                : null
               }
             />
             <Route
               path="/viewpatient/:userId/:firstname/:lastname"
-              element={
+              element={ isDoctorLoggedIn ?
                 <ViewPatient
                   isDoctorLoggedIn={isDoctorLoggedIn}
                   isLoggedIn={isLoggedIn}
                   handleSignInOpen={handleSignInOpen}
                   handleCreateAccOpen={handleCreateAccOpen}
                 />
+                : null
               }
             />
           </Routes>
