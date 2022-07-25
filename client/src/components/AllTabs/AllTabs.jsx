@@ -11,6 +11,7 @@ import SleepingGraph from "../DistressGraphs/SleepingGraph";
 import VolumeGraph from "../VolumeGraph/VolumeGraph";
 
 function AllTabs({dataLogs}) {
+    const allTabs = ["Volume", "Pain", "Bowels", "Breathing", "Appetite", "Nausea", "Fatigue", "Sleeping"];
   const [activeTab, setActiveTab] = useState("tab1");
   function handleTabClick(tab) {
     setActiveTab(tab);
@@ -18,71 +19,34 @@ function AllTabs({dataLogs}) {
   return (
     <div className="Tabs">
       <ul className="nav">
-        <li
-          className={activeTab === "tab1" ? "active" : ""}
-          onClick={() => handleTabClick("tab1")}
-        >
-          Volume
-        </li>
-        <li
-          className={activeTab === "tab2" ? "active" : ""}
-          onClick={() => handleTabClick("tab2")}
-        >
-          Pain
-        </li>
-        <li
-          className={activeTab === "tab3" ? "active" : ""}
-          onClick={() => handleTabClick("tab3")}
-        >
-          Bowels
-        </li>
-        <li
-          className={activeTab === "tab4" ? "active" : ""}
-          onClick={() => handleTabClick("tab4")}
-        >
-          Breathing
-        </li>
-        <li
-          className={activeTab === "tab5" ? "active" : ""}
-          onClick={() => handleTabClick("tab5")}
-        >
-          Appetite
-        </li>
-        <li
-          className={activeTab === "tab6" ? "active" : ""}
-          onClick={() => handleTabClick("tab6")}
-        >
-          Nausea
-        </li>
-        <li
-          className={activeTab === "tab7" ? "active" : ""}
-          onClick={() => handleTabClick("tab7")}
-        >
-          Fatigue
-        </li>
-        <li
-          className={activeTab === "tab8" ? "active" : ""}
-          onClick={() => handleTabClick("tab8")}
-        >
-          Sleeping
-        </li>
+        {allTabs.map((tab) => (
+            <li key={tab}
+                className={tab === activeTab ? "active" : ""}
+                onClick={() => handleTabClick(tab)}
+            >
+                {tab}
+            </li>
+        ))}
+
+
+
       </ul>
       <div className="outlet">
-        {activeTab === "tab1" ? (
+        {activeTab === allTabs[0] ? (
           <VolumeGraph dataLogs={dataLogs}/>
-        ) : activeTab === "tab2" ? (
+        ) : activeTab === allTabs[1] ? (
           <PainGraph dataLogs = {dataLogs}/>
-        ) : activeTab === "tab3" ? (
+        ) : activeTab === allTabs[2] ? (
           <BowelsGraph dataLogs = {dataLogs}/>
-        ) : activeTab === "tab4" ? (
+        ) : activeTab === allTabs[3] ? (
           <BreathingGraph dataLogs = {dataLogs}/>
-        ) : activeTab === "tab5" ? (
+        ) : activeTab === allTabs[4] ? (
           <AppetiteGraph dataLogs = {dataLogs}/>
-        ) : activeTab === "tab6" ? (
+        ) : activeTab === allTabs[5] ? (
           <NauseaGraph dataLogs = {dataLogs}/>
-        ) : activeTab === "tab7" ? (
+        ) : activeTab === allTabs[6] ? (
           <FatigueGraph dataLogs = {dataLogs}/>
-        ) : activeTab === "tab8" ? (
+        ) : activeTab === allTabs[7] ? (
           <SleepingGraph dataLogs = {dataLogs} />
         ) : null}
       </div>
