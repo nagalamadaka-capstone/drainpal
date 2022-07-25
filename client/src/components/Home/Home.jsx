@@ -18,12 +18,15 @@ function Home({
   handleOnSignInSubmit,
   handleOnCreateAccSubmit,
   firstName,
+    lastName,
   createaccerror,
   signinerror,
   handleFacebookLoginResponse,
   articles,
   userId,
   createaccsuccess,
+  doctorsList,
+  isDoctorLoggedIn,
 }) {
   return (
     <div className="home">
@@ -42,11 +45,13 @@ function Home({
         createaccsuccess = {createaccsuccess}
         signinerror = {signinerror}
         handleFacebookLoginResponse = {handleFacebookLoginResponse}
+        doctorsList = {doctorsList}
       />
       <NavBar
         handleSignInOpen={handleSignInOpen}
         isLoggedIn={isLoggedIn}
         handleCreateAccOpen={handleCreateAccOpen}
+        isDoctorLoggedIn = {isDoctorLoggedIn}
       />
       <div className="notNavBar">
         <Banner
@@ -54,7 +59,9 @@ function Home({
           handleCreateAccOpen={handleCreateAccOpen}
           isLoggedIn={isLoggedIn}
           firstName={firstName}
+            lastName={lastName}
           userId={userId}
+          isDoctorLoggedIn = {isDoctorLoggedIn}
         />
         <div className="generalInfoWrapper">
             {articles.map(article => {

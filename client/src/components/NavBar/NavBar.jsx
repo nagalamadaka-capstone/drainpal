@@ -2,18 +2,40 @@ import React from "react";
 import "./NavBar.css";
 import { Link } from "react-router-dom";
 
-function NavBar({ handleSignInOpen, handleCreateAccOpen, isLoggedIn }) {
+function NavBar({ handleSignInOpen, handleCreateAccOpen, isLoggedIn, isDoctorLoggedIn }) {
   return (
     <div className="navbar">
       <nav>
-        {isLoggedIn ? (
+        {isLoggedIn && isDoctorLoggedIn ? (
           <ul>
             <Link to="/">
               <li id="DrainPalLi">
                 <h1 id="DrainPal">DrainPal</h1>
               </li>
             </Link>
-
+            <Link to="/profile">
+              <li className="menuhover">Profile</li>
+            </Link>
+            <Link to="/allpatients">
+              <li className="menuhover">View Patients</li>
+            </Link>
+            <Link to="/troubleshooting">
+              <li className="menuhover">Troubleshooting</li>
+            </Link>
+            <Link to="/">
+              <li className="menuhover">Home</li>
+            </Link>
+          </ul>
+        ) 
+        : 
+        isLoggedIn && !isDoctorLoggedIn ? 
+        ( 
+            <ul>
+            <Link to="/">
+              <li id="DrainPalLi">
+                <h1 id="DrainPal">DrainPal</h1>
+              </li>
+            </Link>
             <Link to="/profile">
               <li className="menuhover">Profile</li>
             </Link>
@@ -27,7 +49,9 @@ function NavBar({ handleSignInOpen, handleCreateAccOpen, isLoggedIn }) {
               <li className="menuhover">Home</li>
             </Link>
           </ul>
-        ) : (
+        ) 
+        : 
+        (
           <ul>
             <Link to="/">
               <li>

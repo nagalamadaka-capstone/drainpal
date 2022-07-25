@@ -11,8 +11,10 @@ function DataHome({
   handleCreateAccOpen,
   isLoggedIn,
   userId,
+  isDoctorLoggedIn,
 }) {
   const [dataLogs, setDataLogs] = useState([]);
+  
   const [dataLogsError, setDataLogsError] = useState(null);
   const [dataLogsLoading, setDataLogsLoading] = useState(false);
   const API_BASE_URL = "http://localhost:3001";
@@ -47,6 +49,7 @@ function DataHome({
         handleSignInOpen={handleSignInOpen}
         isLoggedIn={isLoggedIn}
         handleCreateAccOpen={handleCreateAccOpen}
+        isDoctorLoggedIn={isDoctorLoggedIn}
       />
       <div className="notNavBar">
         <div className="wrapper">
@@ -69,8 +72,8 @@ function DataHome({
                     <div className="timeline-point"></div>
                   </div>
                   <div className="timeline-component timeline-data-entry">
-                    <h2>Drain Output: {dataLog.drainoutput}mL</h2>
-                    <h2>Drain Color: {dataLog.draincolor}</h2>
+                    <h2>Drain Output: {dataLog.drainOutput}mL</h2>
+                    <h2>Drain Color: {dataLog.drainColor}</h2>
                     <p>distress from pain: {dataLog.pain}</p>
                     <p>distress from nausea: {dataLog.nausea}</p>
                     <p>distress from appetite: {dataLog.appetite}</p>

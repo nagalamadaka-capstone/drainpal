@@ -6,8 +6,16 @@ import Slider from "./slider";
 import axios from "axios";
 import { Link } from "react-router-dom";
 
-function DataLog({ handleSignInOpen, handleCreateAccOpen, isLoggedIn, id }) {
+function DataLog({
+  handleSignInOpen,
+  handleCreateAccOpen,
+  isLoggedIn,
+  id,
+  isDoctorLoggedIn,
+}) {
   const date = new Date().toDateString();
+  const time = new Date().toLocaleTimeString();
+  
   const [isLogSymptomsOpen, setIsLogSymptomsOpen] = useState(false);
   const sliderArray = [
     "pain",
@@ -57,6 +65,7 @@ function DataLog({ handleSignInOpen, handleCreateAccOpen, isLoggedIn, id }) {
           id: id,
           symptoms: symptoms,
           concerns: concerns,
+          time: time,
           drainOutput: drainOutput,
           drainColor: drainColor,
           drainOutputPhoto: drainOutputPhoto,
@@ -125,6 +134,7 @@ function DataLog({ handleSignInOpen, handleCreateAccOpen, isLoggedIn, id }) {
         handleSignInOpen={handleSignInOpen}
         isLoggedIn={isLoggedIn}
         handleCreateAccOpen={handleCreateAccOpen}
+        isDoctorLoggedIn={isDoctorLoggedIn}
       />
       <div className="notNavBar">
         <div className="wrapper">
@@ -197,20 +207,6 @@ function DataLog({ handleSignInOpen, handleCreateAccOpen, isLoggedIn, id }) {
               placeholder="e.g. yellowish green"
               onChange={(e) => onDrainColorChange(e)}
               value={drainColor}
-            />
-            <h3>Drain output photo</h3>
-            <input
-              type="file"
-              className="datalog-choose-file"
-              placeholder="Drain output photo"
-              onChange={(e) => onDrainOutputPhotoChange(e)}
-            />
-            <h3>Drain skin site photo</h3>
-            <input
-              type="file"
-              className="datalog-choose-file"
-              placeholder="Drain skin site photo"
-              onChange={(e) => onDrainSkinSitePhotoChange(e)}
             />
             {dataLogError ? (
               <h2 className="error-message">{dataLogError}</h2>

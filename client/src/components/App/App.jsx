@@ -7,8 +7,9 @@ import DataHome from "../DataHome/DataHome";
 import Profile from "../Profile/Profile";
 import DataLog from "../DataHome/DataLog/DataLog";
 import Loading from "../Loading/Loading";
-import LogSymptoms from "../DataHome/DataLog/LogSymptoms/LogSymptoms";
 import ArticleView from "../ArticleView/ArticleView";
+import AllPatients from "../AllPatients/AllPatients";
+import ViewPatient from "../ViewPatient/ViewPatient";
 import "./App.css";
 import axios from "axios";
 const API_BASE_URL = "http://localhost:3001";
@@ -18,7 +19,6 @@ function App() {
   const [isCreateAccOpen, setIsCreateAccOpen] = useState(false);
   const [createAcc, setCreateAcc] = useState({});
   const [signIn, setSignIn] = useState({});
-  const [troubleshooting, setTroubleshooting] = useState({});
   const [createaccerror, setCreateaccerror] = useState("");
   const [createaccsuccess, setCreateaccsuccess] = useState("");
   const [signinerror, setSigninerror] = useState("");
@@ -32,6 +32,10 @@ function App() {
     localStorage.getItem("current_lastname")
   );
   const [email, setEmail] = useState(localStorage.getItem("current_email"));
+  const [phone, setPhone] = useState(localStorage.getItem("current_phone"));
+  const [hospital, setHospital] = useState(
+    localStorage.getItem("current_hospital")
+  );
   const [draintype, setDraintype] = useState(
     localStorage.getItem("current_draintype")
   );
@@ -40,13 +44,26 @@ function App() {
   );
   const [articles, setArticles] = useState([]);
   const [isSignInLoading, setIsSignInLoading] = useState(false);
+  const [doctorsList, setDoctorsList] = useState(
+    localStorage.getItem("curr_doctors")
+  );
+  const [isDoctorLoggedIn, setIsDoctorLoggedIn] = useState(
+    localStorage.getItem("current_doctor_id") !== null
+  );
 
-  useEffect (() => {
-    axios.get(`${API_BASE_URL}/articles/`).then(res => {     
+  useEffect(() => {
+    axios.get(`${API_BASE_URL}/articles/`).then((res) => {
       setArticles(res.data.newArticles);
-    }
-    );
+    });
+    axios.get(`${API_BASE_URL}/users/getDoctors`).then((res) => {
+      localStorage.setItem("curr_doctors", res.data);
+      setDoctorsList(res.data);
+    });
   }, []);
+
+  useEffect(() => {
+    axios.post(`${API_BASE_URL}/users/addDoctor`).then((res) => {});
+  }, [doctorsList]);
 
   const addAuthenticationHeader = () => {
     const currentUserId = localStorage.getItem("current_user_id");
@@ -90,14 +107,13 @@ function App() {
   }
 
   const getProfileInfo = async (key, id) => {
-      try{
-        const response = await axios.get(`${API_BASE_URL}/users/getprofileinfo`, {params: {key, id}});
-        return response.data.key;
-      }
-      catch(err){
-      }
-  }
-    
+    try {
+      const response = await axios.get(`${API_BASE_URL}/users/getprofileinfo`, {
+        params: { key, id },
+      });
+      return response.data.key;
+    } catch (err) {}
+  };
 
   const handleProfileInfoChange = async (key, value) => {
     var realKey = key.replace("current_", "");
@@ -114,16 +130,14 @@ function App() {
       setHealthcareprovider(value);
     }
 
-    try{
+    try {
       await axios.post(`${API_BASE_URL}/users/changeprofile`, {
         key: realKey,
         value: value,
         id: localStorage.getItem("current_user_id"),
-        });
-    }
-    catch(err){
-    }
-  }
+      });
+    } catch (err) {}
+  };
 
   function handleOnCreateAccFormChange(key, val) {
     let newForm = {
@@ -134,6 +148,7 @@ function App() {
       draintype: createAcc.draintype,
       drainsite: createAcc.drainsite,
       healthcareprovider: createAcc.healthcareprovider,
+      isDoctor: false,
     };
     newForm[key] = val;
     setCreateAcc(newForm);
@@ -163,22 +178,31 @@ function App() {
       setIsSignInLoading(true);
       const resp = await axios.post(`${API_BASE_URL}/users/login`, signIn);
       let user = resp.data;
+
       localStorage.setItem("current_user_id", user["objectId"]);
       localStorage.setItem("current_firstname", formatString(user.firstname));
       localStorage.setItem("current_lastname", formatString(user.lastname));
       localStorage.setItem("current_email", user.email);
       localStorage.setItem("current_draintype", user.draintype);
+      localStorage.setItem("current_phone", user.phone);
+      localStorage.setItem("current_hospital", user.hospital);
       localStorage.setItem(
         "current_healthcareprovider",
         user.healthcareprovider
       );
+      if (user.isDoctor) {
+        localStorage.setItem("current_doctor_id", user["objectId"]);
+      }
       addAuthenticationHeader();
 
+      setIsDoctorLoggedIn(user.isDoctor);
       setIsLoggedIn(true);
       setSigninerror("");
       setFirstName(formatString(resp.data.firstname));
       setLastName(formatString(resp.data.lastname));
       setEmail(resp.data.email);
+      setPhone(resp.data.phone);
+      setHospital(resp.data.hospital);
       setDraintype(resp.data.draintype);
       setHealthcareprovider(resp.data.healthcareprovider);
       setIsSignInOpen(false);
@@ -230,27 +254,21 @@ function App() {
     try {
       await axios.post(`${API_BASE_URL}/users/logout`);
       localStorage.removeItem("current_user_id");
+      localStorage.removeItem("current_doctor_id");
       localStorage.removeItem("current_firstname");
       localStorage.removeItem("current_lastname");
       localStorage.removeItem("current_email");
       localStorage.removeItem("current_draintype");
       localStorage.removeItem("current_healthcareprovider");
+      localStorage.removeItem("current_phone");
+      localStorage.removeItem("current_hospital");
       axios.defaults.headers.common = {};
       setIsLoggedIn(false);
+      setIsDoctorLoggedIn(false);
     } catch (err) {}
   };
 
-  function handleOnTroubleshootingChange(key, val) {
-    let newForm = {
-      draintype: troubleshooting.draintype,
-      issue: troubleshooting.issue,
-    };
-    newForm[key] = val;
-    setTroubleshooting(newForm);
-  }
-
   const handleFacebookLoginResponse = async function (response) {
-    
     var fullName = response.name;
     const [first, last] = fullName.split(" ");
     if (response.error !== undefined) {
@@ -270,14 +288,20 @@ function App() {
           `${API_BASE_URL}/users/fblogin`,
           infoUser
         );
-        
+
         let user = loginInfo.data;
         localStorage.setItem("current_user_id", user["objectId"]);
         localStorage.setItem("current_firstname", formatString(first));
         localStorage.setItem("current_lastname", formatString(last));
         localStorage.setItem("current_email", infoUser.email);
-        const currDrain = await getProfileInfo("draintype", localStorage.getItem("current_user_id"));
-        const currHealthcareprovider = await getProfileInfo("healthcareprovider", localStorage.getItem("current_user_id"));
+        const currDrain = await getProfileInfo(
+          "draintype",
+          localStorage.getItem("current_user_id")
+        );
+        const currHealthcareprovider = await getProfileInfo(
+          "healthcareprovider",
+          localStorage.getItem("current_user_id")
+        );
 
         localStorage.setItem("current_draintype", currDrain);
         localStorage.setItem(
@@ -295,7 +319,8 @@ function App() {
         setEmail(response.email);
         setDraintype(localStorage.getItem("current_draintype"));
         setHealthcareprovider(
-          localStorage.getItem("current_healthcareprovider"));
+          localStorage.getItem("current_healthcareprovider")
+        );
         setIsSignInOpen(false);
       } catch (err) {}
       setIsSignInLoading(false);
@@ -315,47 +340,55 @@ function App() {
             <Route
               path="/"
               element={
-                isSignInLoading?
-                <Loading />:
-                <Home
-                  handleSignInOpen={handleSignInOpen}
-                  handleCreateAccOpen={handleCreateAccOpen}
-                  isLoggedIn={isLoggedIn}
-                  createAcc={createAcc}
-                  signIn={signIn}
-                  handleOnCreateAccFormChange={handleOnCreateAccFormChange}
-                  handleOnSignInFormChange={handleOnSignInFormChange}
-                  isSignInOpen={isSignInOpen}
-                  isCreateAccOpen={isCreateAccOpen}
-                  handleOnSignInSubmit={handleOnSignInSubmit}
-                  handleOnCreateAccSubmit={handleOnCreateAccSubmit}
-                  firstName={firstName}
-                  createaccerror={createaccerror}
-                  createaccsuccess = {createaccsuccess}
-                  signinerror={signinerror}
-                  handleFacebookLoginResponse={handleFacebookLoginResponse}
-                  articles = {articles}
-                  userId = {localStorage.getItem("current_user_id")}
-                />
+                isSignInLoading ? (
+                  <Loading />
+                ) : (
+                  <Home
+                    handleSignInOpen={handleSignInOpen}
+                    handleCreateAccOpen={handleCreateAccOpen}
+                    isLoggedIn={isLoggedIn}
+                    createAcc={createAcc}
+                    signIn={signIn}
+                    handleOnCreateAccFormChange={handleOnCreateAccFormChange}
+                    handleOnSignInFormChange={handleOnSignInFormChange}
+                    isSignInOpen={isSignInOpen}
+                    isCreateAccOpen={isCreateAccOpen}
+                    handleOnSignInSubmit={handleOnSignInSubmit}
+                    handleOnCreateAccSubmit={handleOnCreateAccSubmit}
+                    firstName={firstName}
+                    lastName={lastName}
+                    createaccerror={createaccerror}
+                    createaccsuccess={createaccsuccess}
+                    signinerror={signinerror}
+                    handleFacebookLoginResponse={handleFacebookLoginResponse}
+                    articles={articles}
+                    userId={localStorage.getItem("current_user_id")}
+                    doctorsList={doctorsList}
+                    isDoctorLoggedIn={isDoctorLoggedIn}
+                  />
+                )
               }
             />
             <Route
               path="/data"
               element={
-                <DataHome
-                  handleSignInOpen={handleSignInOpen}
-                  handleCreateAccOpen={handleCreateAccOpen}
-                  isLoggedIn={isLoggedIn}
-                  createAcc={createAcc}
-                  signIn={signIn}
-                  handleOnCreateAccFormChange={handleOnCreateAccFormChange}
-                  handleOnSignInFormChange={handleOnSignInFormChange}
-                  isSignInOpen={isSignInOpen}
-                  isCreateAccOpen={isCreateAccOpen}
-                  handleOnSignInSubmit={handleOnSignInSubmit}
-                  handleOnCreateAccSubmit={handleOnCreateAccSubmit}
-                  userId = {localStorage.getItem("current_user_id")}
-                />
+                isDoctorLoggedIn ? null : (
+                  <DataHome
+                    handleSignInOpen={handleSignInOpen}
+                    handleCreateAccOpen={handleCreateAccOpen}
+                    isLoggedIn={isLoggedIn}
+                    createAcc={createAcc}
+                    signIn={signIn}
+                    handleOnCreateAccFormChange={handleOnCreateAccFormChange}
+                    handleOnSignInFormChange={handleOnSignInFormChange}
+                    isSignInOpen={isSignInOpen}
+                    isCreateAccOpen={isCreateAccOpen}
+                    handleOnSignInSubmit={handleOnSignInSubmit}
+                    handleOnCreateAccSubmit={handleOnCreateAccSubmit}
+                    userId={localStorage.getItem("current_user_id")}
+                    isDoctorLoggedIn={isDoctorLoggedIn}
+                  />
+                )
               }
             />
             <Route
@@ -368,6 +401,8 @@ function App() {
                   firstname={firstName}
                   lastname={lastName}
                   email={email}
+                  phone={phone}
+                  hospital={hospital}
                   draintype={draintype}
                   healthcareprovider={healthcareprovider}
                   handleOnLogOut={handleOnLogOut}
@@ -375,7 +410,9 @@ function App() {
                   handleOnHealthcareProviderChange={
                     handleOnHealthcareProviderChange
                   }
-                  handleProfileInfoChange = {handleProfileInfoChange}
+                  handleProfileInfoChange={handleProfileInfoChange}
+                  doctorsList={doctorsList}
+                  isDoctorLoggedIn={isDoctorLoggedIn}
                 />
               }
             />
@@ -383,33 +420,63 @@ function App() {
               path="/troubleshooting"
               element={
                 <Troubleshooting
-                  handleOnTroubleshootingChange={handleOnTroubleshootingChange}
-                  troubleshooting={troubleshooting}
                   handleSignInOpen={handleSignInOpen}
                   handleCreateAccOpen={handleCreateAccOpen}
                   isLoggedIn={isLoggedIn}
+                  draintype={draintype}
+                  isDoctorLoggedIn={isDoctorLoggedIn}
                 />
               }
             />
             <Route
               path="/datalog"
               element={
-                <DataLog
+                isDoctorLoggedIn ? null : (
+                  <DataLog
+                    isLoggedIn={isLoggedIn}
+                    handleSignInOpen={handleSignInOpen}
+                    handleCreateAccOpen={handleCreateAccOpen}
+                    id={localStorage.getItem("current_user_id")}
+                    isDoctorLoggedIn={isDoctorLoggedIn}
+                  />
+                )
+              }
+            />
+            <Route
+              path="/articles/:articleid"
+              element={
+                <ArticleView
                   isLoggedIn={isLoggedIn}
                   handleSignInOpen={handleSignInOpen}
                   handleCreateAccOpen={handleCreateAccOpen}
-                  id = {localStorage.getItem("current_user_id")}
+                  articles={articles}
+                  isDoctorLoggedIn={isDoctorLoggedIn}
                 />
               }
             />
-            <Route path="/articles/:articleid" element={
-              <ArticleView
-                isLoggedIn={isLoggedIn}
-                handleSignInOpen={handleSignInOpen}
-                handleCreateAccOpen={handleCreateAccOpen}
-                articles = {articles}
-              />
-            } />
+            <Route
+              path="/allpatients"
+              element={
+                <AllPatients
+                  isDoctorLoggedIn={isDoctorLoggedIn}
+                  isLoggedIn={isLoggedIn}
+                  handleSignInOpen={handleSignInOpen}
+                  handleCreateAccOpen={handleCreateAccOpen}
+                  lastName={lastName}
+                />
+              }
+            />
+            <Route
+              path="/viewpatient/:userId/:firstname/:lastname"
+              element={
+                <ViewPatient
+                  isDoctorLoggedIn={isDoctorLoggedIn}
+                  isLoggedIn={isLoggedIn}
+                  handleSignInOpen={handleSignInOpen}
+                  handleCreateAccOpen={handleCreateAccOpen}
+                />
+              }
+            />
           </Routes>
         </div>
       </BrowserRouter>

@@ -9,57 +9,75 @@ function Banner({
   handleCreateAccOpen,
   isLoggedIn,
   firstName,
+  lastName,
   userId,
-
+  isDoctorLoggedIn,
 }) {
-    const [hasLoggedData, setHasLoggedData] = useState(false);
-    const API_BASE_URL = "http://localhost:3001";
-    const date = new Date().toDateString();
+  const [hasLoggedData, setHasLoggedData] = useState(false);
 
-    const fetchData = async () => {
-        try {
-            const response = await axios.get(`${API_BASE_URL}/datalogs/check`, {
-                params: {
-                    userId: userId,
-                    date: date,
-                },
-            });
-            if (response.data === "true" || response.data === true) {
-                setHasLoggedData(true);
-            } else {
-                setHasLoggedData(false);
-            }
-        }
-        catch (error) {
-            console.log(error);
-        }
-    }
+  const API_BASE_URL = "http://localhost:3001";
+  const date = new Date().toDateString();
 
-    useEffect(() => {
-        fetchData();
-    }
-    , []);
+  const fetchData = async () => {
+    try {
+      const response = await axios.get(`${API_BASE_URL}/datalogs/check`, {
+        params: {
+          userId: userId,
+          date: date,
+        },
+      });
+      if (response.data === "true" || response.data === true) {
+        setHasLoggedData(true);
+      } else {
+        setHasLoggedData(false);
+      }
+    } catch (error) {}
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
 
   return (
     <div className="banner">
       {isLoggedIn ? (
         <div className="bannerLoggedIn">
-          <h1>Welcome, {firstName}!</h1>
+          {isDoctorLoggedIn ? (
+            <h1>Welcome, Dr. {lastName}</h1>
+          ) : (
+            <h1>Welcome, {firstName}</h1>
+          )}
           <h2>
             DrainPal is a tool for users to track their pain levels due to a
             Percutaneous Nephrostomy Tube.
           </h2>
-          {hasLoggedData ? (null) 
-          : 
-          (<Link to="/datalog">
-            <button>{firstName}, you have not tracked your daily pain levels yet! Click here to track them.</button>
-          </Link>
-          )
-            }
-          
-          <Link to="/troubleshooting">
-            <button>Need help with your drain? Troubleshoot here!</button>
-          </Link>
+          {isDoctorLoggedIn? null: hasLoggedData ? null : (
+            <Link to="/datalog">
+              <button>
+                {firstName}, you have not tracked your daily pain levels yet!
+                Click here to track them.
+              </button>
+            </Link>
+          )}
+
+          {isDoctorLoggedIn ? (
+            <div>
+              <Link to="/allpatients">
+                <button>
+                  Click here to view your patients' drain data and pain levels.
+                </button>
+              </Link>
+              <Link to="/troubleshooting">
+                <button>
+                  Want to help patient with their drain? Troubleshoot here!
+                </button>
+              </Link>
+            </div>
+          ) : (
+            <Link to="/troubleshooting">
+              <button>Need help with your drain? Troubleshoot here!</button>
+            </Link>
+          )}
         </div>
       ) : (
         <div className="bannerNotLoggedIn">

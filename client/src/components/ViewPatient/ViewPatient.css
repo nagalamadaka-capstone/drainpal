@@ -1,0 +1,28 @@
+.symptom-table{
+    width: 80%;
+    border-collapse: collapse;
+    margin: auto;
+    border-spacing: 0;
+    font-family: 'Work Sans', sans-serif;
+    font-size: 16px;
+    font-weight: 300;
+    color: black;
+    text-align: center;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    padding: 5px;
+    border: 1px solid black;
+}
+
+.symptom-table th{
+    font-family: 'Work Sans', sans-serif;
+    font-size: 24px;
+    padding: 10px;
+    font-weight: 400;
+    border: 1px solid black;
+}
+
+.symptom-table td{
+    padding: 10px;
+    border: 1px solid black;
+}
