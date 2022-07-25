@@ -7,6 +7,7 @@ import axios from "axios";
 import "./ViewPatient.css";
 import VolumeGraph from "../VolumeGraph/VolumeGraph";
 import DistressGraphs from "../DistressGraphs/DistressGraphs";
+import AllTabs from "../AllTabs/AllTabs";
 
 function ViewPatient({
   isDoctorLoggedIn,
@@ -85,6 +86,7 @@ function ViewPatient({
               symptoms.
             </p>
           )}
+          
           {dataLogs.length > 0 && (
             <div className="dataLogs">
               <table className="symptom-table">
@@ -113,6 +115,7 @@ function ViewPatient({
                   ))}
                 </tbody>
               </table>
+              <AllTabs/>
               <VolumeGraph dataLogs={dataLogs} />
               <DistressGraphs dataLogs={dataLogs} />
             </div>
