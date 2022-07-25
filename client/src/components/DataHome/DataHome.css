@@ -64,3 +64,10 @@
     height: 15px;
     border-radius: 50%;
 }
+
+.exampleColorHome{
+    width: 60px;
+    height: 30px;
+    padding: 3px;
+    border-radius: 5px;
+}

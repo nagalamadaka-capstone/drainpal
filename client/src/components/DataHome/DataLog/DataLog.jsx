@@ -52,7 +52,7 @@ function DataLog({
 
   function handleColorChange(e) {
     setCurrColor(e.hex);
-    setDrainColor(e.hsl);
+    setDrainColor(e.hex);
   }
 
   const onSaveDataClick = async () => {
