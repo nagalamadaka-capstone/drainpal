@@ -86,9 +86,11 @@ h3{
 }
 
 .exampleColor{
-    width: 100px;
+    width: 150px;
     height: 50px;
     margin-top: 20px;
+    margin-left: 10px;
+    border-radius: 2px;
 }
 
 .rating-scale{

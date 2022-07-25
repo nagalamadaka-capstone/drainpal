@@ -18,7 +18,7 @@ function DataLog({
   const time = new Date().toLocaleTimeString();
   const [displayColorPicker, setDisplayColorPicker] = useState(false);
   const [currColor, setCurrColor] = useState("#e5e5e5");
-  console.log('currColor: ', currColor);
+
   const [isLogSymptomsOpen, setIsLogSymptomsOpen] = useState(false);
   const sliderArray = [
     "pain",
@@ -51,7 +51,7 @@ function DataLog({
   }
 
   function handleColorChange(e) {
-    setCurrColor(e.hsl);
+    setCurrColor(e.hex);
     setDrainColor(e.hsl);
   }
 
@@ -217,13 +217,16 @@ function DataLog({
                 </div>
               ) : (
                 <div>
-                <div className="exampleColor" style = {{backgroundColor: `${currColor}`}}>hello</div>
-                <button
-                  className="log-symptoms"
-                  onClick={() => handleClickColor()}
-                >
-                  Pick Color
-                </button>
+                  <div
+                    className="exampleColor"
+                    style={{ backgroundColor: `${currColor}` }}
+                  ></div>
+                  <button
+                    className="log-symptoms"
+                    onClick={() => handleClickColor()}
+                  >
+                    Pick Color
+                  </button>
                 </div>
               )}
             </div>
