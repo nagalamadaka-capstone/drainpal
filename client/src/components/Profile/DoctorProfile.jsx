@@ -31,17 +31,18 @@ function DoctorProfile({
   };
 
   const handleOnPhoneClick = () => {
-    if (phone.length != 10){
-        setPhoneError("Phone number must be 10 digits long");
+    if (phone.includes("-") || phone.includes("/") || phone.includes(" ")) {
+      phone = phone.replace(/[-/\s]/g, "");
     }
-    else{
-        setPhoneError("");
-        if (isPhoneOpen) {
-            handleProfileInfoChange("current_phone", phone);
-          }
+    if (phone.length != 10) {
+      setPhoneError("Phone number must be 10 digits long");
+    } else {
+      setPhoneError("");
+      if (isPhoneOpen) {
+        handleProfileInfoChange("current_phone", phone);
+      }
     }
 
-    
     setIsPhoneOpen(!isPhoneOpen);
   };
 
@@ -92,7 +93,9 @@ function DoctorProfile({
             )}
 
             <h2>Phone</h2>
-            {phoneError ? <h4 className="error-message">{phoneError}</h4> : null}
+            {phoneError ? (
+              <h4 className="error-message">{phoneError}</h4>
+            ) : null}
             <h3>{phone}</h3>
             {isPhoneOpen ? (
               <div className="phone-change">
