@@ -129,8 +129,6 @@ function App() {
   };
 
   const handleProfileInfoChange = async (key, value) => {
-    console.log("value: ", value);
-    console.log("key: ", key);
     var realKey = key.replace("current_", "");
     localStorage.setItem(key, value);
     if (key === "current_firstname") {
@@ -155,11 +153,7 @@ function App() {
         value: value,
         id: localStorage.getItem("current_user_id"),
       });
-      console.log("success change profile");
-    } catch (err) {
-      console.log('err: ', err);
-
-    }
+    } catch (err) {}
   };
 
   function handleOnCreateAccFormChange(key, val) {

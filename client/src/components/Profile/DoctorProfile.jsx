@@ -92,7 +92,7 @@ function DoctorProfile({
             )}
 
             <h2>Phone</h2>
-            
+            {phoneError ? <h4 className="error-message">{phoneError}</h4> : null}
             <h3>{phone}</h3>
             {isPhoneOpen ? (
               <div className="phone-change">
