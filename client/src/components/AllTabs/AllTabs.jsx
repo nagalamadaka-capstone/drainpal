@@ -1,16 +1,12 @@
 import React from "react";
 import "./AllTabs.css";
 import { useState } from "react";
-import PainGraph from "../DistressGraphs/PainGraph";
-import BowelsGraph from "../DistressGraphs/BowelsGraph";
-import BreathingGraph from "../DistressGraphs/BreathingGraph";
-import AppetiteGraph from "../DistressGraphs/AppetiteGraph";
-import NauseaGraph from "../DistressGraphs/NauseaGraph";
-import FatigueGraph from "../DistressGraphs/FatigueGraph";
-import SleepingGraph from "../DistressGraphs/SleepingGraph";
+
 import VolumeGraph from "../VolumeGraph/VolumeGraph";
+import TemplateGraph from "../DistressGraphs/TemplateGraph";
 
 function AllTabs({dataLogs}) {
+    const allTabs = ["Volume", "Pain", "Bowels", "Breathing", "Appetite", "Nausea", "Fatigue", "Sleeping"];
   const [activeTab, setActiveTab] = useState("tab1");
   function handleTabClick(tab) {
     setActiveTab(tab);
@@ -18,72 +14,35 @@ function AllTabs({dataLogs}) {
   return (
     <div className="Tabs">
       <ul className="nav">
-        <li
-          className={activeTab === "tab1" ? "active" : ""}
-          onClick={() => handleTabClick("tab1")}
-        >
-          Volume
-        </li>
-        <li
-          className={activeTab === "tab2" ? "active" : ""}
-          onClick={() => handleTabClick("tab2")}
-        >
-          Pain
-        </li>
-        <li
-          className={activeTab === "tab3" ? "active" : ""}
-          onClick={() => handleTabClick("tab3")}
-        >
-          Bowels
-        </li>
-        <li
-          className={activeTab === "tab4" ? "active" : ""}
-          onClick={() => handleTabClick("tab4")}
-        >
-          Breathing
-        </li>
-        <li
-          className={activeTab === "tab5" ? "active" : ""}
-          onClick={() => handleTabClick("tab5")}
-        >
-          Appetite
-        </li>
-        <li
-          className={activeTab === "tab6" ? "active" : ""}
-          onClick={() => handleTabClick("tab6")}
-        >
-          Nausea
-        </li>
-        <li
-          className={activeTab === "tab7" ? "active" : ""}
-          onClick={() => handleTabClick("tab7")}
-        >
-          Fatigue
-        </li>
-        <li
-          className={activeTab === "tab8" ? "active" : ""}
-          onClick={() => handleTabClick("tab8")}
-        >
-          Sleeping
-        </li>
+        {allTabs.map((tab) => (
+            <li key={tab}
+                className={tab === activeTab ? "active" : ""}
+                onClick={() => handleTabClick(tab)}
+            >
+                {tab}
+            </li>
+        ))}
+
+
+
       </ul>
       <div className="outlet">
-        {activeTab === "tab1" ? (
+        {activeTab === allTabs[0] ? (
           <VolumeGraph dataLogs={dataLogs}/>
-        ) : activeTab === "tab2" ? (
-          <PainGraph dataLogs = {dataLogs}/>
-        ) : activeTab === "tab3" ? (
-          <BowelsGraph dataLogs = {dataLogs}/>
-        ) : activeTab === "tab4" ? (
-          <BreathingGraph dataLogs = {dataLogs}/>
-        ) : activeTab === "tab5" ? (
-          <AppetiteGraph dataLogs = {dataLogs}/>
-        ) : activeTab === "tab6" ? (
-          <NauseaGraph dataLogs = {dataLogs}/>
-        ) : activeTab === "tab7" ? (
-          <FatigueGraph dataLogs = {dataLogs}/>
-        ) : activeTab === "tab8" ? (
-          <SleepingGraph dataLogs = {dataLogs} />
+        ) : activeTab === allTabs[1] ? (
+          <TemplateGraph dataLogs = {dataLogs} type = {"pain"}/>
+        ) : activeTab === allTabs[2] ? (
+            <TemplateGraph dataLogs = {dataLogs} type = {"bowels"}/>
+        ) : activeTab === allTabs[3] ? (
+            <TemplateGraph dataLogs = {dataLogs} type = {"breathing"}/>
+        ) : activeTab === allTabs[4] ? (
+            <TemplateGraph dataLogs = {dataLogs} type = {"appetite"}/>
+        ) : activeTab === allTabs[5] ? (
+            <TemplateGraph dataLogs = {dataLogs} type = {"nausea"}/>
+        ) : activeTab === allTabs[6] ? (
+            <TemplateGraph dataLogs = {dataLogs} type = {"fatigue"}/>
+        ) : activeTab === allTabs[7] ? (
+            <TemplateGraph dataLogs = {dataLogs} type = {"sleeping"}/>
         ) : null}
       </div>
     </div>
