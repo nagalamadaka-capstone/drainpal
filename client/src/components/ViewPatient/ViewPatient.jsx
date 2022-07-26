@@ -5,8 +5,6 @@ import { useEffect } from "react";
 import { useState } from "react";
 import axios from "axios";
 import "./ViewPatient.css";
-import VolumeGraph from "../VolumeGraph/VolumeGraph";
-import DistressGraphs from "../DistressGraphs/DistressGraphs";
 import AllTabs from "../AllTabs/AllTabs";
 
 function ViewPatient({

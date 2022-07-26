@@ -1,14 +1,9 @@
 import React from "react";
 import "./AllTabs.css";
 import { useState } from "react";
-import PainGraph from "../DistressGraphs/PainGraph";
-import BowelsGraph from "../DistressGraphs/BowelsGraph";
-import BreathingGraph from "../DistressGraphs/BreathingGraph";
-import AppetiteGraph from "../DistressGraphs/AppetiteGraph";
-import NauseaGraph from "../DistressGraphs/NauseaGraph";
-import FatigueGraph from "../DistressGraphs/FatigueGraph";
-import SleepingGraph from "../DistressGraphs/SleepingGraph";
+
 import VolumeGraph from "../VolumeGraph/VolumeGraph";
+import TemplateGraph from "../DistressGraphs/TemplateGraph";
 
 function AllTabs({dataLogs}) {
     const allTabs = ["Volume", "Pain", "Bowels", "Breathing", "Appetite", "Nausea", "Fatigue", "Sleeping"];
@@ -35,19 +30,19 @@ function AllTabs({dataLogs}) {
         {activeTab === allTabs[0] ? (
           <VolumeGraph dataLogs={dataLogs}/>
         ) : activeTab === allTabs[1] ? (
-          <PainGraph dataLogs = {dataLogs}/>
+          <TemplateGraph dataLogs = {dataLogs} type = {"pain"}/>
         ) : activeTab === allTabs[2] ? (
-          <BowelsGraph dataLogs = {dataLogs}/>
+            <TemplateGraph dataLogs = {dataLogs} type = {"bowels"}/>
         ) : activeTab === allTabs[3] ? (
-          <BreathingGraph dataLogs = {dataLogs}/>
+            <TemplateGraph dataLogs = {dataLogs} type = {"breathing"}/>
         ) : activeTab === allTabs[4] ? (
-          <AppetiteGraph dataLogs = {dataLogs}/>
+            <TemplateGraph dataLogs = {dataLogs} type = {"appetite"}/>
         ) : activeTab === allTabs[5] ? (
-          <NauseaGraph dataLogs = {dataLogs}/>
+            <TemplateGraph dataLogs = {dataLogs} type = {"nausea"}/>
         ) : activeTab === allTabs[6] ? (
-          <FatigueGraph dataLogs = {dataLogs}/>
+            <TemplateGraph dataLogs = {dataLogs} type = {"fatigue"}/>
         ) : activeTab === allTabs[7] ? (
-          <SleepingGraph dataLogs = {dataLogs} />
+            <TemplateGraph dataLogs = {dataLogs} type = {"sleeping"}/>
         ) : null}
       </div>
     </div>
