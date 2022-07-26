@@ -2,21 +2,22 @@ import React from "react";
 import "./DistressGraphs.css";
 import ReactApexChart from "react-apexcharts";
 
-function PainGraph({ dataLogs }) {
+function TemplateGraph({ dataLogs, type }) {
   const reversedDataLogs = [...dataLogs].reverse();
   let categories = [];
-
   let data = [];
+  let typeCapitalized = type.charAt(0).toUpperCase() + type.slice(1);
 
   reversedDataLogs.map((dataLog) => {
-    data.push(dataLog.pain);
+    data.push(dataLog[type]);
+
     categories.push(dataLog.date);
   });
 
   let state = {
     series: [
       {
-        name: "Pain",
+        name: `${typeCapitalized}`,
         data: data,
       },
     ],
@@ -35,7 +36,7 @@ function PainGraph({ dataLogs }) {
       stroke: {
         curve: "straight",
       },
-      colors: ['rgba(42, 63, 38, 0.65)'],
+      colors: ["rgba(42, 63, 38, 0.65)"],
       grid: {
         row: {
           colors: ["transparent"], // takes an array which will be repeated on columns
@@ -47,17 +48,17 @@ function PainGraph({ dataLogs }) {
       },
       yaxis: {
         title: {
-          text: 'Distress Level',
+          text: "Distress Level",
         },
         min: 0,
-        max: 10
+        max: 10,
       },
     },
   };
 
   return (
     <div className="distressGraphs">
-      <h2>Pain Symptoms Over Time</h2>
+      <h2>{typeCapitalized} Symptoms Over Time</h2>
       <ReactApexChart
         options={state.options}
         series={state.series}
@@ -68,4 +69,4 @@ function PainGraph({ dataLogs }) {
   );
 }
 
-export default PainGraph;
+export default TemplateGraph;
