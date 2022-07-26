@@ -84,3 +84,25 @@ h3{
     margin-left: 15%;
     margin-right: 15%;
 }
+
+.exampleColor{
+    width: 150px;
+    height: 50px;
+    margin-top: 20px;
+    margin-left: 10px;
+    border-radius: 2px;
+}
+
+.rating-scale{
+    background-color: 
+    #243E36;
+    color: white;
+    box-sizing: border-box;
+    border-radius: 5px;
+    padding: 5px;
+    margin-top: 30px;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+    width: 650px;
+}
