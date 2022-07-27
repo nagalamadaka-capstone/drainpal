@@ -8,9 +8,9 @@ const articlesRoute = require("./routes/articles");
 const dataLogsRoute = require("./routes/datalogs");
 const { NotFoundError } = require("./utils/error");
 
-app.use(bodyParser.json());
-app.use(morgan("tiny"));
 app.use(cors());
+app.use(bodyParser.json({limit: '50mb'}));
+app.use(morgan("tiny"));
 app.use("/users", userRoute);
 app.use("/articles", articlesRoute);
 app.use("/datalogs", dataLogsRoute);

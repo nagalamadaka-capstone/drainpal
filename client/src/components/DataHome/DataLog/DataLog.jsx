@@ -6,6 +6,7 @@ import Slider from "./slider";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import { ChromePicker } from "react-color";
+import base64ArrayBuffer from "../../../base64ArrayBuffer";
 
 function DataLog({
   handleSignInOpen,
@@ -55,9 +56,12 @@ function DataLog({
     setDrainColor(e.hex);
   }
 
-  function onDrainOutputPhotoChange(e) {
-    setDrainOutputPhoto(e.target.value);
-  }
+  const onDrainOutputPhotoChange = async (e) => {
+    var buffer = await e.target.files[0].arrayBuffer();
+    var base64 = base64ArrayBuffer(buffer);
+
+    setDrainOutputPhoto(base64);
+  };
 
   const onSaveDataClick = async () => {
     if (!drainOutput) {
@@ -90,6 +94,7 @@ function DataLog({
           sliderArrayValues: sliderArrayValues,
           sliderArray: sliderArray,
         };
+
         try {
           const response = await axios.post(
             `${API_BASE_URL}/datalogs/save`,

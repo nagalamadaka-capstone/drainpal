@@ -14,17 +14,11 @@ router.post("/save", async (req, res, next) => {
   try {
     const infoUser = req.body;
 
-    try {
-      let drainPhotoFile = fs
-        .readFileSync(infoUser.drainOutputPhoto)
-        .toString("base64");
-    } catch (err) {}
+    let drainPhoto = new Parse.File("drainPhoto.jpg", {
+      base64: infoUser.drainOutputPhoto,
+    });
 
-    try {
-      let drainPhoto = new Parse.File("drainPhoto.jpg", {
-        base64: drainPhotoFile,
-      });
-    } catch (err) {}
+    await drainPhoto.save();
 
     let dataLogs = Parse.Object.extend("DataLog");
     var dataLog = new dataLogs();
@@ -34,7 +28,7 @@ router.post("/save", async (req, res, next) => {
     dataLog.set("draintype", infoUser.draintype);
     dataLog.set("drainOutput", infoUser.drainOutput);
     dataLog.set("drainColor", infoUser.drainColor);
-    dataLog.set("drainOutputPhoto", drainPhoto);
+    dataLog.set("drainOutputPhotoFile", drainPhoto);
     dataLog.set("drainSkinSitePhoto", infoUser.drainSkinSitePhoto);
     dataLog.set(infoUser.sliderArray[0], infoUser.sliderArrayValues[0]);
     dataLog.set(infoUser.sliderArray[1], infoUser.sliderArrayValues[1]);
