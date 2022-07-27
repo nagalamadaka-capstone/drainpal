@@ -55,12 +55,12 @@ function DataLog({
     setDrainColor(e.hex);
   }
 
-  function onDrainOutputPhotoChange(e){
-    console.log(e.target.value);
+  function onDrainOutputPhotoChange(e) {
+    setDrainOutputPhoto(e.target.value);
   }
 
   const onSaveDataClick = async () => {
-    if (!drainOutput || !drainColor) {
+    if (!drainOutput) {
       setDataLogError("Please fill out all required fields before saving.");
       setSuccessMessage("");
     } else {
@@ -206,7 +206,7 @@ function DataLog({
               Drain output color <span className="red">*</span>
             </h3>
 
-            <h3>Either pick color or upload photo to detect color. </h3>
+            <h4>Either pick color or upload photo to detect color. </h4>
             {displayColorPicker ? (
               <div>
                 <ChromePicker
@@ -234,7 +234,11 @@ function DataLog({
                 </button>
               </div>
             )}
-            <input type="file" onChange={(e) => onDrainOutputPhotoChange(e)} />
+            <input
+              type="file"
+              className="datalog-choose-file"
+              onChange={(e) => onDrainOutputPhotoChange(e)}
+            />
 
             {dataLogError ? (
               <h2 className="error-message">{dataLogError}</h2>

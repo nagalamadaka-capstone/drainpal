@@ -4,6 +4,7 @@ const { NotFoundError } = require("../utils/error");
 var Parse = require("parse/node");
 const BACK4APPKEY = require("../../client/src/securitykeys").BACK4APPKEY;
 const BACK4APPSECRET = require("../../client/src/securitykeys").BACK4APPSECRET;
+const fs = require("fs");
 
 Parse.initialize(BACK4APPKEY, BACK4APPSECRET);
 Parse.serverURL = "https://parseapi.back4app.com/";
@@ -13,6 +14,18 @@ router.post("/save", async (req, res, next) => {
   try {
     const infoUser = req.body;
 
+    try {
+      let drainPhotoFile = fs
+        .readFileSync(infoUser.drainOutputPhoto)
+        .toString("base64");
+    } catch (err) {}
+
+    try {
+      let drainPhoto = new Parse.File("drainPhoto.jpg", {
+        base64: drainPhotoFile,
+      });
+    } catch (err) {}
+
     let dataLogs = Parse.Object.extend("DataLog");
     var dataLog = new dataLogs();
     dataLog.set("userId", infoUser.id);
@@ -21,7 +34,7 @@ router.post("/save", async (req, res, next) => {
     dataLog.set("draintype", infoUser.draintype);
     dataLog.set("drainOutput", infoUser.drainOutput);
     dataLog.set("drainColor", infoUser.drainColor);
-    dataLog.set("drainOutputPhoto", infoUser.drainOutputPhoto);
+    dataLog.set("drainOutputPhoto", drainPhoto);
     dataLog.set("drainSkinSitePhoto", infoUser.drainSkinSitePhoto);
     dataLog.set(infoUser.sliderArray[0], infoUser.sliderArrayValues[0]);
     dataLog.set(infoUser.sliderArray[1], infoUser.sliderArrayValues[1]);
