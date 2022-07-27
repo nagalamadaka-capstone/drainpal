@@ -59,12 +59,17 @@ function AllPatients({
               </thead>
               <tbody>
                 {patients.map((patient) => (
-                  <tr key = {patient.id}>
+                  <tr key={patient.id}>
                     <td>
                       <Link
-                        to={`/viewpatient/${patient.id}/${capitalizeName(patient.firstname)}/${capitalizeName(patient.lastname)}`}
+                        to={`/viewpatient/${patient.id}/${capitalizeName(
+                          patient.firstname
+                        )}/${capitalizeName(patient.lastname)}`}
                       >
-                        {capitalizeName(patient.firstname)} {capitalizeName(patient.lastname)}
+                        {" "}
+                        {capitalizeName(patient.firstname) +
+                          " " +
+                          capitalizeName(patient.lastname)}
                       </Link>
                     </td>
                     <td>{patient.email}</td>

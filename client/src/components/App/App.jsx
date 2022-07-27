@@ -54,6 +54,17 @@ function App() {
     localStorage.getItem("current_hospital")
   );
 
+  const enumLocalStorageKeys = {
+    current_user_id: "current_user_id",
+    current_firstname: "current_firstname",
+    current_lastname: "current_lastname",
+    current_email: "current_email",
+    current_draintype: "current_draintype",
+    current_healthcareprovider: "current_healthcareprovider",
+    current_phone: "current_phone",
+    current_hospital: "current_hospital",
+  };
+
   useEffect(() => {
     axios.get(`${API_BASE_URL}/articles/`).then((res) => {
       setArticles(res.data.newArticles);
@@ -109,6 +120,16 @@ function App() {
     setHealthcareprovider(val);
   }
 
+  function handleOnHospitalChange(val) {
+    localStorage.setItem("current_hospital", val);
+    setHospital(val);
+  }
+
+  function handleOnPhoneChange(val) {
+    localStorage.setItem("current_phone", val);
+    setPhone(val);
+  }
+
   const getProfileInfo = async (key, id) => {
     try {
       const response = await axios.get(`${API_BASE_URL}/users/getprofileinfo`, {
@@ -121,16 +142,31 @@ function App() {
   const handleProfileInfoChange = async (key, value) => {
     var realKey = key.replace("current_", "");
     localStorage.setItem(key, value);
-    if (key === "current_firstname") {
-      setFirstName(value);
-    } else if (key === "current_lastname") {
-      setLastName(value);
-    } else if (key === "current_email") {
-      setEmail(value);
-    } else if (key === "current_draintype") {
-      setDraintype(value);
-    } else {
-      setHealthcareprovider(value);
+    switch (key) {
+      case enumLocalStorageKeys.current_firstname:
+        setFirstName(value);
+        break;
+      case enumLocalStorageKeys.current_lastname:
+        setLastName(value);
+        break;
+      case enumLocalStorageKeys.current_email:
+        setEmail(value);
+        break;
+      case enumLocalStorageKeys.current_draintype:
+        setDraintype(value);
+        break;
+      case enumLocalStorageKeys.current_healthcareprovider:
+        console.log("key = healthcare provider");
+        setHealthcareprovider(value);
+        break;
+      case enumLocalStorageKeys.current_phone:
+        setPhone(value);
+        break;
+      case enumLocalStorageKeys.current_hospital:
+        setHospital(value);
+        break;
+      default:
+        break;
     }
 
     try {
@@ -406,40 +442,46 @@ function App() {
             />
             <Route
               path="/profile"
-              element={ isDoctorLoggedIn ? (<DoctorProfile
-                handleSignInOpen = {handleSignInOpen}
-                isLoggedIn = {isLoggedIn}
-                handleCreateAccOpen  = {handleCreateAccOpen}
-                firstname = {firstName}
-                lastname = {lastName}
-                email = {email}
-                handleOnLogOut = {handleOnLogOut}
-                handleProfileInfoChange = {handleProfileInfoChange}
-                isDoctorLoggedIn = {isDoctorLoggedIn}
-                phone = {phone}
-                hospital = {hospital}
-              />) : (
-                <Profile
-                  isLoggedIn={isLoggedIn}
-                  handleSignInOpen={handleSignInOpen}
-                  handleCreateAccOpen={handleCreateAccOpen}
-                  firstname={firstName}
-                  lastname={lastName}
-                  email={email}
-                  phone={phone}
-                  hospital={hospital}
-                  draintype={draintype}
-                  healthcareprovider={healthcareprovider}
-                  handleOnLogOut={handleOnLogOut}
-                  handleOnDrainTypeChange={handleOnDrainTypeChange}
-                  handleOnHealthcareProviderChange={
-                    handleOnHealthcareProviderChange
-                  }
-                  handleProfileInfoChange={handleProfileInfoChange}
-                  doctorsList={doctorsList}
-                  isDoctorLoggedIn={isDoctorLoggedIn}
-                />
-              )}
+              element={
+                isDoctorLoggedIn ? (
+                  <DoctorProfile
+                    handleSignInOpen={handleSignInOpen}
+                    isLoggedIn={isLoggedIn}
+                    handleCreateAccOpen={handleCreateAccOpen}
+                    firstname={firstName}
+                    lastname={lastName}
+                    email={email}
+                    handleOnLogOut={handleOnLogOut}
+                    handleProfileInfoChange={handleProfileInfoChange}
+                    isDoctorLoggedIn={isDoctorLoggedIn}
+                    phone={phone}
+                    hospital={hospital}
+                    handleOnHospitalChange={handleOnHospitalChange}
+                    handleOnPhoneChange={handleOnPhoneChange}
+                  />
+                ) : (
+                  <Profile
+                    isLoggedIn={isLoggedIn}
+                    handleSignInOpen={handleSignInOpen}
+                    handleCreateAccOpen={handleCreateAccOpen}
+                    firstname={firstName}
+                    lastname={lastName}
+                    email={email}
+                    phone={phone}
+                    hospital={hospital}
+                    draintype={draintype}
+                    healthcareprovider={healthcareprovider}
+                    handleOnLogOut={handleOnLogOut}
+                    handleOnDrainTypeChange={handleOnDrainTypeChange}
+                    handleOnHealthcareProviderChange={
+                      handleOnHealthcareProviderChange
+                    }
+                    handleProfileInfoChange={handleProfileInfoChange}
+                    doctorsList={doctorsList}
+                    isDoctorLoggedIn={isDoctorLoggedIn}
+                  />
+                )
+              }
             />
             <Route
               path="/troubleshooting"
@@ -481,27 +523,29 @@ function App() {
             />
             <Route
               path="/allpatients"
-              element={ isDoctorLoggedIn ?
-                <AllPatients
-                  isDoctorLoggedIn={isDoctorLoggedIn}
-                  isLoggedIn={isLoggedIn}
-                  handleSignInOpen={handleSignInOpen}
-                  handleCreateAccOpen={handleCreateAccOpen}
-                  lastName={lastName}
-                />
-                : null
+              element={
+                isDoctorLoggedIn ? (
+                  <AllPatients
+                    isDoctorLoggedIn={isDoctorLoggedIn}
+                    isLoggedIn={isLoggedIn}
+                    handleSignInOpen={handleSignInOpen}
+                    handleCreateAccOpen={handleCreateAccOpen}
+                    lastName={lastName}
+                  />
+                ) : null
               }
             />
             <Route
               path="/viewpatient/:userId/:firstname/:lastname"
-              element={ isDoctorLoggedIn ?
-                <ViewPatient
-                  isDoctorLoggedIn={isDoctorLoggedIn}
-                  isLoggedIn={isLoggedIn}
-                  handleSignInOpen={handleSignInOpen}
-                  handleCreateAccOpen={handleCreateAccOpen}
-                />
-                : null
+              element={
+                isDoctorLoggedIn ? (
+                  <ViewPatient
+                    isDoctorLoggedIn={isDoctorLoggedIn}
+                    isLoggedIn={isLoggedIn}
+                    handleSignInOpen={handleSignInOpen}
+                    handleCreateAccOpen={handleCreateAccOpen}
+                  />
+                ) : null
               }
             />
           </Routes>
