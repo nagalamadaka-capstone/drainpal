@@ -55,6 +55,10 @@ function DataLog({
     setDrainColor(e.hex);
   }
 
+  function onDrainOutputPhotoChange(e){
+    console.log(e.target.value);
+  }
+
   const onSaveDataClick = async () => {
     if (!drainOutput || !drainColor) {
       setDataLogError("Please fill out all required fields before saving.");
@@ -201,35 +205,36 @@ function DataLog({
             <h3>
               Drain output color <span className="red">*</span>
             </h3>
-            <div>
-              {displayColorPicker ? (
-                <div>
-                  <ChromePicker
-                    color={currColor}
-                    onChange={(e) => handleColorChange(e)}
-                  />
-                  <button
-                    className="log-symptoms"
-                    onClick={() => handleClickColor()}
-                  >
-                    Save Color
-                  </button>
-                </div>
-              ) : (
-                <div>
-                  <div
-                    className="exampleColor"
-                    style={{ backgroundColor: `${currColor}` }}
-                  ></div>
-                  <button
-                    className="log-symptoms"
-                    onClick={() => handleClickColor()}
-                  >
-                    Pick Color
-                  </button>
-                </div>
-              )}
-            </div>
+
+            <h3>Either pick color or upload photo to detect color. </h3>
+            {displayColorPicker ? (
+              <div>
+                <ChromePicker
+                  color={currColor}
+                  onChange={(e) => handleColorChange(e)}
+                />
+                <button
+                  className="log-symptoms"
+                  onClick={() => handleClickColor()}
+                >
+                  Save Color
+                </button>
+              </div>
+            ) : (
+              <div>
+                <div
+                  className="exampleColor"
+                  style={{ backgroundColor: `${currColor}` }}
+                ></div>
+                <button
+                  className="log-symptoms"
+                  onClick={() => handleClickColor()}
+                >
+                  Pick Color
+                </button>
+              </div>
+            )}
+            <input type="file" onChange={(e) => onDrainOutputPhotoChange(e)} />
 
             {dataLogError ? (
               <h2 className="error-message">{dataLogError}</h2>
