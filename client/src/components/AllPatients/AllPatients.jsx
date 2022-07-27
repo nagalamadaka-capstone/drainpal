@@ -66,8 +66,9 @@ function AllPatients({
                           patient.firstname
                         )}/${capitalizeName(patient.lastname)}`}
                       >
-                        {capitalizeName(patient.firstname)}{" "}
-                        {capitalizeName(patient.lastname)}
+                        {`${capitalizeName(patient.firstname)} ${capitalizeName(
+                          patient.lastName
+                        )}`}
                       </Link>
                     </td>
                     <td>{patient.email}</td>
