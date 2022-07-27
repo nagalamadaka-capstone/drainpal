@@ -6,6 +6,7 @@ import Slider from "./slider";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import { ChromePicker } from "react-color";
+import base64ArrayBuffer from "../../../base64ArrayBuffer";
 
 function DataLog({
   handleSignInOpen,
@@ -55,8 +56,15 @@ function DataLog({
     setDrainColor(e.hex);
   }
 
+  const onDrainOutputPhotoChange = async (e) => {
+    var buffer = await e.target.files[0].arrayBuffer();
+    var base64 = base64ArrayBuffer(buffer);
+
+    setDrainOutputPhoto(base64);
+  };
+
   const onSaveDataClick = async () => {
-    if (!drainOutput || !drainColor) {
+    if (!drainOutput) {
       setDataLogError("Please fill out all required fields before saving.");
       setSuccessMessage("");
     } else {
@@ -86,6 +94,7 @@ function DataLog({
           sliderArrayValues: sliderArrayValues,
           sliderArray: sliderArray,
         };
+
         try {
           const response = await axios.post(
             `${API_BASE_URL}/datalogs/save`,
@@ -201,35 +210,40 @@ function DataLog({
             <h3>
               Drain output color <span className="red">*</span>
             </h3>
-            <div>
-              {displayColorPicker ? (
-                <div>
-                  <ChromePicker
-                    color={currColor}
-                    onChange={(e) => handleColorChange(e)}
-                  />
-                  <button
-                    className="log-symptoms"
-                    onClick={() => handleClickColor()}
-                  >
-                    Save Color
-                  </button>
-                </div>
-              ) : (
-                <div>
-                  <div
-                    className="exampleColor"
-                    style={{ backgroundColor: `${currColor}` }}
-                  ></div>
-                  <button
-                    className="log-symptoms"
-                    onClick={() => handleClickColor()}
-                  >
-                    Pick Color
-                  </button>
-                </div>
-              )}
-            </div>
+
+            <h4>Either pick color or upload photo to detect color. </h4>
+            {displayColorPicker ? (
+              <div>
+                <ChromePicker
+                  color={currColor}
+                  onChange={(e) => handleColorChange(e)}
+                />
+                <button
+                  className="log-symptoms"
+                  onClick={() => handleClickColor()}
+                >
+                  Save Color
+                </button>
+              </div>
+            ) : (
+              <div>
+                <div
+                  className="exampleColor"
+                  style={{ backgroundColor: `${currColor}` }}
+                ></div>
+                <button
+                  className="log-symptoms"
+                  onClick={() => handleClickColor()}
+                >
+                  Pick Color
+                </button>
+              </div>
+            )}
+            <input
+              type="file"
+              className="datalog-choose-file"
+              onChange={(e) => onDrainOutputPhotoChange(e)}
+            />
 
             {dataLogError ? (
               <h2 className="error-message">{dataLogError}</h2>
