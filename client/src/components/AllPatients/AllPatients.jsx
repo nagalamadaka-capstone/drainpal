@@ -4,6 +4,7 @@ import "./AllPatients.css";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { FHIRAPIKEY } from "../../securitykeys";
 const API_BASE_URL = "http://localhost:3001";
 
 function AllPatients({
@@ -59,12 +60,15 @@ function AllPatients({
               </thead>
               <tbody>
                 {patients.map((patient) => (
-                  <tr key = {patient.id}>
+                  <tr key={patient.id}>
                     <td>
                       <Link
-                        to={`/viewpatient/${patient.id}/${capitalizeName(patient.firstname)}/${capitalizeName(patient.lastname)}`}
+                        to={`/viewpatient/${patient.id}/${capitalizeName(
+                          patient.firstname
+                        )}/${capitalizeName(patient.lastname)}`}
                       >
-                        {capitalizeName(patient.firstname)} {capitalizeName(patient.lastname)}
+                        {capitalizeName(patient.firstname)}{" "}
+                        {capitalizeName(patient.lastname)}
                       </Link>
                     </td>
                     <td>{patient.email}</td>
