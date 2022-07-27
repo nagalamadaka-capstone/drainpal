@@ -129,12 +129,9 @@ router.post("/logout", async (req, res) => {
 router.post("/changeprofile", async (req, res) => {
   const info = req.body;
   const id = info.id;
-  var value = info.value;
   const key = info.key;
-  if (key === "phone") {
-    // convert value to number
-    value = Number(value);
-  }
+  const value = key === "phone" ? Number(info.value): info.value;
+
   const params1 = { objectId: id, key: key, value: value };
 
   await Parse.Cloud.run("editUserProperty", params1);
