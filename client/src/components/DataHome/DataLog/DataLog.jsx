@@ -7,6 +7,7 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 import { ChromePicker } from "react-color";
 import base64ArrayBuffer from "../../../base64ArrayBuffer";
+import { IMAGGAAPIKEY, IMAGGASECRET } from "../../../securitykeys";
 
 function DataLog({
   handleSignInOpen,
@@ -58,9 +59,18 @@ function DataLog({
 
   const onDrainOutputPhotoChange = async (e) => {
     var buffer = await e.target.files[0].arrayBuffer();
+
     var base64 = base64ArrayBuffer(buffer);
 
     setDrainOutputPhoto(base64);
+
+    try {
+      const response = await axios.post(`${API_BASE_URL}/datalogs/upload`, {
+        base64,
+        IMAGGAAPIKEY,
+        IMAGGASECRET,
+      });
+    } catch (err) {}
   };
 
   const onSaveDataClick = async () => {

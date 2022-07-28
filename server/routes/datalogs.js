@@ -4,7 +4,10 @@ const { NotFoundError } = require("../utils/error");
 var Parse = require("parse/node");
 const BACK4APPKEY = require("../../client/src/securitykeys").BACK4APPKEY;
 const BACK4APPSECRET = require("../../client/src/securitykeys").BACK4APPSECRET;
+const axios = require("axios");
+const got = require("got");
 const fs = require("fs");
+const FormData = require("form-data");
 
 Parse.initialize(BACK4APPKEY, BACK4APPSECRET);
 Parse.serverURL = "https://parseapi.back4app.com/";
@@ -107,6 +110,36 @@ router.get("/check", async (req, res, next) => {
     });
   } catch (err) {
     next(err);
+  }
+});
+
+router.post("/upload", async (req, res, next) => {
+  const base64 = req.body.base64;
+  
+
+  const { IMAGGAAPIKEY } = req.body;
+  
+
+  const { IMAGGASECRET } = req.body;
+  
+
+  // const filePath = "./image.png";
+  const formData = new FormData();
+  formData.append("image", base64);
+
+  try {
+    const response = await got.post("https://api.imagga.com/v2/uploads", {
+      body: formData,
+      username: IMAGGAAPIKEY,
+      password: IMAGGASECRET,
+    });
+    const body = response.body;
+    const {result} = JSON.parse(body);
+    const uploadId = result.upload_id;
+    res.send({ uploadId });
+
+  } catch (error) {
+    
   }
 });
 
