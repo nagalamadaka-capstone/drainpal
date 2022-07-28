@@ -12,6 +12,22 @@ const FormData = require("form-data");
 Parse.initialize(BACK4APPKEY, BACK4APPSECRET);
 Parse.serverURL = "https://parseapi.back4app.com/";
 
+// save photo
+router.post("/savePhoto", async (req, res) => {
+  const { photo } = req.body;
+  const { id } = req.body;
+  const photoObject = new Parse.Object("Photo");
+
+  let drainPhoto = new Parse.File("photo.jpg", { base64: photo });
+
+  await drainPhoto.save();
+  photoObject.set("photo", drainPhoto);
+  photoObject.set("userId", id);
+  await photoObject.save();
+
+  res.send({ photoObject });
+});
+
 //save data entry, keep track of user id and return the object
 router.post("/save", async (req, res, next) => {
   try {
@@ -113,34 +129,23 @@ router.get("/check", async (req, res, next) => {
   }
 });
 
-router.post("/upload", async (req, res, next) => {
-  const base64 = req.body.base64;
-  
+router.get("/colors", async (req, res, next) => {
+  const parseLink = req.query.parseLink;
 
-  const { IMAGGAAPIKEY } = req.body;
-  
-
-  const { IMAGGASECRET } = req.body;
-  
-
-  // const filePath = "./image.png";
-  const formData = new FormData();
-  formData.append("image", base64);
+  const { IMAGGAAPIKEY } = req.query;
+  const { IMAGGASECRET } = req.query;
+  const url =
+    "https://api.imagga.com/v2/colors?image_url=" +
+    encodeURIComponent(parseLink);
 
   try {
-    const response = await got.post("https://api.imagga.com/v2/uploads", {
-      body: formData,
+    const response = await got.get(url, {
       username: IMAGGAAPIKEY,
       password: IMAGGASECRET,
     });
     const body = response.body;
-    const {result} = JSON.parse(body);
-    const uploadId = result.upload_id;
-    res.send({ uploadId });
-
-  } catch (error) {
-    
-  }
+    res.send(body);
+  } catch (error) {}
 });
 
 module.exports = router;
