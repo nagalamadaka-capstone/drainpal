@@ -87,7 +87,6 @@ function DataLog({
         });
         const result = response.data.result;
         const colors = result.colors;
-        console.log('colors: ', colors);
 
       } catch (err) {}
     } catch (err) {}

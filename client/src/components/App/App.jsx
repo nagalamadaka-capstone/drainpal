@@ -156,7 +156,7 @@ function App() {
         setDraintype(value);
         break;
       case enumLocalStorageKeys.current_healthcareprovider:
-        console.log("key = healthcare provider");
+        
         setHealthcareprovider(value);
         break;
       case enumLocalStorageKeys.current_phone:
