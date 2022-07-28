@@ -67,6 +67,7 @@ function DataLog({
   };
 
   const onDrainOutputPhotoSave = async () => {
+    
     try {
       const response1 = await axios.post(`${API_BASE_URL}/datalogs/savePhoto`, {
         photo: drainOutputPhoto,
@@ -87,7 +88,7 @@ function DataLog({
         });
         const result = response.data.result;
         const colors = result.colors;
-
+        
       } catch (err) {}
     } catch (err) {}
   };

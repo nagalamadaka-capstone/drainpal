@@ -15,6 +15,7 @@ Parse.serverURL = "https://parseapi.back4app.com/";
 // save photo
 router.post("/savePhoto", async (req, res) => {
   const { photo } = req.body;
+
   const { id } = req.body;
   const photoObject = new Parse.Object("Photo");
 
