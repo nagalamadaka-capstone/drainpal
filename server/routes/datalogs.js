@@ -17,6 +17,7 @@ router.post("/savePhoto", async (req, res) => {
   const { photo } = req.body;
 
   const { id } = req.body;
+
   const photoObject = new Parse.Object("Photo");
 
   let drainPhoto = new Parse.File("photo.jpg", { base64: photo });

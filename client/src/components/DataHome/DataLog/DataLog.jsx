@@ -21,7 +21,7 @@ function DataLog({
   const [displayColorPicker, setDisplayColorPicker] = useState(false);
   const [currColor, setCurrColor] = useState("#e5e5e5");
   const [link, setLink] = useState("");
-
+  const [colorsInPic, setColorsInPic] = useState([]);
   const [isLogSymptomsOpen, setIsLogSymptomsOpen] = useState(false);
   const sliderArray = [
     "pain",
@@ -67,7 +67,6 @@ function DataLog({
   };
 
   const onDrainOutputPhotoSave = async () => {
-    
     try {
       const response1 = await axios.post(`${API_BASE_URL}/datalogs/savePhoto`, {
         photo: drainOutputPhoto,
@@ -88,7 +87,25 @@ function DataLog({
         });
         const result = response.data.result;
         const colors = result.colors;
-        
+        const { foreground_colors } = colors;
+
+        {
+          foreground_colors.map((foreground_color) =>
+            colorsInPic.push(foreground_color.closest_palette_color_html_code)
+          );
+        }
+
+        const { image_colors } = colors;
+
+        {
+          image_colors.map((image_color) => {
+            return colorsInPic.includes(
+              image_color.closest_palette_color_html_code
+            )
+              ? null
+              : colorsInPic.push(image_color.closest_palette_color_html_code);
+          });
+        }
       } catch (err) {}
     } catch (err) {}
   };
@@ -280,6 +297,22 @@ function DataLog({
             >
               Find Colors in Photo
             </button>
+            {colorsInPic != "" ? (
+              <div>
+                <h4>Choose a color below</h4>
+                {colorsInPic.map((color) => (
+                  <div
+                    key={color}
+                    className="colorsFromPic"
+                    style={{ backgroundColor: `${color}` }}
+                    onClick={() => setCurrColor(color)}
+                  >
+                    color
+                  </div>
+                ))}
+              </div>
+            ) : null}
+            <div className="colorOptions"></div>
 
             {dataLogError ? (
               <h2 className="error-message">{dataLogError}</h2>

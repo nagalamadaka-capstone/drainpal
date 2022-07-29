@@ -90,7 +90,7 @@ h4{
     margin-right: 15%;
 }
 
-.exampleColor{
+.exampleColor, .colorsFromPic{
     width: 150px;
     height: 50px;
     margin-top: 20px;
