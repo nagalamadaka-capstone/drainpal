@@ -39,6 +39,7 @@ function DataLog({
   const [concerns, setConcerns] = useState("");
   const [drainOutput, setDrainOutput] = useState("");
   const [drainColor, setDrainColor] = useState("");
+  const [drainHSL, setDrainHSL] = useState("");
   const [drainOutputPhoto, setDrainOutputPhoto] = useState("");
   const [drainSkinSitePhoto, setDrainSkinSitePhoto] = useState("");
   const [dataLogError, setDataLogError] = useState("");
@@ -57,6 +58,7 @@ function DataLog({
   function handleColorChange(e) {
     setCurrColor(e.hex);
     setDrainColor(e.hex);
+    setDrainHSL(e.hsl);
   }
 
   const onDrainOutputPhotoChange = async (e) => {
@@ -161,6 +163,7 @@ function DataLog({
           time: time,
           drainOutput: drainOutput,
           drainColor: drainColor,
+          drainHSL: drainHSL,
           drainOutputPhoto: drainOutputPhoto,
           drainSkinSitePhoto: drainSkinSitePhoto,
           date: date,
@@ -185,6 +188,7 @@ function DataLog({
     setConcerns("");
     setDrainOutput("");
     setDrainColor("");
+    setDrainHSL("");
     setDrainOutputPhoto("");
     setDrainSkinSitePhoto("");
     setDataLogError("");

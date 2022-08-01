@@ -214,6 +214,13 @@ router.get("/getPatients", async (req, res, next) => {
   });
 });
 
+// get alarming patients for specific doctor
+router.get("/getAlarmingPatients", async (req, res, next) => {
+  
+
+});
+  
+
 /** Below are functions that were called once to set up database */
 //create roles for providers and patients
 router.post("/createRoles", async (req, res, next) => {

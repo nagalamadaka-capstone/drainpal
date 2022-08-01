@@ -14,7 +14,7 @@ function AllPatients({
   isDoctorLoggedIn,
 }) {
   const [patients, setPatients] = useState([]);
-
+  const [alerts, setAlerts] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
@@ -43,6 +43,22 @@ function AllPatients({
       />
       <div className="notNavBar">
         <div className="wrapper">
+        <h1>Alerts</h1>
+          <table className="patient-table">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Email</th>
+                  <th>Drain Type</th>
+                  <th>Date</th>
+                  <th>Time</th>
+                  <th>Color</th>
+                </tr>
+              </thead>
+              <tbody>
+                
+              </tbody>
+            </table>
           <h1>Your Patients</h1>
           {isLoading ? (
             <div className="loading">
