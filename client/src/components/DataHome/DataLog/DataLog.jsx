@@ -88,24 +88,39 @@ function DataLog({
         const result = response.data.result;
         const colors = result.colors;
         const { foreground_colors } = colors;
+        const foregroundColorsInPic = [];
 
         {
-          foreground_colors.map((foreground_color) =>
-            colorsInPic.push(foreground_color.closest_palette_color_html_code)
-          );
+          foreground_colors.map((foreground_color) => {
+            if (
+              !foregroundColorsInPic.includes(
+                foreground_color.closest_palette_color_html_code
+              )
+            ) {
+              foregroundColorsInPic.push(
+                foreground_color.closest_palette_color_html_code
+              );
+            }
+          });
+          setColorsInPic(foregroundColorsInPic);
         }
 
         const { image_colors } = colors;
+        const imageColorsInPic = [];
 
         {
           image_colors.map((image_color) => {
-            return colorsInPic.includes(
-              image_color.closest_palette_color_html_code
-            )
-              ? null
-              : colorsInPic.push(image_color.closest_palette_color_html_code);
+            if (
+              !colorsInPic.includes(image_color.closest_palette_color_html_code)
+            ) {
+              imageColorsInPic.push(
+                image_color.closest_palette_color_html_code
+              );
+            }
           });
         }
+
+        setColorsInPic([...imageColorsInPic, ...foregroundColorsInPic]);
       } catch (err) {}
     } catch (err) {}
   };
@@ -306,9 +321,7 @@ function DataLog({
                     className="colorsFromPic"
                     style={{ backgroundColor: `${color}` }}
                     onClick={() => setCurrColor(color)}
-                  >
-                    color
-                  </div>
+                  ></div>
                 ))}
               </div>
             ) : null}

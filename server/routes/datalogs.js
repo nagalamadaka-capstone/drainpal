@@ -14,6 +14,9 @@ Parse.serverURL = "https://parseapi.back4app.com/";
 
 // save photo
 router.post("/savePhoto", async (req, res) => {
+  if (!req.body.photo) {
+    return res.status(400).send("No photo");
+  }
   const { photo } = req.body;
 
   const { id } = req.body;
