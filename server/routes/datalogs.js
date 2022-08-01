@@ -23,7 +23,7 @@ router.post("/savePhoto", async (req, res) => {
 
   const photoObject = new Parse.Object("Photo");
 
-  let drainPhoto = new Parse.File("photo.jpg", { base64: photo });
+  const drainPhoto = new Parse.File("photo.jpg", { base64: photo });
 
   await drainPhoto.save();
   photoObject.set("photo", drainPhoto);
@@ -38,13 +38,13 @@ router.post("/save", async (req, res, next) => {
   try {
     const infoUser = req.body;
 
-    let drainPhoto = new Parse.File("drainPhoto.jpg", {
+    const drainPhoto = new Parse.File("drainPhoto.jpg", {
       base64: infoUser.drainOutputPhoto,
     });
 
     await drainPhoto.save();
 
-    let dataLogs = Parse.Object.extend("DataLog");
+    const dataLogs = Parse.Object.extend("DataLog");
     var dataLog = new dataLogs();
     dataLog.set("userId", infoUser.id);
     dataLog.set("date", infoUser.date);
@@ -75,14 +75,14 @@ router.get("/", async (req, res, next) => {
   try {
     const userId = req.query.userId;
 
-    let dataLogs = Parse.Object.extend("DataLog");
+    const dataLogs = Parse.Object.extend("DataLog");
     var query = new Parse.Query(dataLogs);
     query.equalTo("userId", userId);
     query.find().then((results) => {
       let newDataLogs = [];
       for (let i = 0; i < results.length; i++) {
-        let dataLog = results[i];
-        let newDataLog = {
+        const dataLog = results[i];
+        const newDataLog = {
           id: dataLog.id,
           key: dataLog.id,
           time: dataLog.get("time"),
@@ -118,7 +118,7 @@ router.get("/check", async (req, res, next) => {
     const userId = req.query.userId;
     const date = req.query.date;
 
-    let dataLogs = Parse.Object.extend("DataLog");
+    const dataLogs = Parse.Object.extend("DataLog");
     var query = new Parse.Query(dataLogs);
     query.equalTo("userId", userId);
     query.equalTo("date", date);
