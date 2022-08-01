@@ -8,6 +8,7 @@ import { Link } from "react-router-dom";
 import { ChromePicker } from "react-color";
 import base64ArrayBuffer from "../../../base64ArrayBuffer";
 import { IMAGGAAPIKEY, IMAGGASECRET } from "../../../securitykeys";
+import LoadingSpinner from "../../LoadingSpinner/LoadingSpinner";
 
 function DataLog({
   handleSignInOpen,
@@ -42,6 +43,7 @@ function DataLog({
   const [drainSkinSitePhoto, setDrainSkinSitePhoto] = useState("");
   const [dataLogError, setDataLogError] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
+  const [isColorLoading, setIsColorLoading] = useState(false);
   const API_BASE_URL = "http://localhost:3001";
 
   function onLogSymptomsClick() {
@@ -59,13 +61,12 @@ function DataLog({
 
   const onDrainOutputPhotoChange = async (e) => {
     const buffer = await e.target.files[0].arrayBuffer();
-
     const base64 = base64ArrayBuffer(buffer);
-
     setDrainOutputPhoto(base64);
   };
 
   const onDrainOutputPhotoSave = async () => {
+    setIsColorLoading(true);
     try {
       const response1 = await axios.post(`${API_BASE_URL}/datalogs/savePhoto`, {
         photo: drainOutputPhoto,
@@ -125,6 +126,7 @@ function DataLog({
         setColorsInPic([...imageColorsInPic, ...foregroundColorsInPic]);
       } catch (err) {}
     } catch (err) {}
+    setIsColorLoading(false);
   };
 
   const onSaveDataClick = async () => {
@@ -314,8 +316,9 @@ function DataLog({
             >
               Find Colors in Photo
             </button>
+            {isColorLoading ? <LoadingSpinner /> : null}
             {colorsInPic != "" ? (
-              <div>
+              <div className="colorOptions">
                 <h4>Choose a color below</h4>
                 {colorsInPic.map((color) => (
                   <div
@@ -327,7 +330,6 @@ function DataLog({
                 ))}
               </div>
             ) : null}
-            <div className="colorOptions"></div>
 
             {dataLogError ? (
               <h2 className="error-message">{dataLogError}</h2>
