@@ -232,20 +232,17 @@ function DataLog({
                 0 = absent 10 = worst possible
               </div>
               <h2>Please rate your:</h2>
-              <h3>distress from pain</h3>
-              <Slider onSliderChange={onSliderChange} sliderNumber={0} />
-              <h3>distress from difficulty sleeping</h3>
-              <Slider onSliderChange={onSliderChange} sliderNumber={1} />
-              <h3>distress from nausea</h3>
-              <Slider onSliderChange={onSliderChange} sliderNumber={2} />
-              <h3>distress from bowels</h3>
-              <Slider onSliderChange={onSliderChange} sliderNumber={3} />
-              <h3>distress from appetite</h3>
-              <Slider onSliderChange={onSliderChange} sliderNumber={4} />
-              <h3>distress from diffulty breathing</h3>
-              <Slider onSliderChange={onSliderChange} sliderNumber={5} />
-              <h3>distress from fatigue</h3>
-              <Slider onSliderChange={onSliderChange} sliderNumber={6} />
+              {sliderArray.map((slider, index) => {
+                return (
+                  <div className="slider-container">
+                    <h3>distress from {slider}</h3>
+                    <Slider
+                      onSliderChange={onSliderChange} sliderNumber={index}
+                    />
+                  </div>
+                );
+              }
+              )}
               <h2>Do you have any other symptoms?</h2>
               <input
                 type="text"
