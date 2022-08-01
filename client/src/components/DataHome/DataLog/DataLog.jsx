@@ -109,7 +109,12 @@ function DataLog({
         {
           image_colors.map((image_color) => {
             if (
-              !colorsInPic.includes(image_color.closest_palette_color_html_code)
+              !colorsInPic.includes(
+                image_color.closest_palette_color_html_code
+              ) &&
+              !foregroundColorsInPic.includes(
+                image_color.closest_palette_color_html_code
+              )
             ) {
               imageColorsInPic.push(
                 image_color.closest_palette_color_html_code
@@ -117,7 +122,6 @@ function DataLog({
             }
           });
         }
-
         setColorsInPic([...imageColorsInPic, ...foregroundColorsInPic]);
       } catch (err) {}
     } catch (err) {}
