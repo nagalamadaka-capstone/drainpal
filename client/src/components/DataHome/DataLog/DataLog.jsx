@@ -73,60 +73,67 @@ function DataLog({
         id: id,
       });
 
-      const { photoObject } = response1.data;
-      const { photo } = photoObject;
-
-      try {
-        const response = await axios.get(`${API_BASE_URL}/datalogs/colors`, {
-          params: {
-            parseLink: photo.url,
-            IMAGGAAPIKEY,
-            IMAGGASECRET,
-          },
-        });
-        const result = response.data.result;
-        const colors = result.colors;
-        const { foreground_colors } = colors;
-        const foregroundColorsInPic = [];
-
-        {
-          foreground_colors.map((foreground_color) => {
-            if (
-              !foregroundColorsInPic.includes(
-                foreground_color.closest_palette_color_html_code
-              )
-            ) {
-              foregroundColorsInPic.push(
-                foreground_color.closest_palette_color_html_code
-              );
-            }
-          });
-          setColorsInPic(foregroundColorsInPic);
-        }
-
-        const { image_colors } = colors;
-        const imageColorsInPic = [];
-
-        {
-          image_colors.map((image_color) => {
-            if (
-              !colorsInPic.includes(
-                image_color.closest_palette_color_html_code
-              ) &&
-              !foregroundColorsInPic.includes(
-                image_color.closest_palette_color_html_code
-              )
-            ) {
-              imageColorsInPic.push(
-                image_color.closest_palette_color_html_code
-              );
-            }
-          });
-        }
-        setColorsInPic([...imageColorsInPic, ...foregroundColorsInPic]);
-      } catch (err) {}
-    } catch (err) {}
+      await extractColors(response1.data);
+      setDataLogError("");
+    } catch (error) {
+      setDataLogError("Error uploading photo. Try again.");
+    }
     setIsColorLoading(false);
+  };
+
+  const extractColors = async (response1) => {
+    const { photoObject } = response1;
+    const { photo } = photoObject;
+
+    try {
+      const response = await axios.get(`${API_BASE_URL}/datalogs/colors`, {
+        params: {
+          parseLink: photo.url,
+          IMAGGAAPIKEY,
+          IMAGGASECRET,
+        },
+      });
+      const result = response.data.result;
+      const colors = result.colors;
+      const { foreground_colors } = colors;
+      const foregroundColorsInPic = [];
+
+      {
+        foreground_colors.map((foreground_color) => {
+          if (
+            !foregroundColorsInPic.includes(
+              foreground_color.closest_palette_color_html_code
+            )
+          ) {
+            foregroundColorsInPic.push(
+              foreground_color.closest_palette_color_html_code
+            );
+          }
+        });
+        setColorsInPic(foregroundColorsInPic);
+      }
+
+      const { image_colors } = colors;
+      const imageColorsInPic = [];
+
+      {
+        image_colors.map((image_color) => {
+          if (
+            !colorsInPic.includes(
+              image_color.closest_palette_color_html_code
+            ) &&
+            !foregroundColorsInPic.includes(
+              image_color.closest_palette_color_html_code
+            )
+          ) {
+            imageColorsInPic.push(image_color.closest_palette_color_html_code);
+          }
+        });
+      }
+      setColorsInPic([...imageColorsInPic, ...foregroundColorsInPic]);
+    } catch (err) {
+      setDataLogError("Error extracting colors. Try again.");
+    }
   };
 
   const onSaveDataClick = async () => {
@@ -318,16 +325,18 @@ function DataLog({
             </button>
             {isColorLoading ? <LoadingSpinner /> : null}
             {colorsInPic != "" ? (
-              <div className="colorOptions">
+              <div className="colorOptions-container">
                 <h4>Choose a color below</h4>
-                {colorsInPic.map((color) => (
-                  <div
-                    key={color}
-                    className="colorsFromPic"
-                    style={{ backgroundColor: `${color}` }}
-                    onClick={() => setCurrColor(color)}
-                  ></div>
-                ))}
+                <div className="colorOptions">
+                  {colorsInPic.map((color) => (
+                    <div
+                      key={color}
+                      className="colorsFromPic"
+                      style={{ backgroundColor: `${color}` }}
+                      onClick={() => setCurrColor(color)}
+                    ></div>
+                  ))}
+                </div>
               </div>
             ) : null}
 

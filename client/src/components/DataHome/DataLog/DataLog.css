@@ -98,6 +98,24 @@ h4{
     border-radius: 2px;
 }
 
+.colorOptions{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.colorOptions-container{
+    margin-left: 10px;
+}
+
+.dataLog h4{
+    font-weight: 350;
+    font-size: 18px;
+    line-height: 28px;
+    margin-top: 10px;
+    margin-bottom: 5px;
+}
+
 .rating-scale{
     background-color: 
     #243E36;
