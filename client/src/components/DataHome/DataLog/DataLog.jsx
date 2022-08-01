@@ -20,7 +20,6 @@ function DataLog({
   const time = new Date().toLocaleTimeString();
   const [displayColorPicker, setDisplayColorPicker] = useState(false);
   const [currColor, setCurrColor] = useState("#e5e5e5");
-  const [link, setLink] = useState("");
   const [colorsInPic, setColorsInPic] = useState([]);
   const [isLogSymptomsOpen, setIsLogSymptomsOpen] = useState(false);
   const sliderArray = [
@@ -75,7 +74,6 @@ function DataLog({
 
       const { photoObject } = response1.data;
       const { photo } = photoObject;
-      setLink(photo.url);
 
       try {
         const response = await axios.get(`${API_BASE_URL}/datalogs/colors`, {
