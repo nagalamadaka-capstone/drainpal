@@ -119,7 +119,7 @@ router.get("/check", async (req, res, next) => {
     const userId = req.query.userId;
     const date = req.query.date;
 
-    let dataLogs = Parse.Object.extend("DataLog");
+    const dataLogs = Parse.Object.extend("DataLog");
     var query = new Parse.Query(dataLogs);
     query.equalTo("userId", userId);
     query.equalTo("date", date);

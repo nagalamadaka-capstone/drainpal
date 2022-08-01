@@ -216,7 +216,9 @@ router.get("/getPatients", async (req, res, next) => {
 
 // get alarming patients for specific doctor
 router.get("/getAlarmingPatients", async (req, res, next) => {
-  
+  const dataLogs = Parse.Object.extend("DataLog");
+  var query = new Parse.Query(dataLogs);
+  query.equalTo("drainHSL", )
 
 });
   
