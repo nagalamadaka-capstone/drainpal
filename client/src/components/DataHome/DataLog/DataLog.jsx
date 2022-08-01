@@ -175,16 +175,21 @@ function DataLog({
           );
           setSuccessMessage(response.data);
         } catch (err) {}
-        setSymptoms("");
-        setConcerns("");
-        setDrainOutput("");
-        setDrainColor("");
-        setDrainOutputPhoto("");
-        setDrainSkinSitePhoto("");
-        setDataLogError("");
-        setSliderArrayValues([5, 5, 5, 5, 5, 5, 5]);
+        resetStates();
       }
     }
+  };
+
+  const resetStates = () => {
+    setSymptoms("");
+    setConcerns("");
+    setDrainOutput("");
+    setDrainColor("");
+    setDrainOutputPhoto("");
+    setDrainSkinSitePhoto("");
+    setDataLogError("");
+    setSliderArrayValues([5, 5, 5, 5, 5, 5, 5]);
+    setColorsInPic([]);
   };
 
   const onSliderChange = (e, sliderNumber) => {
@@ -198,17 +203,9 @@ function DataLog({
     );
   };
 
-  const onSymptomsChange = (e) => {
-    setSymptoms(e.target.value);
-  };
-
-  const onConcernsChange = (e) => {
-    setConcerns(e.target.value);
-  };
-
-  const onDrainOutputChange = (e) => {
-    setDrainOutput(e.target.value);
-  };
+  const onTextChange = (e, setText) => {
+    setText(e.target.value);
+  }
 
   return (
     <div className="dataLog">
@@ -247,7 +244,7 @@ function DataLog({
               <input
                 type="text"
                 className="datalog-input"
-                onChange={(e) => onSymptomsChange(e)}
+                onChange={(e) => onTextChange(e, setSymptoms)}
                 value={symptoms}
               />
 
@@ -255,7 +252,7 @@ function DataLog({
               <input
                 type="text"
                 className="datalog-input"
-                onChange={(e) => onConcernsChange(e)}
+                onChange={(e) => onTextChange(e, setConcerns)}
                 value={concerns}
               />
             </div>
@@ -274,7 +271,7 @@ function DataLog({
               type="text"
               className="datalog-input"
               placeholder="e.g. 100"
-              onChange={(e) => onDrainOutputChange(e)}
+              onChange={(e) => onTextChange(e, setDrainOutput)}
               value={drainOutput}
             />
             <h3>
