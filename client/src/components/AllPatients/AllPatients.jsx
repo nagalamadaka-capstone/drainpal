@@ -125,7 +125,7 @@ function AllPatients({
             </div>
           )}
 
-          <h1>Your Patients</h1>
+          <h1>All Patients</h1>
           {isLoading ? (
             <LoadingSpinner />
           ) : (

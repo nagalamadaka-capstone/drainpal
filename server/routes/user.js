@@ -233,7 +233,7 @@ router.get("/getAlarmingPatients", async (req, res, next) => {
       let s = Number(hslArray[1]);
       let l = Number(hslArray[2].replace(")", ""));
 
-      if (-1 < h && h < 42 && -1 < s && s < 100 && -1 < l && l < 100) {
+      if (((-1 < h && h < 42) || (h<360 && h>315)) && -1 < s && s < 100 && -1 < l && l < 100) {
         let dataLogInfo = {
           id: dataLog.get("userId"),
           date: dataLog.get("date"),
