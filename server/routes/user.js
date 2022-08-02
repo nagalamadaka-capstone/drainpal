@@ -233,6 +233,7 @@ router.get("/getAlarmingPatients", async (req, res, next) => {
       let s = Number(hslArray[1]);
       let l = Number(hslArray[2].replace(")", ""));
 
+      //these hsl values indicate that the color has a slight red tinge, which could indicate blood in drain output
       if (((-1 < h && h < 42) || (h<360 && h>315)) && -1 < s && s < 100 && -1 < l && l < 100) {
         let dataLogInfo = {
           id: dataLog.get("userId"),
