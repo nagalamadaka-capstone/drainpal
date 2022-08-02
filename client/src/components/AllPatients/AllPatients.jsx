@@ -4,6 +4,8 @@ import "./AllPatients.css";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import LoadingSpinner from "../LoadingSpinner/LoadingSpinner";
+
 const API_BASE_URL = "http://localhost:3001";
 
 function AllPatients({
@@ -19,29 +21,42 @@ function AllPatients({
 
   useEffect(() => {
     setIsLoading(true);
-    axios
-      .get(`${API_BASE_URL}/users/getPatients`, {
-        params: { lastName },
-      })
-      .then((res) => {
-        setPatients(res.data);
-      });
-    axios
-      .get(`${API_BASE_URL}/users/getAlarmingPatients`, {
-        params: { lastName },
-      })
-      .then((res) => {
-
-        const sortedAlerts = res.data.sort((a, b) => {
-          
-          return new Date(b.date) - new Date(a.date);
-        }
-        );
-
-        setAlerts(sortedAlerts);
-      });
+    fetchPatients();
+    fetchAlerts();
     setIsLoading(false);
   }, []);
+
+  const fetchPatients = async () => {
+    setIsLoading(true);
+    try {
+      const response = await axios.get(`${API_BASE_URL}/users/getPatients`, {
+        params: { lastName },
+      });
+      const patients = response.data;
+      setPatients(patients);
+    } catch (error) {
+      console.log(error);
+    }
+    setIsLoading(false);
+  }
+
+  const fetchAlerts = async () => {
+    setIsLoading(true);
+    try {
+      const response = await axios.get(`${API_BASE_URL}/users/getAlarmingPatients`, {
+        params: { lastName },
+      });
+      const alerts = response.data;
+      const sortedAlerts = alerts.sort((a, b) => {
+        return new Date(b.date) - new Date(a.date);
+      });
+
+      setAlerts(sortedAlerts);
+    } catch (error) {
+      console.log(error);
+    }
+    setIsLoading(false);
+  }
 
   function capitalizeName(name) {
     return name.charAt(0).toUpperCase() + name.slice(1);
@@ -58,43 +73,49 @@ function AllPatients({
       <div className="notNavBar">
         <div className="wrapper">
           <h1>Alerts</h1>
-          <table className="patient-table">
-            <thead>
-              <tr>
-                <th>Name</th>
-                <th>Drain Type</th>
-                <th>Date</th>
-                <th>Time</th>
-                <th>Color</th>
-                <th>Email</th>
-              </tr>
-            </thead>
-            <tbody>
-              {alerts.map((alert) => (
-                <tr key={alert.id}>
-                  <td>
-                    {capitalizeName(alert.firstname)}{" "}
-                    {capitalizeName(alert.lastname)}
-                  </td>
-                  <td>{alert.draintype}</td>
-                  <td>{alert.date}</td>
-                  <td>{alert.time}</td>
-                  <td>
-                    <div
-                      className="exampleColorVP"
-                      style={{ backgroundColor: `${alert.drainColor}` }}
-                    ></div>
-                  </td>
-                  <td>{alert.email}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+          {isLoading ? (
+            <LoadingSpinner />
+          ) : (
+            <div className="all-patients-container">
+              <table className="patient-table">
+                <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>Drain Type</th>
+                    <th>Date</th>
+                    <th>Time</th>
+                    <th>Color</th>
+                    <th>Email</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {alerts.map((alert) => (
+                    <tr key={alert.time}>
+                      <td>
+                        {capitalizeName(alert.firstname) +
+                          " " +
+                          capitalizeName(alert.lastname)}
+                      </td>
+                      <td>{alert.draintype}</td>
+                      <td>{alert.date}</td>
+                      <td>{alert.time}</td>
+                      <td>
+                        <div
+                          className="exampleColorVP"
+                          style={{ backgroundColor: `${alert.drainColor}` }}
+                        ></div>
+                      </td>
+                      <td>{alert.email}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
+
           <h1>Your Patients</h1>
           {isLoading ? (
-            <div className="loading">
-              <h1>Loading...</h1>
-            </div>
+            <LoadingSpinner />
           ) : (
             <table className="patient-table">
               <thead>
