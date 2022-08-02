@@ -263,13 +263,11 @@ router.get("/getAlarmingPatients", async (req, res, next) => {
               time: dataLogInfo.time,
               drainColor: dataLogInfo.drainColor,
             };
-            alarmingPatients.push(patientInfo);
-            
+            alarmingPatients.push(patientInfo); 
           }
         });
       });
       res.send(alarmingPatients);
-      
     });
   });
   //if datalog belongs to patient of doctor then add to array
