@@ -26,11 +26,13 @@ function AllPatients({
       .then((res) => {
         setPatients(res.data);
       });
-    axios.get(`${API_BASE_URL}/users/getAlarmingPatients`, {
-      params: { lastName },
-      }).then((res) => {
+    axios
+      .get(`${API_BASE_URL}/users/getAlarmingPatients`, {
+        params: { lastName },
+      })
+      .then((res) => {
         setAlerts(res.data);
-        console.log('res.data: ', res.data);
+        console.log("res.data: ", res.data);
       });
     setIsLoading(false);
   }, []);
@@ -49,22 +51,39 @@ function AllPatients({
       />
       <div className="notNavBar">
         <div className="wrapper">
-        <h1>Alerts</h1>
+          <h1>Alerts</h1>
           <table className="patient-table">
-              <thead>
-                <tr>
-                  <th>Name</th>
-                  <th>Email</th>
-                  <th>Drain Type</th>
-                  <th>Date</th>
-                  <th>Time</th>
-                  <th>Color</th>
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Drain Type</th>
+                <th>Date</th>
+                <th>Time</th>
+                <th>Color</th>
+                <th>Email</th>
+              </tr>
+            </thead>
+            <tbody>
+              {alerts.map((alert) => (
+                <tr key={alert.id}>
+                  <td>
+                    {capitalizeName(alert.firstname)}{" "}
+                    {capitalizeName(alert.lastname)}
+                  </td>
+                  <td>{alert.draintype}</td>
+                  <td>{alert.date}</td>
+                  <td>{alert.time}</td>
+                  <td>
+                    <div
+                      className="exampleColorVP"
+                      style={{ backgroundColor: `${alert.drainColor}` }}
+                    ></div>
+                  </td>
+                  <td>{alert.email}</td>
                 </tr>
-              </thead>
-              <tbody>
-                
-              </tbody>
-            </table>
+              ))}
+            </tbody>
+          </table>
           <h1>Your Patients</h1>
           {isLoading ? (
             <div className="loading">
