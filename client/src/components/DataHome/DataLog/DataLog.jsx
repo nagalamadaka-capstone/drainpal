@@ -338,7 +338,7 @@ function DataLog({
               Drain output color <span className="red">*</span>
             </h3>
 
-            <h4>Either pick color or upload photo to detect color. </h4>
+            <h4>Upload photo to detect color.</h4>
             {displayColorPicker ? (
               <div>
                 <ChromePicker
