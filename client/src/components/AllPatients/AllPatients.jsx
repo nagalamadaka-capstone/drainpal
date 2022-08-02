@@ -26,6 +26,12 @@ function AllPatients({
       .then((res) => {
         setPatients(res.data);
       });
+    axios.get(`${API_BASE_URL}/users/getAlarmingPatients`, {
+      params: { lastName },
+      }).then((res) => {
+        setAlerts(res.data);
+        console.log('res.data: ', res.data);
+      });
     setIsLoading(false);
   }, []);
 

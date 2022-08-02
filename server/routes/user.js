@@ -130,7 +130,7 @@ router.post("/changeprofile", async (req, res) => {
   const info = req.body;
   const id = info.id;
   const key = info.key;
-  const value = key === "phone" ? Number(info.value): info.value;
+  const value = key === "phone" ? Number(info.value) : info.value;
 
   const params1 = { objectId: id, key: key, value: value };
 
@@ -216,12 +216,63 @@ router.get("/getPatients", async (req, res, next) => {
 
 // get alarming patients for specific doctor
 router.get("/getAlarmingPatients", async (req, res, next) => {
+  const doctorLastName = req.query.lastName.toLowerCase();
+
   const dataLogs = Parse.Object.extend("DataLog");
   var query = new Parse.Query(dataLogs);
-  query.equalTo("drainHSL", )
 
+  //find all datalogs with alarming hsl values
+  let alarmingPatientsInfo = [];
+
+  query.find().then((dataLogs) => {
+    dataLogs.map((dataLog) => {
+      let hsl = dataLog.get("drainHSL");
+      let hslArray = hsl.split(", ");
+
+      let h = Number(hslArray[0].replace("(", ""));
+      let s = Number(hslArray[1]);
+      let l = Number(hslArray[2].replace(")", ""));
+
+      if (-1 < h && h < 42 && -1 < s && s < 100 && -1 < l && l < 100) {
+        let dataLogInfo = {
+          id: dataLog.get("userId"),
+          date: dataLog.get("date"),
+          time: dataLog.get("time"),
+          drainColor: dataLog.get("drainColor"),
+        };
+        alarmingPatientsInfo.push(dataLogInfo);
+      }
+    });
+    let alarmingPatients = [];
+
+    var q = new Parse.Query(Parse.User);
+    q.equalTo("isDoctor", false);
+    q.equalTo("healthcareprovider", doctorLastName);
+    q.find().then((patients) => {
+      patients.map((patient) => {
+        alarmingPatientsInfo.map((dataLogInfo) => {
+          if (patient.id === dataLogInfo.id) {
+            let patientInfo = {
+              id: patient.id,
+              firstname: patient.get("firstname"),
+              lastname: patient.get("lastname"),
+              email: patient.get("username"),
+              draintype: patient.get("draintype"),
+              date: dataLogInfo.date,
+              time: dataLogInfo.time,
+              drainColor: dataLogInfo.drainColor,
+            };
+            alarmingPatients.push(patientInfo);
+            
+          }
+        });
+      });
+      res.send(alarmingPatients);
+      
+    });
+  });
+  //if datalog belongs to patient of doctor then add to array
 });
-  
 
 /** Below are functions that were called once to set up database */
 //create roles for providers and patients
