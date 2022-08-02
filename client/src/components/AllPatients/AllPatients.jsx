@@ -31,8 +31,14 @@ function AllPatients({
         params: { lastName },
       })
       .then((res) => {
-        setAlerts(res.data);
-        console.log("res.data: ", res.data);
+
+        const sortedAlerts = res.data.sort((a, b) => {
+          
+          return new Date(b.date) - new Date(a.date);
+        }
+        );
+
+        setAlerts(sortedAlerts);
       });
     setIsLoading(false);
   }, []);
