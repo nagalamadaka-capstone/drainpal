@@ -96,10 +96,18 @@ function AllPatients({
                   {alerts.map((alert) => (
                     <tr key={alert.time}>
                       <td>
-                        {capitalizeName(alert.firstname) +
-                          " " +
-                          capitalizeName(alert.lastname)}
+                        <Link
+                          to={`/viewpatient/${alert.id}/${capitalizeName(
+                            alert.firstname
+                          )}/${capitalizeName(alert.lastname)}`}
+                        >
+                          {" "}
+                          {capitalizeName(alert.firstname) +
+                            " " +
+                            capitalizeName(alert.lastname)}
+                        </Link>
                       </td>
+
                       <td>{alert.draintype}</td>
                       <td>{alert.date}</td>
                       <td>{alert.time}</td>
