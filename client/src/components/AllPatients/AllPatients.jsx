@@ -17,14 +17,13 @@ function AllPatients({
 }) {
   const [patients, setPatients] = useState([]);
   const [alerts, setAlerts] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    setIsLoading(true);
     fetchPatients();
     fetchAlerts();
-    setIsLoading(false);
+    setTimeout(() => setIsLoading(false), 6000);
   }, []);
 
   const fetchPatients = async () => {
