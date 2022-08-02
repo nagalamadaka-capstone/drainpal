@@ -18,6 +18,7 @@ function AllPatients({
   const [patients, setPatients] = useState([]);
   const [alerts, setAlerts] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     setIsLoading(true);
@@ -35,17 +36,20 @@ function AllPatients({
       const patients = response.data;
       setPatients(patients);
     } catch (error) {
-      console.log(error);
+      setError(error);
     }
     setIsLoading(false);
-  }
+  };
 
   const fetchAlerts = async () => {
     setIsLoading(true);
     try {
-      const response = await axios.get(`${API_BASE_URL}/users/getAlarmingPatients`, {
-        params: { lastName },
-      });
+      const response = await axios.get(
+        `${API_BASE_URL}/users/getAlarmingPatients`,
+        {
+          params: { lastName },
+        }
+      );
       const alerts = response.data;
       const sortedAlerts = alerts.sort((a, b) => {
         return new Date(b.date) - new Date(a.date);
@@ -53,10 +57,10 @@ function AllPatients({
 
       setAlerts(sortedAlerts);
     } catch (error) {
-      console.log(error);
+      setError(error);
     }
     setIsLoading(false);
-  }
+  };
 
   function capitalizeName(name) {
     return name.charAt(0).toUpperCase() + name.slice(1);
@@ -73,6 +77,7 @@ function AllPatients({
       <div className="notNavBar">
         <div className="wrapper">
           <h1>Alerts</h1>
+          {error ? <p>{error}</p> : null}
           {isLoading ? (
             <LoadingSpinner />
           ) : (
