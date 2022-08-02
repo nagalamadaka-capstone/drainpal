@@ -22,6 +22,10 @@ h3{
     line-height: 28px;
 }
 
+.slider-container h3{
+    font-size: 20px;
+}
+
 h4{
     font-weight: 400;
 }
@@ -90,12 +94,30 @@ h4{
     margin-right: 15%;
 }
 
-.exampleColor{
+.exampleColor, .colorsFromPic{
     width: 150px;
     height: 50px;
     margin-top: 20px;
     margin-left: 10px;
     border-radius: 2px;
+}
+
+.colorOptions{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.colorOptions-container{
+    margin-left: 10px;
+}
+
+.dataLog h4{
+    font-weight: 350;
+    font-size: 18px;
+    line-height: 28px;
+    margin-top: 10px;
+    margin-bottom: 5px;
 }
 
 .rating-scale{

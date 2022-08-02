@@ -7,6 +7,8 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 import { ChromePicker } from "react-color";
 import base64ArrayBuffer from "../../../base64ArrayBuffer";
+import { IMAGGAAPIKEY, IMAGGASECRET } from "../../../securitykeys";
+import LoadingSpinner from "../../LoadingSpinner/LoadingSpinner";
 
 function DataLog({
   handleSignInOpen,
@@ -19,7 +21,7 @@ function DataLog({
   const time = new Date().toLocaleTimeString();
   const [displayColorPicker, setDisplayColorPicker] = useState(false);
   const [currColor, setCurrColor] = useState("#e5e5e5");
-
+  const [colorsInPic, setColorsInPic] = useState([]);
   const [isLogSymptomsOpen, setIsLogSymptomsOpen] = useState(false);
   const sliderArray = [
     "pain",
@@ -41,6 +43,7 @@ function DataLog({
   const [drainSkinSitePhoto, setDrainSkinSitePhoto] = useState("");
   const [dataLogError, setDataLogError] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
+  const [isColorLoading, setIsColorLoading] = useState(false);
   const API_BASE_URL = "http://localhost:3001";
 
   function onLogSymptomsClick() {
@@ -51,16 +54,91 @@ function DataLog({
     setDisplayColorPicker(!displayColorPicker);
   }
 
+  function handleSelectColor(color){
+    setCurrColor(color);
+    setDrainColor(color);
+  }
+
   function handleColorChange(e) {
     setCurrColor(e.hex);
     setDrainColor(e.hex);
   }
 
   const onDrainOutputPhotoChange = async (e) => {
-    var buffer = await e.target.files[0].arrayBuffer();
-    var base64 = base64ArrayBuffer(buffer);
-
+    const buffer = await e.target.files[0].arrayBuffer();
+    const base64 = base64ArrayBuffer(buffer);
     setDrainOutputPhoto(base64);
+  };
+
+  const onDrainOutputPhotoSave = async () => {
+    setIsColorLoading(true);
+    try {
+      const response1 = await axios.post(`${API_BASE_URL}/datalogs/savePhoto`, {
+        photo: drainOutputPhoto,
+        id: id,
+      });
+
+      await extractColors(response1.data);
+      setDataLogError("");
+    } catch (error) {
+      setDataLogError("Error uploading photo. Try again.");
+    }
+    setIsColorLoading(false);
+  };
+
+  const extractColors = async (response1) => {
+    const { photoObject } = response1;
+    const { photo } = photoObject;
+
+    try {
+      const response = await axios.get(`${API_BASE_URL}/datalogs/colors`, {
+        params: {
+          parseLink: photo.url,
+          IMAGGAAPIKEY,
+          IMAGGASECRET,
+        },
+      });
+      const result = response.data.result;
+      const colors = result.colors;
+      const { foreground_colors } = colors;
+      const foregroundColorsInPic = [];
+
+      {
+        foreground_colors.map((foreground_color) => {
+          if (
+            !foregroundColorsInPic.includes(
+              foreground_color.closest_palette_color_html_code
+            )
+          ) {
+            foregroundColorsInPic.push(
+              foreground_color.closest_palette_color_html_code
+            );
+          }
+        });
+        setColorsInPic(foregroundColorsInPic);
+      }
+
+      const { image_colors } = colors;
+      const imageColorsInPic = [];
+
+      {
+        image_colors.map((image_color) => {
+          if (
+            !colorsInPic.includes(
+              image_color.closest_palette_color_html_code
+            ) &&
+            !foregroundColorsInPic.includes(
+              image_color.closest_palette_color_html_code
+            )
+          ) {
+            imageColorsInPic.push(image_color.closest_palette_color_html_code);
+          }
+        });
+      }
+      setColorsInPic([...imageColorsInPic, ...foregroundColorsInPic]);
+    } catch (err) {
+      setDataLogError("Error extracting colors. Try again.");
+    }
   };
 
   const onSaveDataClick = async () => {
@@ -159,20 +237,17 @@ function DataLog({
                 0 = absent 10 = worst possible
               </div>
               <h2>Please rate your:</h2>
-              <h3>distress from pain</h3>
-              <Slider onSliderChange={onSliderChange} sliderNumber={0} />
-              <h3>distress from difficulty sleeping</h3>
-              <Slider onSliderChange={onSliderChange} sliderNumber={1} />
-              <h3>distress from nausea</h3>
-              <Slider onSliderChange={onSliderChange} sliderNumber={2} />
-              <h3>distress from bowels</h3>
-              <Slider onSliderChange={onSliderChange} sliderNumber={3} />
-              <h3>distress from appetite</h3>
-              <Slider onSliderChange={onSliderChange} sliderNumber={4} />
-              <h3>distress from diffulty breathing</h3>
-              <Slider onSliderChange={onSliderChange} sliderNumber={5} />
-              <h3>distress from fatigue</h3>
-              <Slider onSliderChange={onSliderChange} sliderNumber={6} />
+              {sliderArray.map((slider, index) => {
+                return (
+                  <div className="slider-container">
+                    <h3>distress from {slider}</h3>
+                    <Slider
+                      onSliderChange={onSliderChange} sliderNumber={index}
+                    />
+                  </div>
+                );
+              }
+              )}
               <h2>Do you have any other symptoms?</h2>
               <input
                 type="text"
@@ -211,7 +286,7 @@ function DataLog({
               Drain output color <span className="red">*</span>
             </h3>
 
-            <h4>Either pick color or upload photo to detect color. </h4>
+            <h4>Upload photo to detect color.</h4>
             {displayColorPicker ? (
               <div>
                 <ChromePicker
@@ -244,6 +319,28 @@ function DataLog({
               className="datalog-choose-file"
               onChange={(e) => onDrainOutputPhotoChange(e)}
             />
+            <button
+              className="log-symptoms"
+              onClick={() => onDrainOutputPhotoSave()}
+            >
+              Find Colors in Photo
+            </button>
+            {isColorLoading ? <LoadingSpinner /> : null}
+            {colorsInPic != "" ? (
+              <div className="colorOptions-container">
+                <h4>Choose a color below</h4>
+                <div className="colorOptions">
+                  {colorsInPic.map((color) => (
+                    <div
+                      key={color}
+                      className="colorsFromPic"
+                      style={{ backgroundColor: `${color}` }}
+                      onClick={() => handleSelectColor(color)}
+                    ></div>
+                  ))}
+                </div>
+              </div>
+            ) : null}
 
             {dataLogError ? (
               <h2 className="error-message">{dataLogError}</h2>
