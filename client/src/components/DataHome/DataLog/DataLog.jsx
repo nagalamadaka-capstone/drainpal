@@ -39,6 +39,7 @@ function DataLog({
   const [concerns, setConcerns] = useState("");
   const [drainOutput, setDrainOutput] = useState("");
   const [drainColor, setDrainColor] = useState("");
+  const [drainHSL, setDrainHSL] = useState("");
   const [drainOutputPhoto, setDrainOutputPhoto] = useState("");
   const [drainSkinSitePhoto, setDrainSkinSitePhoto] = useState("");
   const [dataLogError, setDataLogError] = useState("");
@@ -53,15 +54,67 @@ function DataLog({
   function handleClickColor() {
     setDisplayColorPicker(!displayColorPicker);
   }
-
-  function handleSelectColor(color){
+  
+  function handleSelectColor(color) {
     setCurrColor(color);
     setDrainColor(color);
+    setDrainHSL(hexToHSL(color));
   }
 
   function handleColorChange(e) {
     setCurrColor(e.hex);
     setDrainColor(e.hex);
+    setDrainHSL(
+      "(" +
+        e.hsl.h +
+        ", " +
+        (e.hsl.s * 100).toFixed(2) +
+        ", " +
+        (e.hsl.l * 100).toFixed(2) +
+        ")"
+    );
+  }
+
+  function hexToHSL(H) {
+    // Convert hex to RGB first
+    let r = 0,
+      g = 0,
+      b = 0;
+    if (H.length == 4) {
+      r = "0x" + H[1] + H[1];
+      g = "0x" + H[2] + H[2];
+      b = "0x" + H[3] + H[3];
+    } else if (H.length == 7) {
+      r = "0x" + H[1] + H[2];
+      g = "0x" + H[3] + H[4];
+      b = "0x" + H[5] + H[6];
+    }
+    // Then to HSL
+    r /= 255;
+    g /= 255;
+    b /= 255;
+    let cmin = Math.min(r, g, b),
+      cmax = Math.max(r, g, b),
+      delta = cmax - cmin,
+      h = 0,
+      s = 0,
+      l = 0;
+
+    if (delta == 0) h = 0;
+    else if (cmax == r) h = ((g - b) / delta) % 6;
+    else if (cmax == g) h = (b - r) / delta + 2;
+    else h = (r - g) / delta + 4;
+
+    h = Math.round(h * 60);
+
+    if (h < 0) h += 360;
+
+    l = (cmax + cmin) / 2;
+    s = delta == 0 ? 0 : delta / (1 - Math.abs(2 * l - 1));
+    s = +(s * 100).toFixed(1);
+    l = +(l * 100).toFixed(1);
+
+    return "(" + h + ", " + s + ", " + l + ")";
   }
 
   const onDrainOutputPhotoChange = async (e) => {
@@ -166,6 +219,7 @@ function DataLog({
           time: time,
           drainOutput: drainOutput,
           drainColor: drainColor,
+          drainHSL: drainHSL,
           drainOutputPhoto: drainOutputPhoto,
           drainSkinSitePhoto: drainSkinSitePhoto,
           date: date,
@@ -180,16 +234,22 @@ function DataLog({
           );
           setSuccessMessage(response.data);
         } catch (err) {}
-        setSymptoms("");
-        setConcerns("");
-        setDrainOutput("");
-        setDrainColor("");
-        setDrainOutputPhoto("");
-        setDrainSkinSitePhoto("");
-        setDataLogError("");
-        setSliderArrayValues([5, 5, 5, 5, 5, 5, 5]);
+        resetStates();
       }
     }
+  };
+
+  const resetStates = () => {
+    setSymptoms("");
+    setConcerns("");
+    setDrainOutput("");
+    setDrainColor("");
+    setDrainHSL("");
+    setDrainOutputPhoto("");
+    setDrainSkinSitePhoto("");
+    setDataLogError("");
+    setSliderArrayValues([5, 5, 5, 5, 5, 5, 5]);
+    setColorsInPic([]);
   };
 
   const onSliderChange = (e, sliderNumber) => {
@@ -203,16 +263,8 @@ function DataLog({
     );
   };
 
-  const onSymptomsChange = (e) => {
-    setSymptoms(e.target.value);
-  };
-
-  const onConcernsChange = (e) => {
-    setConcerns(e.target.value);
-  };
-
-  const onDrainOutputChange = (e) => {
-    setDrainOutput(e.target.value);
+  const onTextChange = (e, setText) => {
+    setText(e.target.value);
   };
 
   return (
@@ -242,17 +294,17 @@ function DataLog({
                   <div className="slider-container">
                     <h3>distress from {slider}</h3>
                     <Slider
-                      onSliderChange={onSliderChange} sliderNumber={index}
+                      onSliderChange={onSliderChange}
+                      sliderNumber={index}
                     />
                   </div>
                 );
-              }
-              )}
+              })}
               <h2>Do you have any other symptoms?</h2>
               <input
                 type="text"
                 className="datalog-input"
-                onChange={(e) => onSymptomsChange(e)}
+                onChange={(e) => onTextChange(e, setSymptoms)}
                 value={symptoms}
               />
 
@@ -260,7 +312,7 @@ function DataLog({
               <input
                 type="text"
                 className="datalog-input"
-                onChange={(e) => onConcernsChange(e)}
+                onChange={(e) => onTextChange(e, setConcerns)}
                 value={concerns}
               />
             </div>
@@ -279,7 +331,7 @@ function DataLog({
               type="text"
               className="datalog-input"
               placeholder="e.g. 100"
-              onChange={(e) => onDrainOutputChange(e)}
+              onChange={(e) => onTextChange(e, setDrainOutput)}
               value={drainOutput}
             />
             <h3>
