@@ -6,18 +6,14 @@ import Slider from "./slider";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import { ChromePicker } from "react-color";
-import base64ArrayBuffer from "../../../base64ArrayBuffer";
 import {
   IMAGGAAPIKEY,
   IMAGGASECRET,
-  IMAGERECYCLEAPIKEY,
-  IMAGERECYCLESECRET,
 } from "../../../securitykeys";
 import {
   ref,
   uploadBytesResumable,
   getDownloadURL,
-  uploadBytes,
 } from "firebase/storage";
 import { storage } from "../../../firebase";
 import LoadingSpinner from "../../LoadingSpinner/LoadingSpinner";
@@ -52,7 +48,6 @@ function DataLog({
   const [drainOutput, setDrainOutput] = useState("");
   const [drainColor, setDrainColor] = useState("");
   const [drainHSL, setDrainHSL] = useState("");
-  const [drainOutputPhoto, setDrainOutputPhoto] = useState("");
   const [drainOutputFile, setDrainOutputFile] = useState(null);
   const [drainSkinSitePhoto, setDrainSkinSitePhoto] = useState("");
   const [dataLogError, setDataLogError] = useState("");
