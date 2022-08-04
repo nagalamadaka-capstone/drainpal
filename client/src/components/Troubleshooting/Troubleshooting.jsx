@@ -28,6 +28,14 @@ function Troubleshooting({
       bloodThickness: troubleshooting.bloodThickness,
       thickBloodFainting: troubleshooting.thickBloodFainting,
       newPain: troubleshooting.newPain,
+      newPainMedication: troubleshooting.newPainMedication,
+      newPainSeverity: troubleshooting.newPainSeverity,
+      newPainWhen: troubleshooting.newPainWhen,
+      persistentChange: troubleshooting.persistentChange,
+      newLeakageWhen: troubleshooting.newLeakageWhen,
+      newLeakageDressing: troubleshooting.newLeakageDressing,
+      leakage: troubleshooting.leakage,
+      changesInHealth: troubleshooting.changesInHealth,
     };
     newForm[key] = val;
     setTroubleshooting(newForm);
@@ -75,7 +83,60 @@ function Troubleshooting({
                 <option value="newPain">
                   New pain associated with the drain
                 </option>
+                <option value="leakage">
+                  New leakage associated with the drain
+                </option>
               </select>
+            </div>
+          )}
+          {troubleshooting.issue === "leakage" && (
+            <div className="q3">
+              <h2> When do you experience this leakage?</h2>
+              <select
+                name="newLeakageWhen"
+                className="troubleshooting-dropdown"
+                value={troubleshooting.newLeakageWhen}
+                onChange={(e) => {
+                  handleOnTroubleshootingChange(
+                    "newLeakageWhen",
+                    e.target.value
+                  );
+                }}
+              >
+                <option value="">Select an Option</option>
+                <option value="constantly">Constantly</option>
+                <option value="onlyDrainFlush">
+                  Only when the drain is flushed
+                </option>
+              </select>
+            </div>
+          )}
+          {troubleshooting.newLeakageWhen === "constantly" && (
+            <div className="q3">
+              <h2>
+                {" "}
+                Does the dressing need to be changed more than 2-3 times a day?
+              </h2>
+              <select
+                name="newLeakageDressing"
+                className="troubleshooting-dropdown"
+                value={troubleshooting.newLeakageDressing}
+                onChange={(e) => {
+                  handleOnTroubleshootingChange(
+                    "newLeakageDressing",
+                    e.target.value
+                  );
+                }}
+              >
+                <option value="">Select an Option</option>
+                <option value="yes">Yes</option>
+                <option value="no">No</option>
+              </select>
+            </div>
+          )}
+          {troubleshooting.newLeakageDressing === "no" && (
+            <div className="q3">
+              <h2>Change the dressing and continue to monitor for 24hrs.</h2>
             </div>
           )}
           {troubleshooting.issue === "newPain" && (
@@ -144,8 +205,15 @@ function Troubleshooting({
           {troubleshooting.newPainMedication === "yes" && (
             <div className="q3">
               <h2>
-                Continue to take the pain medication as safely as prescribed/recommended and monitor for 24hrs.
+                Continue to take the pain medication as safely as
+                prescribed/recommended and monitor for 24hrs.
               </h2>
+              <button
+                onClick={() => window.location.reload(false)}
+                className="add-drain"
+              >
+                Start over!
+              </button>
             </div>
           )}
 
@@ -212,16 +280,38 @@ function Troubleshooting({
             </div>
           )}
 
-          {troubleshooting.newPainWhen === "onlyDrainFlush" && (
+          {(troubleshooting.newPainWhen === "onlyDrainFlush" ||
+            troubleshooting.newLeakageWhen === "onlyDrainFlush") && (
             <div className="q6">
               <h2>Any changes in your health? Fever/pain?</h2>
               <select
-                name="onlyDrainFlush"
+                name="changesInHealth"
                 className="troubleshooting-dropdown"
-                value={troubleshooting.onlyDrainFlush}
+                value={troubleshooting.changesInHealth}
                 onChange={(e) => {
                   handleOnTroubleshootingChange(
-                    "onlyDrainFlush",
+                    "changesInHealth",
+                    e.target.value
+                  );
+                }}
+              >
+                <option value="">Select a Change</option>
+                <option value="yes">Yes</option>
+                <option value="no">No</option>
+              </select>
+            </div>
+          )}
+
+          {(troubleshooting.changesInHealth === "no") && (
+            <div className="q6">
+              <h2>Has it persisted for more than 24-48 hrs?</h2>
+              <select
+                name="persistentChange"
+                className="troubleshooting-dropdown"
+                value={troubleshooting.persistentChange}
+                onChange={(e) => {
+                  handleOnTroubleshootingChange(
+                    "persistentChange",
                     e.target.value
                   );
                 }}
@@ -381,7 +471,8 @@ function Troubleshooting({
             </div>
           )}
           {(troubleshooting.changeInQuality === "thinner" ||
-            troubleshooting.onlyDrainFlush === "no") && (
+            troubleshooting.onlyDrainFlush === "no" ||
+            troubleshooting.persistentChange === "yes") && (
             <div className="q3">
               <h2>Is the drain output less than 20cc per day?</h2>
               <select
@@ -410,7 +501,9 @@ function Troubleshooting({
             troubleshooting.thickBloodFainting === "yes" ||
             troubleshooting.newPainSeverity === "no" ||
             troubleshooting.newPainMedication === "no" ||
-            troubleshooting.onlyDrainFlush === "yes") && (
+            troubleshooting.onlyDrainFlush === "yes" ||
+            troubleshooting.newLeakageDressing === "yes" ||
+            troubleshooting.changesInHealth === "yes") && (
             <div className="q5">
               <h2>Call your provider.</h2>
               <button
@@ -424,7 +517,8 @@ function Troubleshooting({
           {(troubleshooting.persistentIncreaseChange === "no" ||
             troubleshooting.bloodThickness === "other" ||
             troubleshooting.thickBloodFainting === "no" ||
-            troubleshooting.thinnerQuantityChange === "no") && (
+            troubleshooting.thinnerQuantityChange === "no" ||
+            troubleshooting.persistentChange === "no") && (
             <div className="result2">
               <h2>Continue to monitor your drain for 24h.</h2>
               <button
