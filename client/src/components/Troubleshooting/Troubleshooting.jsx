@@ -11,7 +11,6 @@ function Troubleshooting({
   isDoctorLoggedIn,
 }) {
   const [troubleshooting, setTroubleshooting] = useState({});
-  
 
   function handleOnTroubleshootingChange(key, val) {
     let newForm = {
@@ -28,6 +27,7 @@ function Troubleshooting({
       changeInQuality: troubleshooting.changeInQuality,
       bloodThickness: troubleshooting.bloodThickness,
       thickBloodFainting: troubleshooting.thickBloodFainting,
+      newPain: troubleshooting.newPain,
     };
     newForm[key] = val;
     setTroubleshooting(newForm);
@@ -39,7 +39,7 @@ function Troubleshooting({
         handleSignInOpen={handleSignInOpen}
         isLoggedIn={isLoggedIn}
         handleCreateAccOpen={handleCreateAccOpen}
-        isDoctorLoggedIn = {isDoctorLoggedIn}
+        isDoctorLoggedIn={isDoctorLoggedIn}
       />
       <div className="notNavBar">
         <div className="wrapper">
@@ -72,9 +72,83 @@ function Troubleshooting({
                   Change in the amount of output
                 </option>
                 <option value="quality">Change in the quality of output</option>
+                <option value="newPain">
+                  New pain associated with the drain
+                </option>
               </select>
             </div>
           )}
+          {troubleshooting.issue === "newPain" && (
+            <div className="q3">
+              <h2> When do you experience this pain?</h2>
+              <select
+                name="newPainWhen"
+                className="troubleshooting-dropdown"
+                value={troubleshooting.newPainWhen}
+                onChange={(e) => {
+                  handleOnTroubleshootingChange("newPainWhen", e.target.value);
+                }}
+              >
+                <option value="">Select an Option</option>
+                <option value="constantly">Constantly</option>
+                <option value="onlyDrainFlush">
+                  Only when the drain is flushed
+                </option>
+              </select>
+            </div>
+          )}
+          {troubleshooting.newPainWhen === "constantly" && (
+            <div className="q3">
+              <h2> Is the pain mild/moderate in severity, 1-5 out of 10? </h2>
+              <select
+                name="newPainSeverity"
+                className="troubleshooting-dropdown"
+                value={troubleshooting.newPainSeverity}
+                onChange={(e) => {
+                  handleOnTroubleshootingChange(
+                    "newPainSeverity",
+                    e.target.value
+                  );
+                }}
+              >
+                <option value="">Select an Option</option>
+                <option value="yes">Yes</option>
+                <option value="no">No</option>
+              </select>
+            </div>
+          )}
+          {troubleshooting.newPainSeverity === "yes" && (
+            <div className="q3">
+              <h2>
+                {" "}
+                Does taking an over-the-counter or prescribed pain medication
+                help ease the pain?{" "}
+              </h2>
+              <select
+                name="newPainMedication"
+                className="troubleshooting-dropdown"
+                value={troubleshooting.newPainMedication}
+                onChange={(e) => {
+                  handleOnTroubleshootingChange(
+                    "newPainMedication",
+                    e.target.value
+                  );
+                }}
+              >
+                <option value="">Select an Option</option>
+                <option value="yes">Yes</option>
+                <option value="no">No</option>
+              </select>
+            </div>
+          )}
+          {troubleshooting.newPainMedication === "yes" && (
+            <div className="q3">
+              <h2>
+                Continue to take the pain medication as safely as prescribed/recommended and monitor for 24hrs.
+              </h2>
+            </div>
+          )}
+
           {troubleshooting.issue === "volumeChange" && (
             <div className="q3">
               <h2>How has it changed?</h2>
@@ -127,6 +201,27 @@ function Troubleshooting({
                 onChange={(e) => {
                   handleOnTroubleshootingChange(
                     "persistentIncreaseChange",
+                    e.target.value
+                  );
+                }}
+              >
+                <option value="">Select a Change</option>
+                <option value="yes">Yes</option>
+                <option value="no">No</option>
+              </select>
+            </div>
+          )}
+
+          {troubleshooting.newPainWhen === "onlyDrainFlush" && (
+            <div className="q6">
+              <h2>Any changes in your health? Fever/pain?</h2>
+              <select
+                name="onlyDrainFlush"
+                className="troubleshooting-dropdown"
+                value={troubleshooting.onlyDrainFlush}
+                onChange={(e) => {
+                  handleOnTroubleshootingChange(
+                    "onlyDrainFlush",
                     e.target.value
                   );
                 }}
@@ -285,7 +380,8 @@ function Troubleshooting({
               </select>
             </div>
           )}
-          {troubleshooting.changeInQuality === "thinner" && (
+          {(troubleshooting.changeInQuality === "thinner" ||
+            troubleshooting.onlyDrainFlush === "no") && (
             <div className="q3">
               <h2>Is the drain output less than 20cc per day?</h2>
               <select
@@ -311,7 +407,10 @@ function Troubleshooting({
             troubleshooting.damaged === "yes" ||
             troubleshooting.drainconnections === "yes" ||
             troubleshooting.bloodThickness === "see-through" ||
-            troubleshooting.thickBloodFainting === "yes") && (
+            troubleshooting.thickBloodFainting === "yes" ||
+            troubleshooting.newPainSeverity === "no" ||
+            troubleshooting.newPainMedication === "no" ||
+            troubleshooting.onlyDrainFlush === "yes") && (
             <div className="q5">
               <h2>Call your provider.</h2>
               <button
