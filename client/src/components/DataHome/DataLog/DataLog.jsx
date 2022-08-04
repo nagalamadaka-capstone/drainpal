@@ -260,7 +260,6 @@ function DataLog({
     setDrainOutput("");
     setDrainColor("");
     setDrainHSL("");
-    setDrainOutputPhoto("");
     setDrainSkinSitePhoto("");
     setDataLogError("");
     setSliderArrayValues([5, 5, 5, 5, 5, 5, 5]);
