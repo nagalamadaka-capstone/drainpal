@@ -20,16 +20,24 @@ function NavBar({
                 </li>
               </Link>
               <Link to="/profile">
-                <li className="menuhover">Profile</li>
+                <li className="menuhover">
+                  <h2>Profile</h2>
+                  </li>
               </Link>
               <Link to="/allpatients">
-                <li className="menuhover">View Patients</li>
+                <li className="menuhover">
+                  <h2>All Patients</h2>
+                  </li>
               </Link>
               <Link to="/troubleshooting">
-                <li className="menuhover">Troubleshooting</li>
+                <li className="menuhover">
+                  <h2>Troubleshooting</h2>
+                </li>
               </Link>
               <Link to="/">
-                <li className="menuhover">Home</li>
+                <li className="menuhover">
+                  <h2>Home</h2>
+                </li>
               </Link>
             </div>
           </ul>
@@ -75,7 +83,8 @@ function NavBar({
                 className="menu-createacc"
                 onClick={() => handleCreateAccOpen()}
               >
-                Create Account
+                <h2>Create Account</h2>
+                
               </button>
             </li>
             <li>
@@ -83,7 +92,7 @@ function NavBar({
                 className="menu-signin"
                 onClick={() => handleSignInOpen()}
               >
-                Sign In
+                <h2>Sign In</h2>
               </button>
             </li>
           </ul>

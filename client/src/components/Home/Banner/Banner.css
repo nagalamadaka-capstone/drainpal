@@ -17,6 +17,11 @@
     font-weight: 300;
 }
 
+.buttonFormatBanner{
+    display:flex;
+    align-items: center;
+}
+
 .banner button{
     background-color: white;
     color: black;
@@ -84,3 +89,5 @@
 a{
     text-decoration: none;
 }
+
+

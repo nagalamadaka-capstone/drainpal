@@ -4,7 +4,9 @@
 }
 
 .navbar button,
-.navbar li {
+.navbar li,
+.menu-createacc,
+.menu-signin {
   background-color: white;
   color: black;
   border: none;
@@ -42,7 +44,7 @@ nav ul {
   padding: 0;
 }
 
-nav h2{
+nav h2 {
   font-weight: 300;
   font-size: 20px;
 }
@@ -56,10 +58,3 @@ nav ul li {
 .menuhover {
   float: right;
 }
-
-/* .navbar-container{
-  display: flex;
-  flex-direction: row;
-  justify-content: space-evenly;
-  align-items: center;
-} */

@@ -3,9 +3,10 @@ import "./Banner.css";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { TbAlertCircle } from "react-icons/tb";
-import { RiQuestionnaireLine } from "react-icons/ri";
 import { useState, useEffect } from "react";
 import TroubleshootingButton from "./TroubleshootingButton";
+import { IoMdCreate } from "react-icons/io";
+import { GoSignIn } from "react-icons/go";
 
 function Banner({
   handleSignInOpen,
@@ -63,10 +64,10 @@ function Banner({
                     levels.
                   </button>
                 </Link>
-              <TroubleshootingButton/>
+                <TroubleshootingButton />
               </div>
             ) : (
-              <TroubleshootingButton/>
+              <TroubleshootingButton />
             )}
             {isDoctorLoggedIn ? null : hasLoggedData ? null : (
               <Link to="/datalog">
@@ -99,14 +100,31 @@ function Banner({
             Percutaneous Nephrostomy Tube.
           </h2>
           <div className="signupbuttons">
-            <button className="menu-signin" onClick={() => handleSignInOpen()}>
-              Sign In
+            <button
+              className="menu-signin"
+              onClick={() => handleSignInOpen()}
+              style={{ fontSize: "20px" }}
+            >
+              <div className="buttonFormatBanner">
+                <GoSignIn style={{ width: "2rem", height: "2rem", marginRight: "5px" }} />
+                Sign In
+              </div>
             </button>
             <button
               className="menu-createacc"
               onClick={() => handleCreateAccOpen()}
+              style={{ fontSize: "20px" }}
             >
-              Create Account
+              <div className="buttonFormatBanner">
+                <IoMdCreate
+                  style={{
+                    width: "2.5rem",
+                    height: "2rem",
+                    marginBottom: "0px",
+                  }}
+                />
+                Create Account
+              </div>
             </button>
           </div>
         </div>
