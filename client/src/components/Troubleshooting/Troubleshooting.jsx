@@ -40,6 +40,12 @@ function Troubleshooting({
       pulledBackChanges: troubleshooting.pulledBackChanges,
       pulledBackCompletely: troubleshooting.pulledBackCompletely,
       pulledBackQuantity: troubleshooting.pulledBackQuantity,
+      notSure: troubleshooting.notSure,
+      notSureTugged: troubleshooting.notSureTugged,
+      notSureFlushing: troubleshooting.notSureFlushing,
+      notSureFlushingEasily: troubleshooting.notSureFlushingEasily,
+      notSureBroken: troubleshooting.notSureBroken,
+      notSureConnectionsOpen: troubleshooting.notSureConnectionsOpen,
     };
     newForm[key] = val;
     setTroubleshooting(newForm);
@@ -90,8 +96,134 @@ function Troubleshooting({
                 <option value="leakage">
                   New leakage associated with the drain
                 </option>
-                <option value="pulledBack">The drain is pulled back.</option>
+                <option value="pulledBack">The drain is pulled back</option>
+                <option value="notSure">
+                  I am not sure, but it is not working
+                </option>
               </select>
+            </div>
+          )}
+          {troubleshooting.issue === "notSure" && (
+            <div className="q3">
+              <h2> Has the drain been pulled on or tugged?</h2>
+              <select
+                name="notSureTugged"
+                className="troubleshooting-dropdown"
+                value={troubleshooting.notSureTugged}
+                onChange={(e) => {
+                  handleOnTroubleshootingChange(
+                    "notSureTugged",
+                    e.target.value
+                  );
+                }}
+              >
+                <option value="">Select an Option</option>
+                <option value="yes">Yes</option>
+                <option value="no">No</option>
+              </select>
+            </div>
+          )}
+          {troubleshooting.notSureTugged === "yes" && (
+            <div className="q3">
+              <h2>Your drain my no longer be in the correct positon. </h2>
+              <h2>Call your Provider.</h2>
+              <button
+                onClick={() => window.location.reload(false)}
+                className="add-drain"
+              >
+                Start over!
+              </button>
+            </div>
+          )}
+          {troubleshooting.notSureTugged === "no" && (
+            <div className="q3">
+              <h2> Have you tried flushing the drain?</h2>
+              <select
+                name="notSureFlushing"
+                className="troubleshooting-dropdown"
+                value={troubleshooting.notSureFlushing}
+                onChange={(e) => {
+                  handleOnTroubleshootingChange(
+                    "notSureFlushing",
+                    e.target.value
+                  );
+                }}
+              >
+                <option value="">Select an Option</option>
+                <option value="yes">Yes</option>
+                <option value="no">No</option>
+              </select>
+            </div>
+          )}
+          {troubleshooting.notSureFlushing === "no" && (
+            <div className="q3">
+              <h2>Please try flushing the drain with 10cc saline.</h2>
+            </div>
+          )}
+          {troubleshooting.notSureFlushing === "yes" && (
+            <div className="q3">
+              <h2>Does the drain flush easily?</h2>
+              <select
+                name="notSureFlushingEasily"
+                className="troubleshooting-dropdown"
+                value={troubleshooting.notSureFlushingEasily}
+                onChange={(e) => {
+                  handleOnTroubleshootingChange(
+                    "notSureFlushingEasily",
+                    e.target.value
+                  );
+                }}
+              >
+                <option value="">Select an Option</option>
+                <option value="yes">Yes</option>
+                <option value="no">No</option>
+              </select>
+            </div>
+          )}
+          {troubleshooting.notSureFlushingEasily === "no" && (
+            <div className="q3">
+              <h2>Are all the connections open?</h2>
+              <select
+                name="notSureConnectionsOpen"
+                className="troubleshooting-dropdown"
+                value={troubleshooting.notSureConnectionsOpen}
+                onChange={(e) => {
+                  handleOnTroubleshootingChange(
+                    "notSureConnectionsOpen",
+                    e.target.value
+                  );
+                }}
+              >
+                <option value="">Select an Option</option>
+                <option value="yes">Yes</option>
+                <option value="no">No</option>
+              </select>
+            </div>
+          )}
+          {(troubleshooting.notSureFlushingEasily === "yes" ||
+            troubleshooting.notSureConnectionsOpen === "yes") && (
+            <div className="q3">
+              <h2>Is the drain visibly broken?</h2>
+              <select
+                name="notSureBroken"
+                className="troubleshooting-dropdown"
+                value={troubleshooting.notSureBroken}
+                onChange={(e) => {
+                  handleOnTroubleshootingChange(
+                    "notSureBroken",
+                    e.target.value
+                  );
+                }}
+              >
+                <option value="">Select an Option</option>
+                <option value="yes">Yes</option>
+                <option value="no">No</option>
+              </select>
+            </div>
+          )}
+          {troubleshooting.notSureConnectionsOpen === "no" && (
+            <div className="q3">
+              <h2>Please open all connectors/locks and try flushing again.</h2>
             </div>
           )}
           {troubleshooting.issue === "pulledBack" && (
@@ -136,7 +268,10 @@ function Troubleshooting({
           )}
           {troubleshooting.pulledBackChanges === "no" && (
             <div className="q3">
-              <h2>Has there been a sudden change in the quantity or quality of your drain's output?</h2>
+              <h2>
+                Has there been a sudden change in the quantity or quality of
+                your drain's output?
+              </h2>
               <select
                 name="pulledBackQuantity"
                 className="troubleshooting-dropdown"
@@ -571,7 +706,8 @@ function Troubleshooting({
             troubleshooting.changesInHealth === "yes" ||
             troubleshooting.pulledBackCompletely === "yes" ||
             troubleshooting.pulledBackChanges === "yes" ||
-            troubleshooting.pulledBackQuantity === "yes") && (
+            troubleshooting.pulledBackQuantity === "yes" ||
+            troubleshooting.notSureBroken === "yes") && (
             <div className="q5">
               <h2>Call your provider.</h2>
               <button
@@ -587,7 +723,8 @@ function Troubleshooting({
             troubleshooting.thickBloodFainting === "no" ||
             troubleshooting.thinnerQuantityChange === "no" ||
             troubleshooting.persistentChange === "no" ||
-            troubleshooting.pulledBackQuantity === "no") && (
+            troubleshooting.pulledBackQuantity === "no" ||
+            troubleshooting.notSureBroken === "no") && (
             <div className="result2">
               <h2>Continue to monitor your drain for 24h.</h2>
               <button
