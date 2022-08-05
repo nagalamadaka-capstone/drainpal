@@ -47,7 +47,7 @@ function DataLog({
   const [concerns, setConcerns] = useState("");
   const [drainOutput, setDrainOutput] = useState("");
   const [drainColor, setDrainColor] = useState("");
-  const [drainHSL, setDrainHSL] = useState("");
+  const [drainHSL, setDrainHSL] = useState([]);
   const [drainOutputFile, setDrainOutputFile] = useState(null);
   const [drainSkinSitePhoto, setDrainSkinSitePhoto] = useState("");
   const [dataLogError, setDataLogError] = useState("");
@@ -226,7 +226,7 @@ function DataLog({
           time: time,
           drainOutput: drainOutput,
           drainColor: drainColor,
-          drainHSL: drainHSL,
+          drainHSLArray: drainHSL,
           drainOutputPhotoLink: drainOutputPhotoLink,
           drainSkinSitePhoto: drainSkinSitePhoto,
           date: date,
@@ -251,7 +251,7 @@ function DataLog({
     setConcerns("");
     setDrainOutput("");
     setDrainColor("");
-    setDrainHSL("");
+    setDrainHSL([]);
     setDrainSkinSitePhoto("");
     setDataLogError("");
     setSliderArrayValues([5, 5, 5, 5, 5, 5, 5]);

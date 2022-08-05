@@ -226,7 +226,7 @@ router.get("/getAlarmingPatients", async (req, res, next) => {
 
   query.find().then((dataLogs) => {
     dataLogs.map((dataLog) => {
-      let hsl = dataLog.get("drainHSL");
+      let hsl = dataLog.get("drainHSLArray");
 
       let h = Number(hsl[0]).toFixed(2);
       let s = Number(hsl[1]).toFixed(2);

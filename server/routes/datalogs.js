@@ -24,7 +24,7 @@ router.post("/save", async (req, res, next) => {
     dataLog.set("date", infoUser.date);
     dataLog.set("time", infoUser.time);
     dataLog.set("draintype", infoUser.draintype);
-    dataLog.set("drainHSL", infoUser.drainHSL);
+    dataLog.set("drainHSLArray", infoUser.drainHSLArray);
     dataLog.set("drainOutput", infoUser.drainOutput);
     dataLog.set("drainColor", infoUser.drainColor);
     dataLog.set("drainOutputPhotoLink", infoUser.drainOutputPhotoLink);
