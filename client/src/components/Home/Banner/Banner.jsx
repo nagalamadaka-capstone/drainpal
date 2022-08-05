@@ -2,7 +2,10 @@ import React from "react";
 import "./Banner.css";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import { TbAlertCircle } from "react-icons/tb";
+import { RiQuestionnaireLine } from "react-icons/ri";
 import { useState, useEffect } from "react";
+import TroubleshootingButton from "./TroubleshootingButton";
 
 function Banner({
   handleSignInOpen,
@@ -51,32 +54,42 @@ function Banner({
             DrainPal is a tool for users to track their pain levels due to a
             Percutaneous Nephrostomy Tube.
           </h2>
-          {isDoctorLoggedIn ? (
-            <div>
-              <Link to="/allpatients">
+          <div className="bannerButtonContainer">
+            {isDoctorLoggedIn ? (
+              <div>
+                <Link to="/allpatients">
+                  <button>
+                    Click here to view your patients' drain data and pain
+                    levels.
+                  </button>
+                </Link>
+              <TroubleshootingButton/>
+              </div>
+            ) : (
+              <TroubleshootingButton/>
+            )}
+            {isDoctorLoggedIn ? null : hasLoggedData ? null : (
+              <Link to="/datalog">
                 <button>
-                  Click here to view your patients' drain data and pain levels.
+                  <div className="buttonFormat">
+                    <div className="icon">
+                      <TbAlertCircle
+                        style={{
+                          width: "3rem",
+                          height: "3rem",
+                        }}
+                      />
+                    </div>
+                    <div className="notIcon">
+                      {firstName}, you have not tracked your drain status yet.
+                      <br />
+                      <span className="bold">Enter now here!</span>
+                    </div>
+                  </div>
                 </button>
               </Link>
-              <Link to="/troubleshooting">
-                <button>
-                  Want to help a patient with their drain? Troubleshoot here!
-                </button>
-              </Link>
-            </div>
-          ) : (
-            <Link to="/troubleshooting">
-              <button>Need help with your drain? Troubleshoot here!</button>
-            </Link>
-          )}
-          {isDoctorLoggedIn? null: hasLoggedData ? null : (
-            <Link to="/datalog">
-              <button>
-                {firstName}, you have not tracked your daily pain levels yet!
-                Click here to track them.
-              </button>
-            </Link>
-          )}
+            )}
+          </div>
         </div>
       ) : (
         <div className="bannerNotLoggedIn">
