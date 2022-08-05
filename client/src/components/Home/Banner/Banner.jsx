@@ -7,6 +7,7 @@ import { useState, useEffect } from "react";
 import TroubleshootingButton from "./TroubleshootingButton";
 import { IoMdCreate } from "react-icons/io";
 import { GoSignIn } from "react-icons/go";
+import { AiOutlineLineChart } from "react-icons/ai";
 
 function Banner({
   handleSignInOpen,
@@ -57,11 +58,23 @@ function Banner({
           </h2>
           <div className="bannerButtonContainer">
             {isDoctorLoggedIn ? (
-              <div>
+              <div className="buttonFormatBanner">
                 <Link to="/allpatients">
                   <button>
-                    Click here to view your patients' drain data and pain
-                    levels.
+                    <div className="buttonFormat">
+                      <div className="icon">
+                        <AiOutlineLineChart
+                          style={{
+                            width: "2.7rem",
+                            height: "2.7rem",
+                          }}
+                        />
+                      </div>
+                      <div className="notIcon">
+                        Click here to view your patients' drain data and pain
+                        levels.
+                      </div>
+                    </div>
                   </button>
                 </Link>
                 <TroubleshootingButton />
@@ -106,7 +119,9 @@ function Banner({
               style={{ fontSize: "20px" }}
             >
               <div className="buttonFormatBanner">
-                <GoSignIn style={{ width: "2rem", height: "2rem", marginRight: "5px" }} />
+                <GoSignIn
+                  style={{ width: "2rem", height: "2rem", marginRight: "5px" }}
+                />
                 Sign In
               </div>
             </button>

@@ -67,19 +67,6 @@
     transition: all .2s ease-out;
 }
 
-
-/* .bannerLoggedIn button{
-    display: block;
-    list-style-type: none;
-    color: black;
-    background-color: #C6D6B9;
-    text-decoration: none;
-    padding: 10px;
-    font-size: 20px;
-    cursor: pointer;
-    font-weight: 300;
-} */
-
 .bannerLoggedIn button:hover{
     background-color: #e5e5e5;
     color: black;
