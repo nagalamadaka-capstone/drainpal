@@ -6,8 +6,16 @@ import Slider from "./slider";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import { ChromePicker } from "react-color";
-import base64ArrayBuffer from "../../../base64ArrayBuffer";
-import { IMAGGAAPIKEY, IMAGGASECRET } from "../../../securitykeys";
+import {
+  IMAGGAAPIKEY,
+  IMAGGASECRET,
+} from "../../../securitykeys";
+import {
+  ref,
+  uploadBytesResumable,
+  getDownloadURL,
+} from "firebase/storage";
+import { storage } from "../../../firebase";
 import LoadingSpinner from "../../LoadingSpinner/LoadingSpinner";
 
 function DataLog({
@@ -40,10 +48,12 @@ function DataLog({
   const [drainOutput, setDrainOutput] = useState("");
   const [drainColor, setDrainColor] = useState("");
   const [drainHSL, setDrainHSL] = useState("");
-  const [drainOutputPhoto, setDrainOutputPhoto] = useState("");
+  const [drainOutputFile, setDrainOutputFile] = useState(null);
   const [drainSkinSitePhoto, setDrainSkinSitePhoto] = useState("");
   const [dataLogError, setDataLogError] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
+  const [percentUploaded, setPercentUploaded] = useState("");
+  const [drainOutputPhotoLink, setDrainOutputPhotoLink] = useState("");
   const [isColorLoading, setIsColorLoading] = useState(false);
   const API_BASE_URL = "http://localhost:3001";
 
@@ -54,7 +64,7 @@ function DataLog({
   function handleClickColor() {
     setDisplayColorPicker(!displayColorPicker);
   }
-  
+
   function handleSelectColor(color) {
     setCurrColor(color);
     setDrainColor(color);
@@ -118,40 +128,44 @@ function DataLog({
   }
 
   const onDrainOutputPhotoChange = async (e) => {
-    const buffer = await e.target.files[0].arrayBuffer();
-    const base64 = base64ArrayBuffer(buffer);
-    setDrainOutputPhoto(base64);
+    setDrainOutputFile(e.target.files[0]);
   };
 
   const onDrainOutputPhotoSave = async () => {
     setIsColorLoading(true);
-    try {
-      const response1 = await axios.post(`${API_BASE_URL}/datalogs/savePhoto`, {
-        photo: drainOutputPhoto,
-        id: id,
-      });
 
-      await extractColors(response1.data);
-      setDataLogError("");
-    } catch (error) {
-      setDataLogError("Error uploading photo. Try again.");
-    }
-    setIsColorLoading(false);
+    const imageRef = ref(storage, `images/${drainOutputFile.name}`);
+    const uploadTask = uploadBytesResumable(imageRef, drainOutputFile);
+    uploadTask.on(
+      "state_changed",
+      (snapshot) => {
+        const percent = ((snapshot.bytesTransferred / snapshot.totalBytes) * 100).toFixed(2);
+        setPercentUploaded(percent);
+      },
+      (error) => {
+        setDataLogError("Error uploading photo. Try again.");
+      },
+      () => {
+        getDownloadURL(uploadTask.snapshot.ref).then((url) => {
+          setDrainOutputPhotoLink(url);
+          extractColors(url);
+        });
+      }
+    );
+    setDataLogError("");
   };
 
-  const extractColors = async (response1) => {
-    const { photoObject } = response1;
-    const { photo } = photoObject;
-
+  const extractColors = async (link) => {
     try {
       const response = await axios.get(`${API_BASE_URL}/datalogs/colors`, {
         params: {
-          parseLink: photo.url,
+          parseLink: link,
           IMAGGAAPIKEY,
           IMAGGASECRET,
         },
       });
       const result = response.data.result;
+
       const colors = result.colors;
       const { foreground_colors } = colors;
       const foregroundColorsInPic = [];
@@ -192,6 +206,7 @@ function DataLog({
     } catch (err) {
       setDataLogError("Error extracting colors. Try again.");
     }
+    setIsColorLoading(false);
   };
 
   const onSaveDataClick = async () => {
@@ -220,7 +235,7 @@ function DataLog({
           drainOutput: drainOutput,
           drainColor: drainColor,
           drainHSL: drainHSL,
-          drainOutputPhoto: drainOutputPhoto,
+          drainOutputPhotoLink: drainOutputPhotoLink,
           drainSkinSitePhoto: drainSkinSitePhoto,
           date: date,
           sliderArrayValues: sliderArrayValues,
@@ -245,7 +260,6 @@ function DataLog({
     setDrainOutput("");
     setDrainColor("");
     setDrainHSL("");
-    setDrainOutputPhoto("");
     setDrainSkinSitePhoto("");
     setDataLogError("");
     setSliderArrayValues([5, 5, 5, 5, 5, 5, 5]);
@@ -377,6 +391,9 @@ function DataLog({
             >
               Find Colors in Photo
             </button>
+            {isColorLoading ? (
+              <p>Picture is {percentUploaded}% done uploading</p>
+            ) : null}
             {isColorLoading ? <LoadingSpinner /> : null}
             {colorsInPic != "" ? (
               <div className="colorOptions-container">
