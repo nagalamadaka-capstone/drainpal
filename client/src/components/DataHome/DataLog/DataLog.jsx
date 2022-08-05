@@ -74,15 +74,7 @@ function DataLog({
   function handleColorChange(e) {
     setCurrColor(e.hex);
     setDrainColor(e.hex);
-    setDrainHSL(
-      "(" +
-        e.hsl.h +
-        ", " +
-        (e.hsl.s * 100).toFixed(2) +
-        ", " +
-        (e.hsl.l * 100).toFixed(2) +
-        ")"
-    );
+    setDrainHSL([e.hsl.h, e.hsl.s, e.hsl.l]);
   }
 
   function hexToHSL(H) {
@@ -124,7 +116,7 @@ function DataLog({
     s = +(s * 100).toFixed(1);
     l = +(l * 100).toFixed(1);
 
-    return "(" + h + ", " + s + ", " + l + ")";
+    return [h, s, l];
   }
 
   const onDrainOutputPhotoChange = async (e) => {

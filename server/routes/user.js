@@ -227,11 +227,10 @@ router.get("/getAlarmingPatients", async (req, res, next) => {
   query.find().then((dataLogs) => {
     dataLogs.map((dataLog) => {
       let hsl = dataLog.get("drainHSL");
-      let hslArray = hsl.split(", ");
 
-      let h = Number(hslArray[0].replace("(", ""));
-      let s = Number(hslArray[1]);
-      let l = Number(hslArray[2].replace(")", ""));
+      let h = Number(hsl[0]).toFixed(2);
+      let s = Number(hsl[1]).toFixed(2);
+      let l = Number(hsl[2]).toFixed(2);
 
       if (((-1 < h && h < 42) || (h<360 && h>315)) && -1 < s && s < 100 && -1 < l && l < 100) {
         let dataLogInfo = {
