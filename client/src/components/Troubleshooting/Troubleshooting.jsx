@@ -11,7 +11,6 @@ function Troubleshooting({
   isDoctorLoggedIn,
 }) {
   const [troubleshooting, setTroubleshooting] = useState({});
-  
 
   function handleOnTroubleshootingChange(key, val) {
     let newForm = {
@@ -28,6 +27,25 @@ function Troubleshooting({
       changeInQuality: troubleshooting.changeInQuality,
       bloodThickness: troubleshooting.bloodThickness,
       thickBloodFainting: troubleshooting.thickBloodFainting,
+      newPain: troubleshooting.newPain,
+      newPainMedication: troubleshooting.newPainMedication,
+      newPainSeverity: troubleshooting.newPainSeverity,
+      newPainWhen: troubleshooting.newPainWhen,
+      persistentChange: troubleshooting.persistentChange,
+      newLeakageWhen: troubleshooting.newLeakageWhen,
+      newLeakageDressing: troubleshooting.newLeakageDressing,
+      leakage: troubleshooting.leakage,
+      changesInHealth: troubleshooting.changesInHealth,
+      pulledBack: troubleshooting.pulledBack,
+      pulledBackChanges: troubleshooting.pulledBackChanges,
+      pulledBackCompletely: troubleshooting.pulledBackCompletely,
+      pulledBackQuantity: troubleshooting.pulledBackQuantity,
+      notSure: troubleshooting.notSure,
+      notSureTugged: troubleshooting.notSureTugged,
+      notSureFlushing: troubleshooting.notSureFlushing,
+      notSureFlushingEasily: troubleshooting.notSureFlushingEasily,
+      notSureBroken: troubleshooting.notSureBroken,
+      notSureConnectionsOpen: troubleshooting.notSureConnectionsOpen,
     };
     newForm[key] = val;
     setTroubleshooting(newForm);
@@ -39,7 +57,7 @@ function Troubleshooting({
         handleSignInOpen={handleSignInOpen}
         isLoggedIn={isLoggedIn}
         handleCreateAccOpen={handleCreateAccOpen}
-        isDoctorLoggedIn = {isDoctorLoggedIn}
+        isDoctorLoggedIn={isDoctorLoggedIn}
       />
       <div className="notNavBar">
         <div className="wrapper">
@@ -72,9 +90,333 @@ function Troubleshooting({
                   Change in the amount of output
                 </option>
                 <option value="quality">Change in the quality of output</option>
+                <option value="newPain">
+                  New pain associated with the drain
+                </option>
+                <option value="leakage">
+                  New leakage associated with the drain
+                </option>
+                <option value="pulledBack">The drain is pulled back</option>
+                <option value="notSure">
+                  I am not sure, but it is not working
+                </option>
               </select>
             </div>
           )}
+          {troubleshooting.issue === "notSure" && (
+            <div className="q3">
+              <h2> Has the drain been pulled on or tugged?</h2>
+              <select
+                name="notSureTugged"
+                className="troubleshooting-dropdown"
+                value={troubleshooting.notSureTugged}
+                onChange={(e) => {
+                  handleOnTroubleshootingChange(
+                    "notSureTugged",
+                    e.target.value
+                  );
+                }}
+              >
+                <option value="">Select an Option</option>
+                <option value="yes">Yes</option>
+                <option value="no">No</option>
+              </select>
+            </div>
+          )}
+          {troubleshooting.notSureTugged === "yes" && (
+            <div className="q3">
+              <h2>Your drain my no longer be in the correct positon. </h2>
+              <h2>Call your Provider.</h2>
+              <button
+                onClick={() => window.location.reload(false)}
+                className="add-drain"
+              >
+                Start over!
+              </button>
+            </div>
+          )}
+          {troubleshooting.notSureTugged === "no" && (
+            <div className="q3">
+              <h2> Have you tried flushing the drain?</h2>
+              <select
+                name="notSureFlushing"
+                className="troubleshooting-dropdown"
+                value={troubleshooting.notSureFlushing}
+                onChange={(e) => {
+                  handleOnTroubleshootingChange(
+                    "notSureFlushing",
+                    e.target.value
+                  );
+                }}
+              >
+                <option value="">Select an Option</option>
+                <option value="yes">Yes</option>
+                <option value="no">No</option>
+              </select>
+            </div>
+          )}
+          {troubleshooting.notSureFlushing === "no" && (
+            <div className="q3">
+              <h2>Please try flushing the drain with 10cc saline.</h2>
+            </div>
+          )}
+          {troubleshooting.notSureFlushing === "yes" && (
+            <div className="q3">
+              <h2>Does the drain flush easily?</h2>
+              <select
+                name="notSureFlushingEasily"
+                className="troubleshooting-dropdown"
+                value={troubleshooting.notSureFlushingEasily}
+                onChange={(e) => {
+                  handleOnTroubleshootingChange(
+                    "notSureFlushingEasily",
+                    e.target.value
+                  );
+                }}
+              >
+                <option value="">Select an Option</option>
+                <option value="yes">Yes</option>
+                <option value="no">No</option>
+              </select>
+            </div>
+          )}
+          {troubleshooting.notSureFlushingEasily === "no" && (
+            <div className="q3">
+              <h2>Are all the connections open?</h2>
+              <select
+                name="notSureConnectionsOpen"
+                className="troubleshooting-dropdown"
+                value={troubleshooting.notSureConnectionsOpen}
+                onChange={(e) => {
+                  handleOnTroubleshootingChange(
+                    "notSureConnectionsOpen",
+                    e.target.value
+                  );
+                }}
+              >
+                <option value="">Select an Option</option>
+                <option value="yes">Yes</option>
+                <option value="no">No</option>
+              </select>
+            </div>
+          )}
+          {(troubleshooting.notSureFlushingEasily === "yes" ||
+            troubleshooting.notSureConnectionsOpen === "yes") && (
+            <div className="q3">
+              <h2>Is the drain visibly broken?</h2>
+              <select
+                name="notSureBroken"
+                className="troubleshooting-dropdown"
+                value={troubleshooting.notSureBroken}
+                onChange={(e) => {
+                  handleOnTroubleshootingChange(
+                    "notSureBroken",
+                    e.target.value
+                  );
+                }}
+              >
+                <option value="">Select an Option</option>
+                <option value="yes">Yes</option>
+                <option value="no">No</option>
+              </select>
+            </div>
+          )}
+          {troubleshooting.notSureConnectionsOpen === "no" && (
+            <div className="q3">
+              <h2>Please open all connectors/locks and try flushing again.</h2>
+            </div>
+          )}
+          {troubleshooting.issue === "pulledBack" && (
+            <div className="q3">
+              <h2> Is the drain pulled out completely?</h2>
+              <select
+                name="pulledBackCompletely"
+                className="troubleshooting-dropdown"
+                value={troubleshooting.pulledBackCompletely}
+                onChange={(e) => {
+                  handleOnTroubleshootingChange(
+                    "pulledBackCompletely",
+                    e.target.value
+                  );
+                }}
+              >
+                <option value="">Select an Option</option>
+                <option value="yes">Yes</option>
+                <option value="no">No</option>
+              </select>
+            </div>
+          )}
+          {troubleshooting.pulledBackCompletely === "no" && (
+            <div className="q3">
+              <h2>Any changes in your health? Do you have fever or pain?</h2>
+              <select
+                name="pulledBackChanges"
+                className="troubleshooting-dropdown"
+                value={troubleshooting.pulledBackChanges}
+                onChange={(e) => {
+                  handleOnTroubleshootingChange(
+                    "pulledBackChanges",
+                    e.target.value
+                  );
+                }}
+              >
+                <option value="">Select an Option</option>
+                <option value="yes">Yes</option>
+                <option value="no">No</option>
+              </select>
+            </div>
+          )}
+          {troubleshooting.pulledBackChanges === "no" && (
+            <div className="q3">
+              <h2>
+                Has there been a sudden change in the quantity or quality of
+                your drain's output?
+              </h2>
+              <select
+                name="pulledBackQuantity"
+                className="troubleshooting-dropdown"
+                value={troubleshooting.pulledBackQuantity}
+                onChange={(e) => {
+                  handleOnTroubleshootingChange(
+                    "pulledBackQuantity",
+                    e.target.value
+                  );
+                }}
+              >
+                <option value="">Select an Option</option>
+                <option value="yes">Yes</option>
+                <option value="no">No</option>
+              </select>
+            </div>
+          )}
+          {troubleshooting.issue === "leakage" && (
+            <div className="q3">
+              <h2> When do you experience this leakage?</h2>
+              <select
+                name="newLeakageWhen"
+                className="troubleshooting-dropdown"
+                value={troubleshooting.newLeakageWhen}
+                onChange={(e) => {
+                  handleOnTroubleshootingChange(
+                    "newLeakageWhen",
+                    e.target.value
+                  );
+                }}
+              >
+                <option value="">Select an Option</option>
+                <option value="constantly">Constantly</option>
+                <option value="onlyDrainFlush">
+                  Only when the drain is flushed
+                </option>
+              </select>
+            </div>
+          )}
+          {troubleshooting.newLeakageWhen === "constantly" && (
+            <div className="q3">
+              <h2>
+                {" "}
+                Does the dressing need to be changed more than 2-3 times a day?
+              </h2>
+              <select
+                name="newLeakageDressing"
+                className="troubleshooting-dropdown"
+                value={troubleshooting.newLeakageDressing}
+                onChange={(e) => {
+                  handleOnTroubleshootingChange(
+                    "newLeakageDressing",
+                    e.target.value
+                  );
+                }}
+              >
+                <option value="">Select an Option</option>
+                <option value="yes">Yes</option>
+                <option value="no">No</option>
+              </select>
+            </div>
+          )}
+          {troubleshooting.newLeakageDressing === "no" && (
+            <div className="q3">
+              <h2>Change the dressing and continue to monitor for 24hrs.</h2>
+            </div>
+          )}
+          {troubleshooting.issue === "newPain" && (
+            <div className="q3">
+              <h2> When do you experience this pain?</h2>
+              <select
+                name="newPainWhen"
+                className="troubleshooting-dropdown"
+                value={troubleshooting.newPainWhen}
+                onChange={(e) => {
+                  handleOnTroubleshootingChange("newPainWhen", e.target.value);
+                }}
+              >
+                <option value="">Select an Option</option>
+                <option value="constantly">Constantly</option>
+                <option value="onlyDrainFlush">
+                  Only when the drain is flushed
+                </option>
+              </select>
+            </div>
+          )}
+          {troubleshooting.newPainWhen === "constantly" && (
+            <div className="q3">
+              <h2> Is the pain mild/moderate in severity, 1-5 out of 10? </h2>
+              <select
+                name="newPainSeverity"
+                className="troubleshooting-dropdown"
+                value={troubleshooting.newPainSeverity}
+                onChange={(e) => {
+                  handleOnTroubleshootingChange(
+                    "newPainSeverity",
+                    e.target.value
+                  );
+                }}
+              >
+                <option value="">Select an Option</option>
+                <option value="yes">Yes</option>
+                <option value="no">No</option>
+              </select>
+            </div>
+          )}
+          {troubleshooting.newPainSeverity === "yes" && (
+            <div className="q3">
+              <h2>
+                {" "}
+                Does taking an over-the-counter or prescribed pain medication
+                help ease the pain?{" "}
+              </h2>
+              <select
+                name="newPainMedication"
+                className="troubleshooting-dropdown"
+                value={troubleshooting.newPainMedication}
+                onChange={(e) => {
+                  handleOnTroubleshootingChange(
+                    "newPainMedication",
+                    e.target.value
+                  );
+                }}
+              >
+                <option value="">Select an Option</option>
+                <option value="yes">Yes</option>
+                <option value="no">No</option>
+              </select>
+            </div>
+          )}
+          {troubleshooting.newPainMedication === "yes" && (
+            <div className="q3">
+              <h2>
+                Continue to take the pain medication as safely as
+                prescribed/recommended and monitor for 24hrs.
+              </h2>
+              <button
+                onClick={() => window.location.reload(false)}
+                className="add-drain"
+              >
+                Start over!
+              </button>
+            </div>
+          )}
+
           {troubleshooting.issue === "volumeChange" && (
             <div className="q3">
               <h2>How has it changed?</h2>
@@ -127,6 +469,49 @@ function Troubleshooting({
                 onChange={(e) => {
                   handleOnTroubleshootingChange(
                     "persistentIncreaseChange",
+                    e.target.value
+                  );
+                }}
+              >
+                <option value="">Select a Change</option>
+                <option value="yes">Yes</option>
+                <option value="no">No</option>
+              </select>
+            </div>
+          )}
+
+          {(troubleshooting.newPainWhen === "onlyDrainFlush" ||
+            troubleshooting.newLeakageWhen === "onlyDrainFlush") && (
+            <div className="q6">
+              <h2>Any changes in your health? Fever/pain?</h2>
+              <select
+                name="changesInHealth"
+                className="troubleshooting-dropdown"
+                value={troubleshooting.changesInHealth}
+                onChange={(e) => {
+                  handleOnTroubleshootingChange(
+                    "changesInHealth",
+                    e.target.value
+                  );
+                }}
+              >
+                <option value="">Select a Change</option>
+                <option value="yes">Yes</option>
+                <option value="no">No</option>
+              </select>
+            </div>
+          )}
+
+          {troubleshooting.changesInHealth === "no" && (
+            <div className="q6">
+              <h2>Has it persisted for more than 24-48 hrs?</h2>
+              <select
+                name="persistentChange"
+                className="troubleshooting-dropdown"
+                value={troubleshooting.persistentChange}
+                onChange={(e) => {
+                  handleOnTroubleshootingChange(
+                    "persistentChange",
                     e.target.value
                   );
                 }}
@@ -285,7 +670,9 @@ function Troubleshooting({
               </select>
             </div>
           )}
-          {troubleshooting.changeInQuality === "thinner" && (
+          {(troubleshooting.changeInQuality === "thinner" ||
+            troubleshooting.onlyDrainFlush === "no" ||
+            troubleshooting.persistentChange === "yes") && (
             <div className="q3">
               <h2>Is the drain output less than 20cc per day?</h2>
               <select
@@ -311,7 +698,16 @@ function Troubleshooting({
             troubleshooting.damaged === "yes" ||
             troubleshooting.drainconnections === "yes" ||
             troubleshooting.bloodThickness === "see-through" ||
-            troubleshooting.thickBloodFainting === "yes") && (
+            troubleshooting.thickBloodFainting === "yes" ||
+            troubleshooting.newPainSeverity === "no" ||
+            troubleshooting.newPainMedication === "no" ||
+            troubleshooting.onlyDrainFlush === "yes" ||
+            troubleshooting.newLeakageDressing === "yes" ||
+            troubleshooting.changesInHealth === "yes" ||
+            troubleshooting.pulledBackCompletely === "yes" ||
+            troubleshooting.pulledBackChanges === "yes" ||
+            troubleshooting.pulledBackQuantity === "yes" ||
+            troubleshooting.notSureBroken === "yes") && (
             <div className="q5">
               <h2>Call your provider.</h2>
               <button
@@ -325,7 +721,10 @@ function Troubleshooting({
           {(troubleshooting.persistentIncreaseChange === "no" ||
             troubleshooting.bloodThickness === "other" ||
             troubleshooting.thickBloodFainting === "no" ||
-            troubleshooting.thinnerQuantityChange === "no") && (
+            troubleshooting.thinnerQuantityChange === "no" ||
+            troubleshooting.persistentChange === "no" ||
+            troubleshooting.pulledBackQuantity === "no" ||
+            troubleshooting.notSureBroken === "no") && (
             <div className="result2">
               <h2>Continue to monitor your drain for 24h.</h2>
               <button
