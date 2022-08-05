@@ -17,22 +17,48 @@
     font-weight: 300;
 }
 
+.buttonFormatBanner{
+    display:flex;
+    align-items: center;
+}
+
 .banner button{
     background-color: white;
     color: black;
-    border: none;
-    padding: 10px;
-    font-size: 20px;
+    border: 3px solid black;
+    width: 300px;
+    height: 90px;
+    padding: 15px;
+    font-size: 15px;
     cursor: pointer;
     font-family: 'Work Sans', sans-serif;
     font-weight: 300;
-    height: 40px;
+    text-align: left;
     border-radius: 10px;
     margin: 10px;
     margin-right: 10px;
     margin-left: 10px;
     transform: translate(0, 2px);
-   
+}
+
+.buttonFormat{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.notIcon{
+    margin-left: 10px;
+}
+
+.bold{
+    font-weight: 600;
+}
+
+.bannerButtonContainer{
+    display: flex;
+    align-items: center;
 }
 
 .banner button:hover{
@@ -40,19 +66,6 @@
     color: black;
     transition: all .2s ease-out;
 }
-
-
-/* .bannerLoggedIn button{
-    display: block;
-    list-style-type: none;
-    color: black;
-    background-color: #C6D6B9;
-    text-decoration: none;
-    padding: 10px;
-    font-size: 20px;
-    cursor: pointer;
-    font-weight: 300;
-} */
 
 .bannerLoggedIn button:hover{
     background-color: #e5e5e5;
@@ -63,3 +76,5 @@
 a{
     text-decoration: none;
 }
+
+

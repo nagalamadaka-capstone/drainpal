@@ -47,7 +47,7 @@ function DataLog({
   const [concerns, setConcerns] = useState("");
   const [drainOutput, setDrainOutput] = useState("");
   const [drainColor, setDrainColor] = useState("");
-  const [drainHSL, setDrainHSL] = useState("");
+  const [drainHSL, setDrainHSL] = useState([]);
   const [drainOutputFile, setDrainOutputFile] = useState(null);
   const [drainSkinSitePhoto, setDrainSkinSitePhoto] = useState("");
   const [dataLogError, setDataLogError] = useState("");
@@ -74,15 +74,7 @@ function DataLog({
   function handleColorChange(e) {
     setCurrColor(e.hex);
     setDrainColor(e.hex);
-    setDrainHSL(
-      "(" +
-        e.hsl.h +
-        ", " +
-        (e.hsl.s * 100).toFixed(2) +
-        ", " +
-        (e.hsl.l * 100).toFixed(2) +
-        ")"
-    );
+    setDrainHSL([e.hsl.h, e.hsl.s, e.hsl.l]);
   }
 
   function hexToHSL(H) {
@@ -124,7 +116,7 @@ function DataLog({
     s = +(s * 100).toFixed(1);
     l = +(l * 100).toFixed(1);
 
-    return "(" + h + ", " + s + ", " + l + ")";
+    return [h, s, l];
   }
 
   const onDrainOutputPhotoChange = async (e) => {
@@ -234,7 +226,7 @@ function DataLog({
           time: time,
           drainOutput: drainOutput,
           drainColor: drainColor,
-          drainHSL: drainHSL,
+          drainHSLArray: drainHSL,
           drainOutputPhotoLink: drainOutputPhotoLink,
           drainSkinSitePhoto: drainSkinSitePhoto,
           date: date,
@@ -259,7 +251,7 @@ function DataLog({
     setConcerns("");
     setDrainOutput("");
     setDrainColor("");
-    setDrainHSL("");
+    setDrainHSL([]);
     setDrainSkinSitePhoto("");
     setDataLogError("");
     setSliderArrayValues([5, 5, 5, 5, 5, 5, 5]);

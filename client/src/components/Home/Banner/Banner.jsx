@@ -2,7 +2,12 @@ import React from "react";
 import "./Banner.css";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import { TbAlertCircle } from "react-icons/tb";
 import { useState, useEffect } from "react";
+import TroubleshootingButton from "./TroubleshootingButton";
+import { IoMdCreate } from "react-icons/io";
+import { GoSignIn } from "react-icons/go";
+import { AiOutlineLineChart } from "react-icons/ai";
 
 function Banner({
   handleSignInOpen,
@@ -51,33 +56,54 @@ function Banner({
             DrainPal is a tool for users to track their pain levels due to a
             Percutaneous Nephrostomy Tube.
           </h2>
-          {isDoctorLoggedIn? null: hasLoggedData ? null : (
-            <Link to="/datalog">
-              <button>
-                {firstName}, you have not tracked your daily pain levels yet!
-                Click here to track them.
-              </button>
-            </Link>
-          )}
-
-          {isDoctorLoggedIn ? (
-            <div>
-              <Link to="/allpatients">
+          <div className="bannerButtonContainer">
+            {isDoctorLoggedIn ? (
+              <div className="buttonFormatBanner">
+                <Link to="/allpatients">
+                  <button>
+                    <div className="buttonFormat">
+                      <div className="icon">
+                        <AiOutlineLineChart
+                          style={{
+                            width: "2.7rem",
+                            height: "2.7rem",
+                          }}
+                        />
+                      </div>
+                      <div className="notIcon">
+                        Click here to view your patients' drain data and pain
+                        levels.
+                      </div>
+                    </div>
+                  </button>
+                </Link>
+                <TroubleshootingButton />
+              </div>
+            ) : (
+              <TroubleshootingButton />
+            )}
+            {isDoctorLoggedIn ? null : hasLoggedData ? null : (
+              <Link to="/datalog">
                 <button>
-                  Click here to view your patients' drain data and pain levels.
+                  <div className="buttonFormat">
+                    <div className="icon">
+                      <TbAlertCircle
+                        style={{
+                          width: "3rem",
+                          height: "3rem",
+                        }}
+                      />
+                    </div>
+                    <div className="notIcon">
+                      {firstName}, you have not tracked your drain status yet.
+                      <br />
+                      <span className="bold">Enter now here!</span>
+                    </div>
+                  </div>
                 </button>
               </Link>
-              <Link to="/troubleshooting">
-                <button>
-                  Want to help a patient with their drain? Troubleshoot here!
-                </button>
-              </Link>
-            </div>
-          ) : (
-            <Link to="/troubleshooting">
-              <button>Need help with your drain? Troubleshoot here!</button>
-            </Link>
-          )}
+            )}
+          </div>
         </div>
       ) : (
         <div className="bannerNotLoggedIn">
@@ -87,14 +113,33 @@ function Banner({
             Percutaneous Nephrostomy Tube.
           </h2>
           <div className="signupbuttons">
-            <button className="menu-signin" onClick={() => handleSignInOpen()}>
-              Sign In
+            <button
+              className="menu-signin"
+              onClick={() => handleSignInOpen()}
+              style={{ fontSize: "20px" }}
+            >
+              <div className="buttonFormatBanner">
+                <GoSignIn
+                  style={{ width: "2rem", height: "2rem", marginRight: "5px" }}
+                />
+                Sign In
+              </div>
             </button>
             <button
               className="menu-createacc"
               onClick={() => handleCreateAccOpen()}
+              style={{ fontSize: "20px" }}
             >
-              Create Account
+              <div className="buttonFormatBanner">
+                <IoMdCreate
+                  style={{
+                    width: "2.5rem",
+                    height: "2rem",
+                    marginBottom: "0px",
+                  }}
+                />
+                Create Account
+              </div>
             </button>
           </div>
         </div>
