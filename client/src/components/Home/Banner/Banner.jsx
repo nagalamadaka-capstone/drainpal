@@ -51,15 +51,6 @@ function Banner({
             DrainPal is a tool for users to track their pain levels due to a
             Percutaneous Nephrostomy Tube.
           </h2>
-          {isDoctorLoggedIn? null: hasLoggedData ? null : (
-            <Link to="/datalog">
-              <button>
-                {firstName}, you have not tracked your daily pain levels yet!
-                Click here to track them.
-              </button>
-            </Link>
-          )}
-
           {isDoctorLoggedIn ? (
             <div>
               <Link to="/allpatients">
@@ -76,6 +67,14 @@ function Banner({
           ) : (
             <Link to="/troubleshooting">
               <button>Need help with your drain? Troubleshoot here!</button>
+            </Link>
+          )}
+          {isDoctorLoggedIn? null: hasLoggedData ? null : (
+            <Link to="/datalog">
+              <button>
+                {firstName}, you have not tracked your daily pain levels yet!
+                Click here to track them.
+              </button>
             </Link>
           )}
         </div>
