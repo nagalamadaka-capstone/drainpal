@@ -1,7 +1,7 @@
 import React from "react";
 import ".//SignIn.css";
 import FacebookLogin from "react-facebook-login/dist/facebook-login-render-props";
-import {FBAPPID} from "../../../securitykeys";
+import { FBAPPID } from "../../../securitykeys";
 
 function SignIn({
   signIn,
@@ -18,7 +18,7 @@ function SignIn({
           {" "}
           &rarr;
         </button>
-        <h1>Sign In!</h1>
+        <h1>Sign In</h1>
         {signinerror ? <p className="error">{signinerror}</p> : null}
         <div className="fblogin">
           <h3>Sign in with Facebook by clicking on the icon.</h3>
@@ -41,38 +41,40 @@ function SignIn({
           />
         </div>
 
-        <h2>E-mail</h2>
-        <input
-          type="email"
-          name="email"
-          placeholder="e.g. drainpal@drainpal.com"
-          className="sign-in-input"
-          value={signIn.email}
-          onChange={(e) => {
-            handleOnSignInFormChange("email", e.target.value);
-          }}
-        />
+        <div className="signin-form-inputs">
+          <h2>E-mail</h2>
+          <input
+            type="email"
+            name="email"
+            placeholder="e.g. drainpal@drainpal.com"
+            className="sign-in-input"
+            value={signIn.email}
+            onChange={(e) => {
+              handleOnSignInFormChange("email", e.target.value);
+            }}
+          />
 
-        <h2>Password</h2>
-        <input
-          type="password"
-          name="password"
-          placeholder="********"
-          className="sign-in-input"
-          value={signIn.password}
-          onChange={(e) => {
-            handleOnSignInFormChange("password", e.target.value);
-          }}
-        />
+          <h2>Password</h2>
+          <input
+            type="password"
+            name="password"
+            placeholder="********"
+            className="sign-in-input"
+            value={signIn.password}
+            onChange={(e) => {
+              handleOnSignInFormChange("password", e.target.value);
+            }}
+          />
 
-        <button
-          className="sign-in-button"
-          type="button"
-          onClick={() => handleOnSignInSubmit(signIn)}
-        >
-          {" "}
-          Sign In{" "}
-        </button>
+          <button
+            className="sign-in-button"
+            type="button"
+            onClick={() => handleOnSignInSubmit(signIn)}
+          >
+            {" "}
+            Sign In{" "}
+          </button>
+        </div>
       </form>
     </div>
   );

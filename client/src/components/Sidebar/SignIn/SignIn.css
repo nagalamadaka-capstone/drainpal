@@ -1,7 +1,7 @@
 .sign-in-input{
     box-sizing: border-box;
     height: 60px;
-    width: 250px;
+    width: 300px;
     background: #FFFFFF;
     border: 3px solid #243E36;
     font-size: 16px;
@@ -24,13 +24,19 @@
 }
 
 .signIn h2{
-    font-weight: 500;
+    font-weight: 300;
+    margin-bottom: 5px;
+}
+
+.signIn h3{
+    font-weight: 350;
+    font-size: 20px;
 }
 
 .sign-in-button{
     box-sizing: border-box;
     height: 60px;
-    width: 250px;
+    width: 300px;
     background: #FFFFFF;
     border: 3px solid black;
     border-radius: 20px;
@@ -43,24 +49,32 @@
     box-sizing: border-box;
     padding: 5px;
     background: #FFFFFF;
-    border: 1px solid black;
-    border-radius: 5px;
+    border: none;
+    border-radius: 3px;
     display: block;
     font-family: 'work sans', sans-serif;
-    font-size: 14px;
+    font-size: 20px;
     position: fixed;
     top: 10px;
-    right: 9px;
+    right: 15px;
 }
 
 .fblogin{
-    margin-top: 10px;
     display: grid;
     grid-template-columns: 1fr 0.5fr;
+    align-items: center;
     grid-gap: 10px;
-    margin-bottom: 20px;
-    margin-top: 20px;
+    margin-bottom: 0px;
+    margin-top: 0px;
     justify-items: center;
+    width: 80%;
+}
+
+.signin-form-inputs{
+    background-color: #2d4e44;
+    border-radius: 10px;
+    border: none;
+    padding: 10px;
 }
 
 .login-social {
@@ -76,7 +90,6 @@
     padding: 12px;
     margin: 5 12px;
     border: 1px solid #e6e6e6;
-    /* box-shadow: 0 2px 4px #d6d6d6; */
   }
   
   .login-social-item--facebook {
