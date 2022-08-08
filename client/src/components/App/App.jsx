@@ -45,7 +45,7 @@ function App() {
   const [doctorsList, setDoctorsList] = useState(
     localStorage.getItem("curr_doctors")
   );
-  
+
   /* Doctor specific states **/
   const [isDoctorLoggedIn, setIsDoctorLoggedIn] = useState(
     localStorage.getItem("current_doctor_id") !== null
@@ -77,8 +77,10 @@ function App() {
       localStorage.setItem("curr_doctors", res.data);
       setDoctorsList(res.data);
     });
-    fetchAlerts();
-    setTimeout(() => setIsAlertLoading(false), 6000);
+    {
+      isDoctorLoggedIn && fetchAlerts();
+      setTimeout(() => setIsAlertLoading(false), 6000);
+    }
   }, []);
 
   useEffect(() => {
@@ -101,7 +103,7 @@ function App() {
 
       setAlerts(sortedAlerts);
     } catch (error) {
-        setAlertError(error);
+      setAlertError(error);
     }
     setIsAlertLoading(false);
   };
@@ -183,7 +185,6 @@ function App() {
         setDraintype(value);
         break;
       case enumLocalStorageKeys.current_healthcareprovider:
-        
         setHealthcareprovider(value);
         break;
       case enumLocalStorageKeys.current_phone:
@@ -572,9 +573,9 @@ function App() {
                     handleSignInOpen={handleSignInOpen}
                     handleCreateAccOpen={handleCreateAccOpen}
                     lastName={lastName}
-                    alerts = {alerts}
-                    isAlertLoading = {isAlertLoading}
-                    alertError = {alertError}
+                    alerts={alerts}
+                    isAlertLoading={isAlertLoading}
+                    alertError={alertError}
                   />
                 ) : null
               }
