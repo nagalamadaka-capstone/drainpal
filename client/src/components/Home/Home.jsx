@@ -27,6 +27,7 @@ function Home({
   createaccsuccess,
   doctorsList,
   isDoctorLoggedIn,
+  numAlerts,
 }) {
   return (
     <div className="home">
@@ -59,9 +60,10 @@ function Home({
           handleCreateAccOpen={handleCreateAccOpen}
           isLoggedIn={isLoggedIn}
           firstName={firstName}
-            lastName={lastName}
+          lastName={lastName}
           userId={userId}
           isDoctorLoggedIn = {isDoctorLoggedIn}
+          numAlerts={numAlerts}
         />
         <div className="generalInfoWrapper">
             {articles.map(article => {

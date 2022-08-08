@@ -8,6 +8,7 @@ import TroubleshootingButton from "./TroubleshootingButton";
 import { IoMdCreate } from "react-icons/io";
 import { GoSignIn } from "react-icons/go";
 import { AiOutlineLineChart } from "react-icons/ai";
+import TemplateBannerButton from "./TemplateBannerButton";
 
 function Banner({
   handleSignInOpen,
@@ -17,6 +18,7 @@ function Banner({
   lastName,
   userId,
   isDoctorLoggedIn,
+  numAlerts,
 }) {
   const [hasLoggedData, setHasLoggedData] = useState(false);
 
@@ -59,49 +61,42 @@ function Banner({
           <div className="bannerButtonContainer">
             {isDoctorLoggedIn ? (
               <div className="buttonFormatBanner">
-                <Link to="/allpatients">
-                  <button>
-                    <div className="buttonFormat">
-                      <div className="icon">
-                        <AiOutlineLineChart
-                          style={{
-                            width: "2.7rem",
-                            height: "2.7rem",
-                          }}
-                        />
-                      </div>
-                      <div className="notIcon">
-                        Click here to view your patients' drain data and pain
-                        levels.
-                      </div>
-                    </div>
-                  </button>
-                </Link>
-                <TroubleshootingButton />
-              </div>
-            ) : (
-              <TroubleshootingButton />
-            )}
-            {isDoctorLoggedIn ? null : hasLoggedData ? null : (
-              <Link to="/datalog">
-                <button>
-                  <div className="buttonFormat">
-                    <div className="icon">
-                      <TbAlertCircle
+                <TemplateBannerButton
+                  buttonText= {`You have ${numAlerts} alerts. Click here to view your most alarming patients.`}
+                  linkAddress="/alerts"
+                  icon={
+                    <TbAlertCircle
                         style={{
                           width: "3rem",
                           height: "3rem",
                         }}
                       />
-                    </div>
-                    <div className="notIcon">
-                      {firstName}, you have not tracked your drain status yet.
-                      <br />
-                      <span className="bold">Enter now here!</span>
-                    </div>
-                  </div>
-                </button>
-              </Link>
+                  }
+                />
+                <TemplateBannerButton
+                  buttonText="Click here to view your patients' drain data and pain levels."
+                  linkAddress="/allpatients"
+                  icon={
+                    <AiOutlineLineChart
+                      style={{
+                        width: "2.7rem",
+                        height: "2.7rem",
+                      }}
+                    />
+                  }
+                />
+                <TroubleshootingButton />
+                
+              </div>
+            ) : (
+              <TroubleshootingButton />
+            )}
+            {isDoctorLoggedIn ? null : hasLoggedData ? null : (
+              <TemplateBannerButton
+                buttonText={`${firstName}, click here to log your data for today.`}
+                linkAddress="/datalog"
+                icon={<IoMdCreate style={{ width: "2.7rem", height: "2.7rem" }} />}
+              />
             )}
           </div>
         </div>

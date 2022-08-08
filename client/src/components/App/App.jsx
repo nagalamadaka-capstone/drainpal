@@ -442,6 +442,7 @@ function App() {
                     userId={localStorage.getItem("current_user_id")}
                     doctorsList={doctorsList}
                     isDoctorLoggedIn={isDoctorLoggedIn}
+                    numAlerts = {alerts.length}
                   />
                 )
               }
