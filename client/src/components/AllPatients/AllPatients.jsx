@@ -16,13 +16,11 @@ function AllPatients({
   isDoctorLoggedIn,
 }) {
   const [patients, setPatients] = useState([]);
-  const [alerts, setAlerts] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
     fetchPatients();
-    fetchAlerts();
     setTimeout(() => setIsLoading(false), 6000);
   }, []);
 
@@ -34,27 +32,6 @@ function AllPatients({
       });
       const patients = response.data;
       setPatients(patients);
-    } catch (error) {
-      setError(error);
-    }
-    setIsLoading(false);
-  };
-
-  const fetchAlerts = async () => {
-    setIsLoading(true);
-    try {
-      const response = await axios.get(
-        `${API_BASE_URL}/users/getAlarmingPatients`,
-        {
-          params: { lastName },
-        }
-      );
-      const alerts = response.data;
-      const sortedAlerts = alerts.sort((a, b) => {
-        return new Date(b.date) - new Date(a.date);
-      });
-
-      setAlerts(sortedAlerts);
     } catch (error) {
       setError(error);
     }
@@ -75,56 +52,6 @@ function AllPatients({
       />
       <div className="notNavBar">
         <div className="wrapper">
-          <h1>Alerts</h1>
-          {error ? <p>{error}</p> : null}
-          {isLoading ? (
-            <LoadingSpinner />
-          ) : (
-            <div className="all-patients-container">
-              <table className="patient-table">
-                <thead>
-                  <tr>
-                    <th>Name</th>
-                    <th>Drain Type</th>
-                    <th>Date</th>
-                    <th>Time</th>
-                    <th>Color</th>
-                    <th>Email</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {alerts.map((alert) => (
-                    <tr key={alert.time}>
-                      <td>
-                        <Link
-                          to={`/viewpatient/${alert.id}/${capitalizeName(
-                            alert.firstname
-                          )}/${capitalizeName(alert.lastname)}`}
-                        >
-                          {" "}
-                          {capitalizeName(alert.firstname) +
-                            " " +
-                            capitalizeName(alert.lastname)}
-                        </Link>
-                      </td>
-
-                      <td>{alert.draintype}</td>
-                      <td>{alert.date}</td>
-                      <td>{alert.time}</td>
-                      <td>
-                        <div
-                          className="exampleColorVP"
-                          style={{ backgroundColor: `${alert.drainColor}` }}
-                        ></div>
-                      </td>
-                      <td>{alert.email}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          )}
-
           <h1>All Patients</h1>
           {isLoading ? (
             <LoadingSpinner />

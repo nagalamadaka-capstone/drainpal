@@ -13,6 +13,7 @@ import ViewPatient from "../ViewPatient/ViewPatient";
 import "./App.css";
 import axios from "axios";
 import DoctorProfile from "../Profile/DoctorProfile";
+import Alerts from "../Alerts/Alerts";
 const API_BASE_URL = "http://localhost:3001";
 
 function App() {
@@ -44,7 +45,7 @@ function App() {
   const [doctorsList, setDoctorsList] = useState(
     localStorage.getItem("curr_doctors")
   );
-
+  
   /* Doctor specific states **/
   const [isDoctorLoggedIn, setIsDoctorLoggedIn] = useState(
     localStorage.getItem("current_doctor_id") !== null
@@ -53,6 +54,9 @@ function App() {
   const [hospital, setHospital] = useState(
     localStorage.getItem("current_hospital")
   );
+  const [alerts, setAlerts] = useState([]);
+  const [isAlertLoading, setIsAlertLoading] = useState(true);
+  const [alertError, setAlertError] = useState(null);
 
   const enumLocalStorageKeys = {
     current_user_id: "current_user_id",
@@ -73,11 +77,34 @@ function App() {
       localStorage.setItem("curr_doctors", res.data);
       setDoctorsList(res.data);
     });
+    fetchAlerts();
+    setTimeout(() => setIsAlertLoading(false), 6000);
   }, []);
 
   useEffect(() => {
     axios.post(`${API_BASE_URL}/users/addDoctor`).then((res) => {});
   }, [doctorsList]);
+
+  const fetchAlerts = async () => {
+    setIsAlertLoading(true);
+    try {
+      const response = await axios.get(
+        `${API_BASE_URL}/users/getAlarmingPatients`,
+        {
+          params: { lastName },
+        }
+      );
+      const alerts = response.data;
+      const sortedAlerts = alerts.sort((a, b) => {
+        return new Date(b.date) - new Date(a.date);
+      });
+
+      setAlerts(sortedAlerts);
+    } catch (error) {
+        setAlertError(error);
+    }
+    setIsAlertLoading(false);
+  };
 
   const addAuthenticationHeader = () => {
     const currentUserId = localStorage.getItem("current_user_id");
@@ -531,6 +558,23 @@ function App() {
                     handleSignInOpen={handleSignInOpen}
                     handleCreateAccOpen={handleCreateAccOpen}
                     lastName={lastName}
+                  />
+                ) : null
+              }
+            />
+            <Route
+              path="/alerts"
+              element={
+                isDoctorLoggedIn ? (
+                  <Alerts
+                    isDoctorLoggedIn={isDoctorLoggedIn}
+                    isLoggedIn={isLoggedIn}
+                    handleSignInOpen={handleSignInOpen}
+                    handleCreateAccOpen={handleCreateAccOpen}
+                    lastName={lastName}
+                    alerts = {alerts}
+                    isAlertLoading = {isAlertLoading}
+                    alertError = {alertError}
                   />
                 ) : null
               }
