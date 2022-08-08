@@ -577,6 +577,7 @@ function App() {
                     alerts={alerts}
                     isAlertLoading={isAlertLoading}
                     alertError={alertError}
+                    setAlerts={setAlerts}
                   />
                 ) : null
               }
