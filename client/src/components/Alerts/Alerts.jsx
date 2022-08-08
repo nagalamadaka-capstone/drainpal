@@ -1,9 +1,14 @@
 import React from "react";
 import NavBar from "../NavBar/NavBar";
 import "../AllPatients/AllPatients.css";
+import "./Alerts.css";
 import { Link } from "react-router-dom";
 import LoadingSpinner from "../LoadingSpinner/LoadingSpinner";
 import { useState } from "react";
+import Calendar from "react-calendar";
+import { AiOutlineCalendar } from "react-icons/ai";
+import "react-calendar/dist/Calendar.css";
+import { useEffect } from "react";
 
 const API_BASE_URL = "http://localhost:3001";
 
@@ -19,7 +24,10 @@ function Alerts({
   setAlerts,
 }) {
   const [checked, setChecked] = useState(false);
+  console.log("checked: ", checked);
   const [filteredAlerts, setFilteredAlerts] = useState([]);
+  const [isCalOpen, setIsCalOpen] = useState(false);
+  const [displayAlerts, setDisplayAlerts] = useState([]);
 
   function capitalizeName(name) {
     return name.charAt(0).toUpperCase() + name.slice(1);
@@ -28,14 +36,33 @@ function Alerts({
   function handleCheckChange() {
     let today = new Date().toDateString();
 
-    if (checked) {
+    setChecked(!checked);
+    if (!checked) {
+      console.log("i am checked");
       const newAlerts = [...alerts];
-      setFilteredAlerts(newAlerts.filter((alert) => alert.date === today));
+      const newFilteredAlerts = [];
+      newAlerts.forEach((alert) => {
+        if (alert.date === today) {
+          newFilteredAlerts.push(alert);
+        }
+      });
+      console.log("newFilteredAlerts: ", newFilteredAlerts);
+      setFilteredAlerts(newFilteredAlerts);
     } else {
       setFilteredAlerts([]);
     }
-    setChecked(!checked);
   }
+
+  function handleCalendarOpen() {
+    setIsCalOpen(!isCalOpen);
+  }
+
+  //when filtered alerts change display them
+  useEffect(() => {
+    console.log("changing filtered alerts");
+    setDisplayAlerts(filteredAlerts);
+    console.log("filteredAlerts: ", filteredAlerts);
+  }, [filteredAlerts]);
 
   return (
     <div className="allPatients">
@@ -53,14 +80,57 @@ function Alerts({
             <LoadingSpinner />
           ) : (
             <div className="all-patients-container">
-              <div className="checkboxContainer">
-                <h2>only show today's alerts</h2>
-                <input
-                  className="checkbox"
-                  type="checkbox"
-                  checked={checked}
-                  onChange={handleCheckChange}
-                />
+              <div className="viewOptions">
+                <div className="checkboxContainer">
+                  <input
+                    className="checkbox"
+                    type="checkbox"
+                    checked={checked}
+                    onClick={() => handleCheckChange()}
+                  />
+                  <h2>only show today's alerts</h2>
+                </div>
+                <div className="calendarContainer">
+                  <div className="flex">
+                    <h2>show certain dates</h2>
+                    <AiOutlineCalendar
+                      onClick={() => handleCalendarOpen()}
+                      style={{
+                        width: "2rem",
+                        height: "2rem",
+                        cursor: "pointer",
+                        marginLeft: "0.75rem",
+                      }}
+                    />
+                  </div>
+
+                  {isCalOpen ? (
+                    <Calendar
+                      onChange={(dates) => {
+                        const startDate = dates[0].toDateString();
+                        const endDate = dates[1].toDateString();
+                        const newAlerts = [...alerts];
+                        const newFilteredAlerts = [];
+                        var startPushing = false;
+
+                        newAlerts.forEach((alert) => {
+                          if (alert.date === endDate) {
+                            startPushing = true;
+                          }
+                          if (alert.date === startDate) {
+                            newFilteredAlerts.push(alert);
+                            startPushing = false;
+                          }
+                          if (startPushing) {
+                            newFilteredAlerts.push(alert);
+                          }
+                        });
+                        setFilteredAlerts(newFilteredAlerts);
+                      }}
+                      selectRange={true}
+                    />
+                  ) : null}
+                </div>
               </div>
               <table className="patient-table">
                 <thead>
@@ -78,10 +148,11 @@ function Alerts({
                     filteredAlerts.length > 0 ? (
                       filteredAlerts.map((alert) => (
                         <tr key={alert.id}>
+                          {console.log("alert: ", alert)}
                           <td>
                             <Link
                               to={`/viewpatient/${
-                                alert.patientId
+                                alert.id
                               }/${capitalizeName(
                                 alert.firstname
                               )}/${capitalizeName(alert.lastname)}`}
