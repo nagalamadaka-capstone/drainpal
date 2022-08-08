@@ -77,6 +77,10 @@
     padding: 10px;
 }
 
+.noMarginTop{
+    margin-top: 0px;
+}
+
 .login-social {
     display: flex;
     justify-content: center;

@@ -42,7 +42,7 @@ function SignIn({
         </div>
 
         <div className="signin-form-inputs">
-          <h2>E-mail</h2>
+          <h2 className="noMarginTop">E-mail</h2>
           <input
             type="email"
             name="email"
