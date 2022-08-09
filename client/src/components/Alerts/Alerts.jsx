@@ -9,6 +9,7 @@ import Calendar from "react-calendar";
 import { AiOutlineCalendar } from "react-icons/ai";
 import "react-calendar/dist/Calendar.css";
 import { useEffect } from "react";
+import TemplatePatientTable from "./TemplatePatientTable";
 
 const API_BASE_URL = "http://localhost:3001";
 
@@ -24,10 +25,8 @@ function Alerts({
   setAlerts,
 }) {
   const [checked, setChecked] = useState(false);
-  console.log("checked: ", checked);
   const [filteredAlerts, setFilteredAlerts] = useState([]);
   const [isCalOpen, setIsCalOpen] = useState(false);
-  const [displayAlerts, setDisplayAlerts] = useState([]);
 
   function capitalizeName(name) {
     return name.charAt(0).toUpperCase() + name.slice(1);
@@ -38,7 +37,6 @@ function Alerts({
 
     setChecked(!checked);
     if (!checked) {
-      console.log("i am checked");
       const newAlerts = [...alerts];
       const newFilteredAlerts = [];
       newAlerts.forEach((alert) => {
@@ -46,7 +44,6 @@ function Alerts({
           newFilteredAlerts.push(alert);
         }
       });
-      console.log("newFilteredAlerts: ", newFilteredAlerts);
       setFilteredAlerts(newFilteredAlerts);
     } else {
       setFilteredAlerts([]);
@@ -55,14 +52,14 @@ function Alerts({
 
   function handleCalendarOpen() {
     setIsCalOpen(!isCalOpen);
+
+    if (!isCalOpen) {
+    } else {
+      setFilteredAlerts([]);
+    }
   }
 
-  //when filtered alerts change display them
-  useEffect(() => {
-    console.log("changing filtered alerts");
-    setDisplayAlerts(filteredAlerts);
-    console.log("filteredAlerts: ", filteredAlerts);
-  }, [filteredAlerts]);
+  useEffect(() => {}, [filteredAlerts]);
 
   return (
     <div className="allPatients">
@@ -86,7 +83,7 @@ function Alerts({
                     className="checkbox"
                     type="checkbox"
                     checked={checked}
-                    onClick={() => handleCheckChange()}
+                    onChange={() => handleCheckChange()}
                   />
                   <h2>only show today's alerts</h2>
                 </div>
@@ -109,7 +106,7 @@ function Alerts({
                       onChange={(dates) => {
                         const startDate = dates[0].toDateString();
                         const endDate = dates[1].toDateString();
-                        const newAlerts = [...alerts];
+                        const newAlerts = alerts.map((i) => ({ ...i }));
                         const newFilteredAlerts = [];
                         var startPushing = false;
 
@@ -132,58 +129,33 @@ function Alerts({
                   ) : null}
                 </div>
               </div>
-              <table className="patient-table">
-                <thead>
-                  <tr>
-                    <th>Name</th>
-                    <th>Drain Type</th>
-                    <th>Date</th>
-                    <th>Time</th>
-                    <th>Color</th>
-                    <th>Email</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {checked ? (
-                    filteredAlerts.length > 0 ? (
-                      filteredAlerts.map((alert) => (
-                        <tr key={alert.id}>
-                          {console.log("alert: ", alert)}
-                          <td>
-                            <Link
-                              to={`/viewpatient/${
-                                alert.id
-                              }/${capitalizeName(
-                                alert.firstname
-                              )}/${capitalizeName(alert.lastname)}`}
-                            >
-                              {" "}
-                              {capitalizeName(alert.firstname) +
-                                " " +
-                                capitalizeName(alert.lastname)}
-                            </Link>
-                          </td>
-                          <td>{alert.draintype}</td>
-                          <td>{alert.date}</td>
-                          <td>{alert.time}</td>
-                          <td>
-                            <div
-                              className="exampleColorVP"
-                              style={{ backgroundColor: `${alert.drainColor}` }}
-                            ></div>
-                          </td>
-                          <td>{alert.email}</td>
-                        </tr>
-                      ))
-                    ) : (
-                      <tr>
-                        <td colSpan="6">No alerts found.</td>
-                      </tr>
-                    )
-                  ) : (
-                    alerts.map((alert) => (
-                      <tr key={alert.time}>
-                        {}
+              {checked ? (
+                filteredAlerts.length > 0 ? (
+                  <TemplatePatientTable alerts={filteredAlerts} />
+                ) : (
+                  <p>No alerts found.</p>
+                )
+              ) : isCalOpen ? (
+                filteredAlerts.length > 0 ? (
+                  <TemplatePatientTable alerts={filteredAlerts} />
+                ) : (
+                  <p>No alerts found.</p>
+                )
+              ) : (
+                <table className="patient-table">
+                  <thead>
+                    <tr>
+                      <th>Name</th>
+                      <th>Drain Type</th>
+                      <th>Date</th>
+                      <th>Time</th>
+                      <th>Color</th>
+                      <th>Email</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {alerts.map((alert) => (
+                      <tr key={alert.id}>
                         <td>
                           <Link
                             to={`/viewpatient/${alert.id}/${capitalizeName(
@@ -196,7 +168,6 @@ function Alerts({
                               capitalizeName(alert.lastname)}
                           </Link>
                         </td>
-
                         <td>{alert.draintype}</td>
                         <td>{alert.date}</td>
                         <td>{alert.time}</td>
@@ -208,10 +179,10 @@ function Alerts({
                         </td>
                         <td>{alert.email}</td>
                       </tr>
-                    ))
-                  )}
-                </tbody>
-              </table>
+                    ))}
+                  </tbody>
+                </table>
+              )}
             </div>
           )}
         </div>
