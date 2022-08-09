@@ -32,4 +32,4 @@ Here's a brief high-level overview of the tech stack that DrainPal uses:
 Interested in contributing to DrainPal? Thanks so much for your interest! I am always looking for improvements to this project and appreciate any contributions. Please reach out to me at preeti_nagalamadaka@brown.edu if you would like to contribute!
 
 ## 🌟 Acknowledgements
-I would like to thank David Yi and Ben Gorman for their continued support and advice while developing this project.
+I would like to thank David Yi, Ben Gorman, and Tia Forsman for their continued support and advice while developing this project.
