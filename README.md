@@ -2,6 +2,9 @@
 
 
 
+https://user-images.githubusercontent.com/77798750/183774113-377d89c0-dbf6-4b66-addf-fda78e510bc4.mp4
+
+
 ## 🧐 Project Philosophy
 DrainPal was developed as a tool to bridge the communication gap between patients receiving palliative care interventions and providers. This provides patients with support while simultaneously preventing emergency room visits and readmissions. Patients are able to log their symptoms for each day, including drain color and drain output volume. They are also able to troubleshoot any problems they are facing with the troubleshooting feature. Providers are able to log in and view their patients' symptoms over time. Providers are also able to view any alarming patients based on drain color. It currently only supports patients who have percutaneous nephrostomy tubules (when patients with failing kidneys need to drain their waste), but will expand to support more drain types as well. 
 
