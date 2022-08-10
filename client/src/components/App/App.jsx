@@ -7,7 +7,6 @@ import DataHome from "../DataHome/DataHome";
 import Profile from "../Profile/Profile";
 import DataLog from "../DataHome/DataLog/DataLog";
 import Loading from "../Loading/Loading";
-import ArticleView from "../ArticleView/ArticleView";
 import AllPatients from "../AllPatients/AllPatients";
 import ViewPatient from "../ViewPatient/ViewPatient";
 import "./App.css";
@@ -15,6 +14,8 @@ import axios from "axios";
 import DoctorProfile from "../Profile/DoctorProfile";
 import Alerts from "../Alerts/Alerts";
 import PalliativeCare from "../InfoArticles/PalliativeCare";
+import GeneralCare from "../InfoArticles/GeneralCare";
+import Biliary from "../InfoArticles/Biliary";
 const API_BASE_URL = "http://localhost:3001";
 
 function App() {
@@ -70,7 +71,7 @@ function App() {
     current_hospital: "current_hospital",
   };
 
-  useEffect(() => {
+  useEffect((lastName, isDoctorLoggedIn) => {
     axios.get(`${API_BASE_URL}/articles/`).then((res) => {
       setArticles(res.data.newArticles);
     });
@@ -78,36 +79,33 @@ function App() {
       localStorage.setItem("curr_doctors", res.data);
       setDoctorsList(res.data);
     });
-    {
-      isDoctorLoggedIn && fetchAlerts();
-      setTimeout(() => setIsAlertLoading(false), 6000);
-    }
+    const fetchAlerts = async () => {
+      setIsAlertLoading(true);
+      try {
+        const response = await axios.get(
+          `${API_BASE_URL}/users/getAlarmingPatients`,
+          {
+            params: { lastName },
+          }
+        );
+        const alerts = response.data;
+        const sortedAlerts = alerts.sort((a, b) => {
+          return new Date(b.date) - new Date(a.date);
+        });
+
+        setAlerts(sortedAlerts);
+      } catch (error) {
+        setAlertError(error);
+      }
+      setIsAlertLoading(false);
+    };
+    isDoctorLoggedIn && fetchAlerts();
+    setTimeout(() => setIsAlertLoading(false), 6000);
   }, []);
 
   useEffect(() => {
     axios.post(`${API_BASE_URL}/users/addDoctor`).then((res) => {});
   }, [doctorsList]);
-
-  const fetchAlerts = async () => {
-    setIsAlertLoading(true);
-    try {
-      const response = await axios.get(
-        `${API_BASE_URL}/users/getAlarmingPatients`,
-        {
-          params: { lastName },
-        }
-      );
-      const alerts = response.data;
-      const sortedAlerts = alerts.sort((a, b) => {
-        return new Date(b.date) - new Date(a.date);
-      });
-
-      setAlerts(sortedAlerts);
-    } catch (error) {
-      setAlertError(error);
-    }
-    setIsAlertLoading(false);
-  };
 
   const addAuthenticationHeader = () => {
     const currentUserId = localStorage.getItem("current_user_id");
@@ -550,8 +548,28 @@ function App() {
                 />
               }
             />
-            <Route path="/articles/lL39fKTOXF" element={<PalliativeCare />} />
-            <Route path="/articles/sr435DsqF6" element={<PalliativeCare />} />
+            <Route
+              path="/articles/lL39fKTOXF"
+              element={
+                <GeneralCare
+                  isLoggedIn={isLoggedIn}
+                  handleSignInOpen={handleSignInOpen}
+                  handleCreateAccOpen={handleCreateAccOpen}
+                  id={localStorage.getItem("current_user_id")}
+                />
+              }
+            />
+            <Route
+              path="/articles/sr435DsqF6"
+              element={
+                <Biliary
+                  isLoggedIn={isLoggedIn}
+                  handleSignInOpen={handleSignInOpen}
+                  handleCreateAccOpen={handleCreateAccOpen}
+                  id={localStorage.getItem("current_user_id")}
+                />
+              }
+            />
             <Route
               path="/allpatients"
               element={

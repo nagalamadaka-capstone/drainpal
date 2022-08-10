@@ -13,7 +13,6 @@ function PalliativeCare({ handleSignInOpen, handleCreateAccOpen, isLoggedIn }) {
       <div className="notNavbar">
         <div className="wrapper">
           <h1>What is Palliative Care, and how can it help me?</h1>
-          <span className="bold"></span>
           <p>
             The WHO defines <span className="bold">Palliative Care</span> as “an
             approach that improves the
@@ -32,7 +31,7 @@ function PalliativeCare({ handleSignInOpen, handleCreateAccOpen, isLoggedIn }) {
           </p>
           <img
             src="https://www.researchgate.net/profile/Sharron-Docherty/publication/236615176/figure/fig2/AS:667711667441664@1536206275045/Concurrent-integrative-model-of-palliative-care-A-National-Framework-and-Preferred.png"
-            alt="image describing palliative care"
+            alt="describing palliative care"
           />
         </div>
       </div>

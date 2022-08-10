@@ -17,6 +17,12 @@
     line-height: normal;
 }
 
+.palliativeCare h4{
+    font-size: 24px;
+    font-weight: 450;
+    line-height: normal;
+}
+
 .palliativeCare h1{
     font-size: 40px;
     font-weight: 450;
@@ -30,4 +36,11 @@
 .palliativeCare .wrapper{
     width: 60%;
     margin: 0 auto;
+}
+
+.palliativeCare li, .palliativeCare ul{
+   text-align: left;
+   font-weight: 300;
+   font-size: 16px;
+    line-height: 1.3;
 }
