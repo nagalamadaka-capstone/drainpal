@@ -79,29 +79,34 @@ function App() {
       localStorage.setItem("curr_doctors", res.data);
       setDoctorsList(res.data);
     });
-    const fetchAlerts = async () => {
-      setIsAlertLoading(true);
-      try {
-        const response = await axios.get(
-          `${API_BASE_URL}/users/getAlarmingPatients`,
-          {
-            params: { lastName },
-          }
-        );
-        const alerts = response.data;
-        const sortedAlerts = alerts.sort((a, b) => {
-          return new Date(b.date) - new Date(a.date);
-        });
-
-        setAlerts(sortedAlerts);
-      } catch (error) {
-        setAlertError(error);
-      }
-      setIsAlertLoading(false);
-    };
-    isDoctorLoggedIn && fetchAlerts();
-    setTimeout(() => setIsAlertLoading(false), 6000);
+    fetchAlerts();
+    {
+      isDoctorLoggedIn && fetchAlerts();
+      setTimeout(() => setIsAlertLoading(false), 6000);
+    }
   }, []);
+
+  const fetchAlerts = async () => {
+    setIsAlertLoading(true);
+    try {
+      const response = await axios.get(
+        `${API_BASE_URL}/users/getAlarmingPatients`,
+        {
+          params: { lastName },
+        }
+      );
+      const alerts = response.data;
+
+      const sortedAlerts = alerts.sort((a, b) => {
+        return new Date(b.date) - new Date(a.date);
+      });
+
+      setAlerts(sortedAlerts);
+    } catch (error) {
+      setAlertError(error);
+    }
+    setIsAlertLoading(false);
+  };
 
   useEffect(() => {
     axios.post(`${API_BASE_URL}/users/addDoctor`).then((res) => {});
