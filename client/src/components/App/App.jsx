@@ -14,6 +14,7 @@ import "./App.css";
 import axios from "axios";
 import DoctorProfile from "../Profile/DoctorProfile";
 import Alerts from "../Alerts/Alerts";
+import PalliativeCare from "../InfoArticles/PalliativeCare";
 const API_BASE_URL = "http://localhost:3001";
 
 function App() {
@@ -442,7 +443,7 @@ function App() {
                     userId={localStorage.getItem("current_user_id")}
                     doctorsList={doctorsList}
                     isDoctorLoggedIn={isDoctorLoggedIn}
-                    numAlerts = {alerts.length}
+                    numAlerts={alerts.length}
                   />
                 )
               }
@@ -539,17 +540,18 @@ function App() {
               }
             />
             <Route
-              path="/articles/:articleid"
+              path="/articles/BZyvCrvxMW"
               element={
-                <ArticleView
+                <PalliativeCare
                   isLoggedIn={isLoggedIn}
                   handleSignInOpen={handleSignInOpen}
                   handleCreateAccOpen={handleCreateAccOpen}
-                  articles={articles}
-                  isDoctorLoggedIn={isDoctorLoggedIn}
+                  id={localStorage.getItem("current_user_id")}
                 />
               }
             />
+            <Route path="/articles/lL39fKTOXF" element={<PalliativeCare />} />
+            <Route path="/articles/sr435DsqF6" element={<PalliativeCare />} />
             <Route
               path="/allpatients"
               element={
