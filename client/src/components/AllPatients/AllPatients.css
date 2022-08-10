@@ -25,3 +25,23 @@
     padding: 10px;
     border: 1px solid black;
 }
+
+.checkboxContainer{
+    display: flex;
+    align-items: center;
+}
+
+.checkboxContainer input {
+    opacity: 100%;
+    cursor: pointer;
+    height: 30px;
+    width: 30px;
+    background-color: #FFFFFF;
+    border: 3px solid #243E36;
+    border-radius: 20px;
+    margin-left: 10px;
+}
+
+.checkboxContainer:hover input {
+    background-color: #ccc;
+}

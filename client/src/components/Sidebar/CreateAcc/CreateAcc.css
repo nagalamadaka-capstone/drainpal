@@ -22,9 +22,27 @@
 
 }
 
+.noMarginTop{
+    margin-top: 0px;
+}
+
+.create-acc-input-div{
+    background-color: #2d4e44;
+    border-radius: 10px;
+    border: none;
+    padding: 10px;
+}
+
 .createAcc-form h2 {
-    font-weight: 500;
+    font-weight: 300;
     font-size: 24px;
+    margin-bottom: 5px;
+}
+
+.createAcc-form h3 {
+    font-weight: 400;
+    font-size: 20px;
+    margin-top: 5px;
 }
 
 .createAcc-form button{
@@ -33,8 +51,8 @@
 
 .create-acc-input{
     box-sizing: border-box;
-    height: 40px;
-    width: 250px;
+    height: 50px;
+    width: 300px;
     background: #FFFFFF;
     border: 3px solid #243E36;
     font-size: 16px;
@@ -47,12 +65,12 @@
 
 .create-acc-button{
     box-sizing: border-box;
-    height: 40px;
-    width: 250px;
+    height: 50px;
+    width: 300px;
     background: #FFFFFF;
     border: 3px solid black;
     border-radius: 20px;
     display: block;
     font-family: 'work sans', sans-serif;
-    font-size: 14px;
+    font-size: 20px;
 }
