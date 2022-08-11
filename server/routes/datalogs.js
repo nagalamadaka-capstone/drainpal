@@ -2,15 +2,15 @@ const express = require("express");
 const router = express.Router();
 const { NotFoundError } = require("../utils/error");
 var Parse = require("parse/node");
-const BACK4APPKEY = require("../../client/src/securitykeys").BACK4APPKEY;
-const BACK4APPSECRET = require("../../client/src/securitykeys").BACK4APPSECRET;
 const axios = require("axios");
 const got = require("got");
 const File = require("file-class");
 const fs = require("fs");
 const FormData = require("form-data");
+const dotenv = require("dotenv");
+dotenv.config();
 
-Parse.initialize(BACK4APPKEY, BACK4APPSECRET);
+Parse.initialize(process.env.BACK4APPKEY, process.env.BACK4APPSECRET);
 Parse.serverURL = "https://parseapi.back4app.com/";
 
 //save data entry, keep track of user id and return the object
@@ -113,8 +113,10 @@ router.get("/check", async (req, res, next) => {
 router.get("/colors", async (req, res, next) => {
   const parseLink = req.query.parseLink;
 
-  const { IMAGGAAPIKEY } = req.query;
-  const { IMAGGASECRET } = req.query;
+  const IMAGGAAPIKEY = process.env.IMAGGAAPIKEY;
+
+  const IMAGGASECRET = process.env.IMAGGASECRET;
+
   const url =
     "https://api.imagga.com/v2/colors?image_url=" +
     encodeURIComponent(parseLink);
