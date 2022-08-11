@@ -2,13 +2,12 @@ const express = require('express');
 const router = express.Router();
 const {NotFoundError} = require('../utils/error');
 var Parse = require("parse/node");
-const BACK4APPKEY = require("../../client/src/securitykeys").BACK4APPKEY;
-const BACK4APPSECRET = require("../../client/src/securitykeys").BACK4APPSECRET;
+const dotenv = require('dotenv');
+dotenv.config();
 
 Parse.initialize(
-  BACK4APPKEY,
-  BACK4APPSECRET
-);
+    process.env.BACK4APPKEY,
+    process.env.BACK4APPSECRET);
 Parse.serverURL = "https://parseapi.back4app.com/";
 
 //return array of all articles

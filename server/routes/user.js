@@ -2,10 +2,12 @@ const express = require("express");
 const router = express.Router();
 const bcrypt = require("bcrypt");
 var Parse = require("parse/node");
-const BACK4APPKEY = require("../../client/src/securitykeys").BACK4APPKEY;
-const BACK4APPSECRET = require("../../client/src/securitykeys").BACK4APPSECRET;
+const dotenv = require('dotenv');
+dotenv.config();
 
-Parse.initialize(BACK4APPKEY, BACK4APPSECRET);
+Parse.initialize(
+  process.env.BACK4APPKEY,
+  process.env.BACK4APPSECRET);
 Parse.serverURL = "https://parseapi.back4app.com/";
 
 // Register the user passing the username, password and email
@@ -193,7 +195,7 @@ router.get("/getDoctors", async (req, res, next) => {
 //get patients for a specific doctor
 router.get("/getPatients", async (req, res, next) => {
   var query = new Parse.Query(Parse.User);
-  req.query.lastName = req.query.lastName.toLowerCase();
+  // req.query.lastName = req.query.lastName.toLowerCase();
   query.equalTo("isDoctor", false);
   query.equalTo("healthcareprovider", req.query.lastName);
 
@@ -216,7 +218,7 @@ router.get("/getPatients", async (req, res, next) => {
 
 // get alarming patients for specific doctor
 router.get("/getAlarmingPatients", async (req, res, next) => {
-  const doctorLastName = req.query.lastName.toLowerCase();
+  const doctorLastName = req.query.lastName;
 
   const dataLogs = Parse.Object.extend("DataLog");
   var query = new Parse.Query(dataLogs);

@@ -7,10 +7,6 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 import { ChromePicker } from "react-color";
 import {
-  IMAGGAAPIKEY,
-  IMAGGASECRET,
-} from "../../../securitykeys";
-import {
   ref,
   uploadBytesResumable,
   getDownloadURL,
@@ -152,8 +148,6 @@ function DataLog({
       const response = await axios.get(`${API_BASE_URL}/datalogs/colors`, {
         params: {
           parseLink: link,
-          IMAGGAAPIKEY,
-          IMAGGASECRET,
         },
       });
       const result = response.data.result;

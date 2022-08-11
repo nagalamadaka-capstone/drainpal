@@ -22,6 +22,8 @@ function SignIn({
         {signinerror ? <p className="error">{signinerror}</p> : null}
         <div className="fblogin">
           <h3>Sign in with Facebook by clicking on the icon.</h3>
+          {/* {console.log(process.env.FBAPPID)} */}
+
           <FacebookLogin
             appId={FBAPPID}
             fields="email, name"
