@@ -30,3 +30,4 @@ localhost-key.pem
 localhost.pem
 
 securitykeys.js
+.env
